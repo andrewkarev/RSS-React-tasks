@@ -7,13 +7,15 @@ import styles from './layout.module.css';
 class Layout extends React.Component {
   render() {
     return (
-      <>
+      <div className={styles.wwrapper}>
         <Header />
         <main className={styles.main}>
-          <Outlet />
+          <div className="container">
+            <Outlet />
+          </div>
         </main>
         <Footer />
-      </>
+      </div>
     );
   }
 }
