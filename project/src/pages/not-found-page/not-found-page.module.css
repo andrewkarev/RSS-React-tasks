@@ -1,0 +1,21 @@
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  align-items: center;
+}
+
+.not-found-page-title {
+  font-size: 3rem;
+}
+
+.not-found-page-message {
+  font-size: 1.2rem;
+}
+
+.not-found-page-image {
+  display: block;
+  padding-top: 1rem;
+  width: 15rem;
+}
