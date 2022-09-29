@@ -1,0 +1,39 @@
+.header {
+  display: flex;
+  padding-top: 1rem;
+}
+
+.header-content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.link-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.link,
+.link-active {
+  display: block;
+  font-size: 1.4rem;
+  transition: all 0.3s ease-in;
+}
+
+
+.link:hover,
+.link-active:hover {
+  color: #b8d344;
+}
+
+.link-active {
+  color: #b8d344;
+}
