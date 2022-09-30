@@ -1,0 +1,21 @@
+.input {
+  width: 16rem;
+  height: 2.5rem;
+  padding: 0 1rem 0;
+  font-size: 1.2rem;
+  color: #04b2c8;
+  outline: none;
+  border: 2px solid #04b2c8;
+  border-radius: 1.25rem;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+}
+
+.input:focus {
+  background-color: #0e0f36;
+  border-color: #b8d344;
+}
+
+.input::placeholder {
+  color: #ffffff;
+}
