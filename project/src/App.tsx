@@ -30,11 +30,7 @@ class App extends React.Component<unknown, { searchQuery: string }> {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            {/* temporary page*/}
-            <Route
-              index
-              element={<MainPage handleChange={this.handleChange} currentValue={currentValue} />}
-            />
+            <Route index element={<Navigate to="main" replace />} />
             <Route
               path="main"
               element={<MainPage handleChange={this.handleChange} currentValue={currentValue} />}
