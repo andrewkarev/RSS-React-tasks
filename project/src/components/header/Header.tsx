@@ -11,8 +11,9 @@ class Header extends React.Component {
             <nav className={styles['header-links']}>
               <div className={styles['link-container']}>
                 <NavLink
-                  to="main"
+                  to="/"
                   className={({ isActive }) => (isActive ? styles['link-active'] : styles.link)}
+                  end
                 >
                   Home
                 </NavLink>

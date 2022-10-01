@@ -12,8 +12,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Navigate to="main" replace />} />
-            <Route path="main" element={<MainPage />} />
+            <Route index element={<MainPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="404" element={<NotFoundPage />} />
             <Route path="*" element={<Navigate to="404" replace />} />
