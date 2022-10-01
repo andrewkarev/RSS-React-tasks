@@ -1,20 +1,30 @@
 import Card from 'components/card/Card';
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import styles from './main-page.module.css';
 import cardsData from 'data/cards-data';
 import SearchField from 'components/search-field/SearchField';
-import ISearchQuery from 'interfaces/ISearchQuery';
 
-class MainPage extends React.Component<ISearchQuery> {
-  constructor(props: ISearchQuery) {
+class MainPage extends React.Component<Record<string, never>, { searchQuery: string }> {
+  constructor(props: Record<string, never>) {
     super(props);
+    this.state = { searchQuery: localStorage.getItem('searchQuery') || '' };
+    this.handleChange = this.handleChange.bind(this);
     this.renderCards = this.renderCards.bind(this);
+  }
+
+  handleChange(e: SyntheticEvent) {
+    const target = e.target;
+
+    if (!(target instanceof HTMLInputElement)) return;
+
+    const searchQuery = target.value;
+    this.setState({ searchQuery });
   }
 
   renderCards() {
     const cards = cardsData
       .filter((card) => {
-        const validValue = this.props.currentValue.toLowerCase();
+        const validValue = this.state.searchQuery.toLowerCase();
         return card.name.toLowerCase().includes(validValue);
       })
       .map((item) => (
@@ -41,10 +51,7 @@ class MainPage extends React.Component<ISearchQuery> {
   render() {
     return (
       <div className={styles['main-page']}>
-        <SearchField
-          handleChange={this.props.handleChange}
-          currentValue={this.props.currentValue}
-        />
+        <SearchField handleChange={this.handleChange} currentValue={this.state.searchQuery} />
         <div className={styles['cards-container']}>{this.renderCards()}</div>
       </div>
     );
