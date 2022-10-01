@@ -7,6 +7,10 @@ class SearchField extends React.Component<ISearchQuery> {
     super(props);
   }
 
+  componentWillUnmount() {
+    localStorage.setItem('searchQuery', this.props.currentValue);
+  }
+
   render() {
     return (
       <form className={styles.form} onSubmit={(e) => e.preventDefault()}>

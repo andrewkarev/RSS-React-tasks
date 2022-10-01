@@ -20,8 +20,6 @@ class App extends React.Component<unknown, { searchQuery: string }> {
 
     const searchQuery = target.value;
 
-    localStorage.setItem('searchQuery', searchQuery);
-
     this.setState({ searchQuery });
   }
 
