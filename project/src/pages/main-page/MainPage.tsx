@@ -2,10 +2,13 @@ import Card from 'components/card/Card';
 import React from 'react';
 import styles from './main-page.module.css';
 import cardsData from 'data/cards-data';
+import SearchField from 'components/search-field/SearchField';
+import ISearchQuery from 'interfaces/ISearchQuery';
 
-class MainPage extends React.Component<{ currentValue: string }> {
-  constructor(props: { currentValue: string }) {
+class MainPage extends React.Component<ISearchQuery> {
+  constructor(props: ISearchQuery) {
     super(props);
+    this.renderCards = this.renderCards.bind(this);
   }
 
   renderCards() {
@@ -38,6 +41,10 @@ class MainPage extends React.Component<{ currentValue: string }> {
   render() {
     return (
       <div className={styles['main-page']}>
+        <SearchField
+          handleChange={this.props.handleChange}
+          currentValue={this.props.currentValue}
+        />
         <div className={styles['cards-container']}>{this.renderCards()}</div>
       </div>
     );

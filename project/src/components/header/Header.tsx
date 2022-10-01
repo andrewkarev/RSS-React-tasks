@@ -1,4 +1,3 @@
-import SearchField from 'components/search-field/SearchField';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './header.module.css';
@@ -27,7 +26,6 @@ class Header extends React.Component {
                 </NavLink>
               </div>
             </nav>
-            <SearchField />
           </div>
         </div>
       </header>
