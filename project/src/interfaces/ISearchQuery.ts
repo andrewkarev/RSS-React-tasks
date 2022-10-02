@@ -1,7 +1,5 @@
-import { SyntheticEvent } from 'react';
-
 interface ISearchQuery {
-  handleChange: (e: SyntheticEvent) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   currentValue: string;
 }
 
