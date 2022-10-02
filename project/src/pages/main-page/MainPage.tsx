@@ -1,5 +1,5 @@
 import Card from 'components/card/Card';
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import styles from './main-page.module.css';
 import cardsData from 'data/cards-data';
 import SearchField from 'components/search-field/SearchField';
@@ -12,12 +12,8 @@ class MainPage extends React.Component<Record<string, never>, { searchQuery: str
     this.renderCards = this.renderCards.bind(this);
   }
 
-  handleChange(e: SyntheticEvent) {
-    const target = e.target;
-
-    if (!(target instanceof HTMLInputElement)) return;
-
-    const searchQuery = target.value;
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const searchQuery = e.target.value;
     this.setState({ searchQuery });
   }
 
