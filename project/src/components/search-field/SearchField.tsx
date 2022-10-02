@@ -13,18 +13,16 @@ class SearchField extends React.Component<ISearchQuery> {
 
   render() {
     return (
-      <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-        <input
-          className={styles.input}
-          type="text"
-          name="search"
-          placeholder="Search"
-          autoComplete="off"
-          autoFocus={true}
-          value={this.props.currentValue}
-          onChange={this.props.handleChange}
-        />
-      </form>
+      <input
+        className={styles.input}
+        type="text"
+        name="search"
+        placeholder="Search"
+        autoComplete="off"
+        autoFocus={true}
+        value={this.props.currentValue}
+        onChange={this.props.handleChange}
+      />
     );
   }
 }
