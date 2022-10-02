@@ -25,6 +25,7 @@ interface CardProps {
 class Card extends React.Component<CardProps> {
   constructor(props: CardProps) {
     super(props);
+    this.getDateOfCreation = this.getDateOfCreation.bind(this);
   }
 
   getDateOfCreation() {
