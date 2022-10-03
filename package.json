@@ -36,7 +36,7 @@
     "prettier": "prettier --write src/**/* --ext .ts, .tsx",
     "lint": "eslint src/",
     "lint:write": "eslint --fix src/",
-    "prepare": "cd .. && husky install project/.husky"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
