@@ -6,7 +6,7 @@ import Card from './Card';
 describe('Card', () => {
   const cardData = cardsData[0];
 
-  it('should render Card component', () => {
+  beforeEach(() => {
     render(
       <Card
         id={cardData.id}
@@ -24,13 +24,37 @@ describe('Card', () => {
         key={cardData.name}
       />
     );
+  });
 
+  it('should render Card component', () => {
+    expect(screen.getByTestId('card')).toBeInTheDocument();
+  });
+
+  it('should contain status element', () => {
     expect(screen.getByText(/status/i)).toBeInTheDocument();
+  });
+
+  it('should contain species element', () => {
     expect(screen.getByText(/species/i)).toBeInTheDocument();
+  });
+
+  it('should contain gender element', () => {
     expect(screen.getByText(/gender/i)).toBeInTheDocument();
+  });
+
+  it('should contain origin element', () => {
     expect(screen.getByText(/origin/i)).toBeInTheDocument();
+  });
+
+  it('should contain location element', () => {
     expect(screen.getByText(/location/i)).toBeInTheDocument();
+  });
+
+  it('should contain element with date of creation', () => {
     expect(screen.getByText(/created/i)).toBeInTheDocument();
+  });
+
+  it('should contain element with character avatar', () => {
     expect(screen.getByAltText(/Character avatar/i)).toBeInTheDocument();
   });
 });

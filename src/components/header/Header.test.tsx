@@ -7,6 +7,11 @@ import App from 'App';
 describe('Header', () => {
   it('should render Header component', () => {
     render(<App />, { wrapper: BrowserRouter });
+    expect(screen.getByTestId('header')).toBeInTheDocument();
+  });
+
+  it('should contain navigation links', () => {
+    render(<App />, { wrapper: BrowserRouter });
     expect(screen.getByText(/Home/i)).toBeInTheDocument();
     expect(screen.getByText(/About/i)).toBeInTheDocument();
   });
