@@ -4,17 +4,33 @@ import styles from './main-page.module.css';
 import cardsData from 'data/cards-data';
 import SearchField from 'components/search-field/SearchField';
 
-class MainPage extends React.Component<Record<string, never>, { searchQuery: string }> {
+class MainPage extends React.Component<
+  Record<string, never>,
+  {
+    searchQuery: string;
+    cards: JSX.Element[] | null;
+  }
+> {
   constructor(props: Record<string, never>) {
     super(props);
-    this.state = { searchQuery: localStorage.getItem('searchQuery') || '' };
+    this.state = {
+      searchQuery: localStorage.getItem('searchQuery') || '',
+      cards: null,
+    };
     this.handleChange = this.handleChange.bind(this);
     this.renderCards = this.renderCards.bind(this);
+    this.updateCardsValue = this.updateCardsValue.bind(this);
   }
 
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const searchQuery = e.target.value;
     this.setState({ searchQuery });
+  }
+
+  updateCardsValue() {
+    this.setState(() => {
+      return { cards: this.renderCards() };
+    });
   }
 
   renderCards() {
@@ -44,11 +60,24 @@ class MainPage extends React.Component<Record<string, never>, { searchQuery: str
     return cards;
   }
 
+  componentDidMount() {
+    this.updateCardsValue();
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<Record<string, never>>,
+    prevState: Readonly<{ searchQuery: string; cards: JSX.Element[] | null }>
+  ) {
+    if (this.state.searchQuery !== prevState.searchQuery) {
+      this.updateCardsValue();
+    }
+  }
+
   render() {
     return (
       <div className={styles['main-page']}>
         <SearchField handleChange={this.handleChange} currentValue={this.state.searchQuery} />
-        <div className={styles['cards-container']}>{this.renderCards()}</div>
+        <div className={styles['cards-container']}>{this.state.cards}</div>
       </div>
     );
   }
