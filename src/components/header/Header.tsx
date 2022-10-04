@@ -5,7 +5,7 @@ import styles from './header.module.css';
 class Header extends React.Component {
   render() {
     return (
-      <header className={styles.header}>
+      <header className={styles.header} data-testid={'header'}>
         <div className="container">
           <div className={styles['header-content-wrapper']}>
             <nav className={styles['header-links']}>

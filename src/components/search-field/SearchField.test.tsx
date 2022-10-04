@@ -41,7 +41,7 @@ class LocalStorageMock implements IStorage {
   key(index: number) {
     if (!index) {
       throw new Error(
-        "VM587:1 Uncaught TypeError: Failed to execute 'key' on 'Storage': 1 argument required, but only 0 present."
+        "Uncaught TypeError: Failed to execute 'key' on 'Storage': 1 argument required, but only 0 present."
       );
     }
 
@@ -56,7 +56,7 @@ describe('SearchField', () => {
     if (!(e.target instanceof HTMLInputElement)) return;
   });
 
-  it('should be in focus after render', () => {
+  it('should render SearchField component', () => {
     render(<SearchField currentValue="" handleChange={onChange}></SearchField>);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
@@ -68,9 +68,12 @@ describe('SearchField', () => {
 
   it('calls the onChange callback handler', () => {
     render(<SearchField currentValue="" handleChange={onChange}></SearchField>);
-    userEvent.type(screen.getByRole('textbox'), 'Morty');
 
-    expect(onChange).toHaveBeenCalledTimes(5);
+    const query = 'Morty';
+
+    userEvent.type(screen.getByRole('textbox'), query);
+
+    expect(onChange).toHaveBeenCalledTimes(query.length);
   });
 
   it('should save input value into the localStorage on SearchField unmount', async () => {

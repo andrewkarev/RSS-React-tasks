@@ -34,7 +34,7 @@ class Card extends React.Component<CardProps> {
 
   render() {
     return (
-      <div className={styles.card}>
+      <div className={styles.card} data-testid={'card'}>
         <div className={styles['img-wrapper']}>
           <img className={styles.img} src={this.props.image} alt="Character avatar" />
         </div>

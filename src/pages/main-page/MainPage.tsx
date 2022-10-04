@@ -75,7 +75,7 @@ class MainPage extends React.Component<
 
   render() {
     return (
-      <div className={styles['main-page']}>
+      <div className={styles['main-page']} data-testid={'main'}>
         <SearchField handleChange={this.handleChange} currentValue={this.state.searchQuery} />
         <div className={styles['cards-container']}>{this.state.cards}</div>
       </div>

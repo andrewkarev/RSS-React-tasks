@@ -12,6 +12,14 @@ describe('MainPage', () => {
     searchField = screen.getByRole('textbox');
   });
 
+  it('should render MainPage component', () => {
+    expect(screen.getByTestId('main')).toBeInTheDocument();
+  });
+
+  it('should contain search field', () => {
+    expect(searchField).toBeInTheDocument();
+  });
+
   it('should filter cards correctly', () => {
     userEvent.type(searchField, 'mort');
 
