@@ -1,0 +1,40 @@
+.form-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-page-title {
+  font-size: 3rem;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cards-container {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  margin: 0 auto;
+  max-width: 1120px;
+}
+
+@media (max-width: 1187px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 736px;
+  }
+}
+
+@media (max-width: 804px) {
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
