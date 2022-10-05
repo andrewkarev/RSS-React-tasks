@@ -1,6 +1,26 @@
-import CardProps from 'interfaces/CardProps';
 import React from 'react';
 import styles from './card.module.css';
+
+interface CardProps {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
 
 class Card extends React.Component<CardProps> {
   constructor(props: CardProps) {
