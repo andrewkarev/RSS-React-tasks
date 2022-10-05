@@ -65,7 +65,7 @@ class MainPage extends React.Component<
   }
 
   componentDidUpdate(
-    prevProps: Readonly<Record<string, never>>,
+    _: Readonly<Record<string, never>>,
     prevState: Readonly<{ searchQuery: string; cards: JSX.Element[] | null }>
   ) {
     if (this.state.searchQuery !== prevState.searchQuery) {
