@@ -90,8 +90,8 @@ describe('SearchField', () => {
     expect(searchField).not.toHaveValue('Search request');
 
     userEvent.type(searchField, 'Search request');
-    await userEvent.click(screen.getByText(/about/i));
-    await userEvent.click(screen.getByText(/home/i));
+    userEvent.click(screen.getByText(/about/i));
+    userEvent.click(screen.getByText(/home/i));
 
     expect(searchField).toHaveValue('Search request');
   });
