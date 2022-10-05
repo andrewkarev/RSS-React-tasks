@@ -1,0 +1,155 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 40rem;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  border: 4px solid #b8d344;
+  border-radius: 1.1rem;
+  background-color: #15153a;
+}
+
+.character-name,
+.character-status,
+.character-species,
+.character-gender,
+.character-origin,
+.character-location,
+.character-date-of-creation,
+.character-avatar,
+.agreement {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input {
+  height: 2.5rem;
+  padding: 0 1rem 0;
+  font-size: 1.2rem;
+  color: #04b2c8;
+  outline: none;
+  border: 2px solid #04b2c8;
+  border-radius: 1.25rem;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+}
+
+.input:focus {
+  background-color: #212246;
+  border-color: #b8d344;
+}
+
+.input::placeholder {
+  color: #ffffff;
+}
+
+.character-status-select,
+.character-species-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.character-date-of-creation-input::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+  cursor: pointer;
+}
+
+.character-avatar-input {
+  font-size: 1.2rem;
+  color: #04b2c8;
+}
+
+.character-avatar-input::-webkit-file-upload-button,
+.character-date-of-creation-input,
+.submit-btn,
+.reset-btn,
+.submit-btn-disabled,
+.reset-btn-disabled {
+  width: 16rem;
+  height: 2.5rem;
+  padding: 0 1rem 0;
+  font-size: 1.2rem;
+  color: #04b2c8;
+  outline: none;
+  border: 2px solid #04b2c8;
+  border-radius: 1.25rem;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+}
+
+.submit-btn-disabled,
+.reset-btn-disabled {
+  color: #aaa;
+  border-color: #aaa;
+}
+
+.character-avatar-input::-webkit-file-upload-button {
+  margin-right: 1rem;
+}
+
+.character-avatar-input::-webkit-file-upload-button:hover,
+.submit-btn:hover,
+.reset-btn:hover {
+  color: #fff;
+  border-color: #b8d344;
+  background-color: #212246;
+  cursor: pointer;
+}
+
+.agreement-label {
+  position: relative;
+  display: inline-block;
+  width: 4rem;
+  height: 2rem;
+}
+
+.agreement-input {
+  display: none;
+}
+
+.agreement-label .switch {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 2rem;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: background-color 0.2s ease;
+}
+
+.agreement-label .switch::before {
+  position: absolute;
+  content: "";
+  left: 2.4px;
+  top: 2.4px;
+  width: 1.7rem;
+  height: 1.7rem;
+  background-color: #aaa;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.agreement-input:checked+.switch::before {
+  transform: translateX(2rem);
+  background-color: #04b2c8;
+  background-color: #ffffff;
+}
+
+.agreement-input:checked+.switch {
+  background-color: #b8d344;
+}
+
+.btns-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+}
+
+.error {
+  height: 10px;
+  background-color: red;
+}
