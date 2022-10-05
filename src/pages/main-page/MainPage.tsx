@@ -1,8 +1,8 @@
-import Card from 'components/card/Card';
 import React from 'react';
 import styles from './main-page.module.css';
 import cardsData from 'data/cards-data';
-import SearchField from 'components/search-field/SearchField';
+import Card from 'components/card';
+import SearchField from 'components/search-field';
 
 class MainPage extends React.Component<
   Record<string, never>,
