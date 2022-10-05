@@ -7,9 +7,9 @@ import styles from './layout.module.css';
 class Layout extends React.Component {
   render() {
     return (
-      <div className={styles.wwrapper}>
+      <div className={styles['wwrapper']}>
         <Header />
-        <main className={styles.main}>
+        <main className={styles['main']}>
           <div className="container">
             <Outlet />
           </div>

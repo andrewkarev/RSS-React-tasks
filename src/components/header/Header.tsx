@@ -5,14 +5,14 @@ import styles from './header.module.css';
 class Header extends React.Component {
   render() {
     return (
-      <header className={styles.header} data-testid={'header'}>
+      <header className={styles['header']} data-testid={'header'}>
         <div className="container">
           <div className={styles['header-content-wrapper']}>
             <nav className={styles['header-links']}>
               <div className={styles['link-container']}>
                 <NavLink
                   to="/"
-                  className={({ isActive }) => (isActive ? styles['link-active'] : styles.link)}
+                  className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
                   end
                 >
                   Home
@@ -21,7 +21,7 @@ class Header extends React.Component {
               <div className={styles['link-container']}>
                 <NavLink
                   to="about"
-                  className={({ isActive }) => (isActive ? styles['link-active'] : styles.link)}
+                  className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
                 >
                   About
                 </NavLink>

@@ -18,7 +18,7 @@ class SearchField extends React.Component<SearchQuery> {
   render() {
     return (
       <input
-        className={styles.input}
+        className={styles['input']}
         type="text"
         name="search"
         placeholder="Search"
