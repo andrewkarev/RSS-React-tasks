@@ -1,0 +1,14 @@
+.validation-error-message,
+.validation-error-message-active {
+  position: absolute;
+  bottom: -6px;
+  left: 1rem;
+  font-size: 0.9rem;
+  color: #ef6e6c;
+  transition: 0.3s ease;
+  opacity: 0;
+}
+
+.validation-error-message-active {
+  opacity: 1;
+}
