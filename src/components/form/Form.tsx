@@ -1,20 +1,29 @@
+import Card from 'components/card/Card';
+import ValidationMessage from 'components/validation-message';
+import IDataValidation from 'interfaces/iDataValidation';
 import React from 'react';
 import styles from './form.module.css';
 
-class Form extends React.Component<
-  Record<string, never>,
-  {
-    formOptionsValidation: {
-      isNameInputValid: boolean;
-      isGenderInputValid: boolean;
-      isOriginInputValid: boolean;
-      isLocationInputValid: boolean;
-      isDateOfCreationInputValid: boolean;
-      isAvatarInputValid: boolean;
-      isAgreementCheckboxValid: boolean;
-    };
-  }
-> {
+interface FormProps {
+  addNewCards: (newCard: JSX.Element) => void;
+}
+
+interface FormState {
+  formOptionsValidation: {
+    isNameInputValid: boolean;
+    isGenderInputValid: boolean;
+    isOriginInputValid: boolean;
+    isLocationInputValid: boolean;
+    isDateOfCreationInputValid: boolean;
+    isAvatarInputValid: boolean;
+    isAgreementCheckboxValid: boolean;
+  };
+  isCardCreationSuccessful: boolean;
+}
+
+class Form extends React.Component<FormProps, FormState> {
+  submitButton: React.RefObject<HTMLButtonElement>;
+  form: React.RefObject<HTMLFormElement>;
   nameInput: React.RefObject<HTMLInputElement>;
   statusSelect: React.RefObject<HTMLSelectElement>;
   speciesSelect: React.RefObject<HTMLSelectElement>;
@@ -25,7 +34,7 @@ class Form extends React.Component<
   avatarInput: React.RefObject<HTMLInputElement>;
   agreementCheckbox: React.RefObject<HTMLInputElement>;
 
-  constructor(props: Record<string, never>) {
+  constructor(props: FormProps) {
     super(props);
     this.state = {
       formOptionsValidation: {
@@ -37,7 +46,10 @@ class Form extends React.Component<
         isAvatarInputValid: true,
         isAgreementCheckboxValid: true,
       },
+      isCardCreationSuccessful: false,
     };
+    this.submitButton = React.createRef();
+    this.form = React.createRef();
     this.nameInput = React.createRef();
     this.statusSelect = React.createRef();
     this.speciesSelect = React.createRef();
@@ -48,92 +60,186 @@ class Form extends React.Component<
     this.avatarInput = React.createRef();
     this.agreementCheckbox = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleResetBtnClick = this.handleResetBtnClick.bind(this);
+    this.dataValidation = this.dataValidation.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
+    this.changeSubmitButtonStatus = this.changeSubmitButtonStatus.bind(this);
+    this.hideSuccessfulCardCreationMessage = this.hideSuccessfulCardCreationMessage.bind(this);
   }
 
   handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    if (
-      !this.nameInput.current ||
-      !this.statusSelect.current ||
-      !this.speciesSelect.current ||
-      !this.genderInput.current ||
-      !this.originInput.current ||
-      !this.locationInput.current ||
-      !this.dateOfCreationInput.current ||
-      !this.avatarInput.current ||
-      !this.agreementCheckbox.current
-    ) {
+    const validationResponse = this.dataValidation();
+
+    if (!validationResponse) {
+      this.changeSubmitButtonStatus(true);
       return;
     }
 
-    const state = {
-      ...this.state.formOptionsValidation,
-    };
+    const {
+      currentNameValue,
+      currentStatusValue,
+      currentSpeciesValue,
+      currentGenderValue,
+      currentOriginValue,
+      currentLocationValue,
+      currentDateOfCreationValue,
+      currentAvatarValue,
+    } = validationResponse;
 
-    const currentOptionValue = !!this.nameInput.current.value.length;
+    const newCard = (
+      <Card
+        name={currentNameValue}
+        status={currentStatusValue}
+        species={currentSpeciesValue}
+        gender={currentGenderValue}
+        origin={{ name: currentOriginValue }}
+        location={{ name: currentLocationValue }}
+        image={window.URL.createObjectURL(currentAvatarValue[0])}
+        created={currentDateOfCreationValue}
+        key={currentNameValue}
+      />
+    );
+
+    this.props.addNewCards(newCard);
+    this.handleResetBtnClick(e);
+    this.setState({
+      isCardCreationSuccessful: true,
+    });
+    this.hideSuccessfulCardCreationMessage();
+  }
+
+  handleResetBtnClick(e: React.SyntheticEvent) {
+    e.preventDefault();
 
     this.setState({
       formOptionsValidation: {
-        ...state,
-        isNameInputValid: currentOptionValue,
+        isNameInputValid: true,
+        isGenderInputValid: true,
+        isOriginInputValid: true,
+        isLocationInputValid: true,
+        isDateOfCreationInputValid: true,
+        isAvatarInputValid: true,
+        isAgreementCheckboxValid: true,
+      },
+      isCardCreationSuccessful: false,
+    });
+
+    this.changeSubmitButtonStatus(true);
+    this.form.current?.reset();
+  }
+
+  dataValidation(): IDataValidation | null {
+    const currentNameValue = this.nameInput.current?.value;
+    const currentStatusValue = this.statusSelect.current?.value;
+    const currentSpeciesValue = this.speciesSelect.current?.value;
+    const currentGenderValue = this.genderInput.current?.value;
+    const currentOriginValue = this.originInput.current?.value;
+    const currentLocationValue = this.locationInput.current?.value;
+    const currentDateOfCreationValue = this.dateOfCreationInput.current?.value;
+    const currentAvatarValue = this.avatarInput.current?.files;
+    const currentAgreementValue = this.agreementCheckbox.current?.checked;
+
+    this.setState({
+      formOptionsValidation: {
+        isNameInputValid: !!currentNameValue?.length,
+        isGenderInputValid: !!currentGenderValue?.length,
+        isOriginInputValid: !!currentOriginValue?.length,
+        isLocationInputValid: !!currentLocationValue?.length,
+        isDateOfCreationInputValid: !!currentDateOfCreationValue?.length,
+        isAvatarInputValid: !!currentAvatarValue?.length,
+        isAgreementCheckboxValid: !!currentAgreementValue,
       },
     });
 
-    alert('Отправленное имя: ' + this.nameInput.current.value.length);
-    // alert('Отправленное имя: ' + this.statusSelect.current.value);
-    // alert('Отправленное имя: ' + this.speciesSelect.current.value);
-    // alert('Отправленное имя: ' + this.genderInput.current.value);
-    // alert('Отправленное имя: ' + this.originInput.current.value);
-    // alert('Отправленное имя: ' + this.locationInput.current.value);
-    // alert('Отправленное имя: ' + this.dateOfCreationInput.current.value);
-    // alert('Отправленное имя: ' + this.avatarInput.current.files);
-    // alert('Отправленное имя: ' + this.agreementCheckbox.current.checked);
+    const isInputValid = !!(
+      currentNameValue?.length &&
+      currentStatusValue?.length &&
+      currentSpeciesValue?.length &&
+      currentGenderValue?.length &&
+      currentOriginValue?.length &&
+      currentLocationValue?.length &&
+      currentDateOfCreationValue?.length &&
+      currentAvatarValue?.length &&
+      currentAgreementValue
+    );
+
+    if (!isInputValid) return null;
+
+    return {
+      currentNameValue,
+      currentStatusValue,
+      currentSpeciesValue,
+      currentGenderValue,
+      currentOriginValue,
+      currentLocationValue,
+      currentDateOfCreationValue,
+      currentAvatarValue,
+    };
   }
 
-  // componentDidUpdate(
-  //   _: Readonly<Record<string, never>>,
-  //   prevState: Readonly<{
-  //     formOptionsValidation: {
-  //       isNameInputValid: boolean;
-  //       isGenderInputValid: boolean;
-  //       isOriginInputValid: boolean;
-  //       isLocationInputValid: boolean;
-  //       isDateOfCreationInputValid: boolean;
-  //       isAvatarInputValid: boolean;
-  //       isAgreementCheckboxValid: boolean;
-  //     };
-  //   }>
-  // ) {
-  //   if (this.state.formOptionsValidation !== prevState.formOptionsValidation) {
-  //     console.log('updated');
-  //   }
-  // }
+  hideSuccessfulCardCreationMessage() {
+    setTimeout(() => {
+      this.setState({
+        isCardCreationSuccessful: false,
+      });
+    }, 2000);
+  }
+
+  changeSubmitButtonStatus(isDisabled: boolean) {
+    if (!this.submitButton.current) return;
+
+    this.submitButton.current.disabled = isDisabled;
+  }
+
+  handleFormChange() {
+    const isInitialState = Object.values(this.state.formOptionsValidation).every((value) => value);
+
+    if (!isInitialState) {
+      const validationResponse = this.dataValidation();
+
+      if (validationResponse) {
+        this.changeSubmitButtonStatus(false);
+      }
+
+      return;
+    }
+
+    this.changeSubmitButtonStatus(false);
+  }
 
   render() {
     return (
-      <form className={styles['form']}>
+      <form
+        className={styles['form']}
+        ref={this.form}
+        onSubmit={this.handleSubmit}
+        onInput={this.handleFormChange}
+      >
         <div className={styles['character-name']}>
           <label className={styles['character-name-label']} htmlFor="character-name">
             Enter your character name
           </label>
           <input
-            className={`${styles['character-name-input']} ${styles.input}`}
+            className={`${styles['character-name-input']} ${
+              styles[this.state.formOptionsValidation.isNameInputValid ? 'input' : 'input-invalid']
+            }`}
             type="text"
             name="character-name"
             ref={this.nameInput}
           />
-          {!this.state.formOptionsValidation.isNameInputValid && (
-            <div className={styles['error']}></div>
-          )}
+          <ValidationMessage
+            isValid={this.state.formOptionsValidation.isNameInputValid}
+            message={'Name should contain at least 1 character'}
+          />
         </div>
         <div className={styles['character-status']}>
           <label className={styles['character-status-label']} htmlFor="character-status">
             Choose your character status
           </label>
           <select
-            className={`${styles['character-status-select']} ${styles.input}`}
-            defaultValue="Alive"
+            className={`${styles['character-status-select']} ${styles['input']}`}
             name="character-status"
             ref={this.statusSelect}
           >
@@ -147,8 +253,7 @@ class Form extends React.Component<
             Choose your character species
           </label>
           <select
-            className={`${styles['character-species-select']} ${styles.input}`}
-            defaultValue="Human"
+            className={`${styles['character-species-select']} ${styles['input']}`}
             name="character-species"
             ref={this.speciesSelect}
           >
@@ -161,10 +266,18 @@ class Form extends React.Component<
             Enter your character gender
           </label>
           <input
-            className={`${styles['character-gender-input']} ${styles.input}`}
+            className={`${styles['character-gender-input']} ${
+              styles[
+                this.state.formOptionsValidation.isGenderInputValid ? 'input' : 'input-invalid'
+              ]
+            }`}
             type="text"
             name="character-gender"
             ref={this.genderInput}
+          />
+          <ValidationMessage
+            isValid={this.state.formOptionsValidation.isGenderInputValid}
+            message={'This field must not be empty'}
           />
         </div>
         <div className={styles['character-origin']}>
@@ -172,10 +285,18 @@ class Form extends React.Component<
             Enter where are your character from
           </label>
           <input
-            className={`${styles['character-origin-input']} ${styles.input}`}
+            className={`${styles['character-origin-input']} ${
+              styles[
+                this.state.formOptionsValidation.isOriginInputValid ? 'input' : 'input-invalid'
+              ]
+            }`}
             type="text"
             name="character-origin"
             ref={this.originInput}
+          />
+          <ValidationMessage
+            isValid={this.state.formOptionsValidation.isOriginInputValid}
+            message={'This field must not be empty'}
           />
         </div>
         <div className={styles['character-location']}>
@@ -183,10 +304,18 @@ class Form extends React.Component<
             Enter your character current location
           </label>
           <input
-            className={`${styles['character-location-input']} ${styles.input}`}
+            className={`${styles['character-location-input']} ${
+              styles[
+                this.state.formOptionsValidation.isLocationInputValid ? 'input' : 'input-invalid'
+              ]
+            }`}
             type="text"
             name="character-location"
             ref={this.locationInput}
+          />
+          <ValidationMessage
+            isValid={this.state.formOptionsValidation.isLocationInputValid}
+            message={'This field must not be empty'}
           />
         </div>
         <div className={styles['character-date-of-creation']}>
@@ -197,10 +326,20 @@ class Form extends React.Component<
             Choose when your character was created
           </label>
           <input
-            className={styles['character-date-of-creation-input']}
+            className={`${
+              styles[
+                this.state.formOptionsValidation.isDateOfCreationInputValid
+                  ? 'character-date-of-creation-input'
+                  : 'character-date-of-creation-input-invalid'
+              ]
+            }`}
             type="date"
             name="character-date-of-creation"
             ref={this.dateOfCreationInput}
+          />
+          <ValidationMessage
+            isValid={this.state.formOptionsValidation.isDateOfCreationInputValid}
+            message={'Pick the date, please'}
           />
         </div>
         <div className={styles['character-avatar']}>
@@ -208,10 +347,22 @@ class Form extends React.Component<
             Upload your character avatar
           </label>
           <input
-            className={styles['character-avatar-input']}
+            className={`${
+              styles[
+                this.state.formOptionsValidation.isAvatarInputValid
+                  ? 'character-avatar-input'
+                  : 'character-avatar-input-invalid'
+              ]
+            }`}
             type="file"
             name="character-avatar"
+            multiple={false}
+            accept="image/*"
             ref={this.avatarInput}
+          />
+          <ValidationMessage
+            isValid={this.state.formOptionsValidation.isAvatarInputValid}
+            message={'Upload photo, please'}
           />
         </div>
         <div className={styles['agreement']}>
@@ -224,20 +375,29 @@ class Form extends React.Component<
             />
             <span className={styles['switch']} />
           </label>
+          <ValidationMessage
+            isValid={this.state.formOptionsValidation.isAgreementCheckboxValid}
+            message={'You must agree to the processing of data in order to continue'}
+          />
         </div>
         <div className={styles['btns-container']}>
-          <button
-            // className={styles['submit-btn-disabled']}
-            // disabled={true}
-            className={styles['submit-btn']}
-            type="submit"
-            onClick={this.handleSubmit}
-          >
+          <button className={styles['submit-btn']} disabled type="submit" ref={this.submitButton}>
             Create
           </button>
-          <button className={styles['reset-btn']} type="reset">
+          <button className={styles['reset-btn']} type="reset" onClick={this.handleResetBtnClick}>
             Clear
           </button>
+          <div
+            className={
+              styles[
+                `${
+                  this.state.isCardCreationSuccessful ? 'success-message-active' : 'success-message'
+                }`
+              ]
+            }
+          >
+            Success. New character was created!
+          </div>
         </div>
       </form>
     );
