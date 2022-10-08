@@ -19,6 +19,7 @@ class ValidationMessage extends React.Component<ValidationMessageProps> {
             `${this.props.isValid ? 'validation-error-message' : 'validation-error-message-active'}`
           ]
         }
+        data-testid={'validation-message'}
       >
         {this.props.message}
       </div>
