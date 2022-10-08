@@ -1,12 +1,12 @@
 .form-page {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 }
 
 .form-page-title {
   font-size: 3rem;
   text-align: center;
-  padding-bottom: 2rem;
 }
 
 .form-container {
