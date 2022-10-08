@@ -1,9 +1,13 @@
-import ISearchQuery from 'interfaces/ISearchQuery';
 import React from 'react';
 import styles from './search-field.module.css';
 
-class SearchField extends React.Component<ISearchQuery> {
-  constructor(props: ISearchQuery) {
+interface SearchQuery {
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  currentValue: string;
+}
+
+class SearchField extends React.Component<SearchQuery> {
+  constructor(props: SearchQuery) {
     super(props);
   }
 
@@ -14,7 +18,7 @@ class SearchField extends React.Component<ISearchQuery> {
   render() {
     return (
       <input
-        className={styles.input}
+        className={styles['input']}
         type="text"
         name="search"
         placeholder="Search"

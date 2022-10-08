@@ -1,10 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import AboutPage from './pages/about-page/AboutPage';
-import MainPage from 'pages/main-page/MainPage';
-import NotFoundPage from 'pages/not-found-page/NotFoundPage';
-import Layout from 'components/Layout';
+import AboutPage from './pages/about-page';
+import MainPage from 'pages/main-page';
+import NotFoundPage from 'pages/not-found-page';
+import Layout from 'components';
 import FormPage from 'pages/form-page';
 
 class App extends React.Component {

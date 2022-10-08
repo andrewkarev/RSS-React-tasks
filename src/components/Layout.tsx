@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Footer from './footer/Footer';
-import Header from './header/Header';
+import Footer from './footer';
+import Header from './header';
 import styles from './layout.module.css';
 
 class Layout extends React.Component {
   render() {
     return (
-      <div className={styles.wwrapper}>
+      <div className={styles['wwrapper']}>
         <Header />
-        <main className={styles.main}>
+        <main className={styles['main']}>
           <div className="container">
             <Outlet />
           </div>

@@ -1,6 +1,26 @@
-import CardProps from 'interfaces/CardProps';
 import React from 'react';
 import styles from './card.module.css';
+
+interface CardProps {
+  id: number;
+  name: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
+  image: string;
+  episode: string[];
+  url: string;
+  created: string;
+}
 
 class Card extends React.Component<CardProps> {
   constructor(props: CardProps) {
@@ -34,12 +54,12 @@ class Card extends React.Component<CardProps> {
 
   render() {
     return (
-      <div className={styles.card} data-testid={'card'}>
+      <div className={styles['card']} data-testid={'card'}>
         <div className={styles['img-wrapper']}>
-          <img className={styles.img} src={this.props.image} alt="Character avatar" />
+          <img className={styles['img']} src={this.props.image} alt="Character avatar" />
         </div>
-        <h3 className={styles.name}>{this.props.name}</h3>
-        <ul className={styles.list}>
+        <h3 className={styles['name']}>{this.props.name}</h3>
+        <ul className={styles['list']}>
           <li className={styles['list-item']}>
             <p className={styles['list-item-annotation']}>status</p>
             <p className={styles['list-item-info']}>{this.props.status}</p>
