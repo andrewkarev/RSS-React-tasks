@@ -2,23 +2,23 @@ import React from 'react';
 import styles from './card.module.css';
 
 interface CardProps {
-  id: number;
+  id?: number;
   name: string;
   status: string;
   species: string;
-  type: string;
+  type?: string;
   gender: string;
   origin: {
     name: string;
-    url: string;
+    url?: string;
   };
   location: {
     name: string;
-    url: string;
+    url?: string;
   };
   image: string;
-  episode: string[];
-  url: string;
+  episode?: string[];
+  url?: string;
   created: string;
 }
 
