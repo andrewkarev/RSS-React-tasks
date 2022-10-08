@@ -19,12 +19,15 @@
 .character-date-of-creation,
 .character-avatar,
 .agreement {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding-bottom: 1rem;
 }
 
-.input {
+.input,
+.input-invalid {
   height: 2.5rem;
   padding: 0 1rem 0;
   font-size: 1.2rem;
@@ -41,6 +44,14 @@
   border-color: #b8d344;
 }
 
+.input-invalid {
+  border-color: #ef6e6c;
+}
+
+.input-invalid:focus {
+  background-color: #212246;
+}
+
 .input::placeholder {
   color: #ffffff;
 }
@@ -51,22 +62,28 @@
   cursor: pointer;
 }
 
-.character-date-of-creation-input::-webkit-calendar-picker-indicator {
+.character-date-of-creation-input::-webkit-calendar-picker-indicator,
+.character-date-of-creation-input-invalid::-webkit-calendar-picker-indicator {
   filter: invert(100%);
   cursor: pointer;
 }
 
-.character-avatar-input {
+.character-avatar-input,
+.character-avatar-input-invalid {
   font-size: 1.2rem;
   color: #04b2c8;
 }
 
+.character-avatar-input-invalid {
+  color: #ef6e6c;
+}
+
 .character-avatar-input::-webkit-file-upload-button,
+.character-avatar-input-invalid::-webkit-file-upload-button,
 .character-date-of-creation-input,
+.character-date-of-creation-input-invalid,
 .submit-btn,
-.reset-btn,
-.submit-btn-disabled,
-.reset-btn-disabled {
+.reset-btn {
   width: 16rem;
   height: 2.5rem;
   padding: 0 1rem 0;
@@ -79,23 +96,31 @@
   transition: all 0.3s ease-in;
 }
 
-.submit-btn-disabled,
-.reset-btn-disabled {
-  color: #aaa;
-  border-color: #aaa;
+.character-date-of-creation-input-invalid {
+  color: #ef6e6c;
+  border-color: #ef6e6c;
 }
 
-.character-avatar-input::-webkit-file-upload-button {
+.character-avatar-input::-webkit-file-upload-button,
+.character-avatar-input-invalid::-webkit-file-upload-button {
   margin-right: 1rem;
 }
 
 .character-avatar-input::-webkit-file-upload-button:hover,
+.character-avatar-input-invalid::-webkit-file-upload-button:hover,
 .submit-btn:hover,
 .reset-btn:hover {
   color: #fff;
   border-color: #b8d344;
   background-color: #212246;
   cursor: pointer;
+}
+
+.submit-btn:disabled {
+  border-color: #aaa;
+  color: #aaa;
+  background-color: transparent;
+  cursor: auto;
 }
 
 .agreement-label {
@@ -135,7 +160,6 @@
 
 .agreement-input:checked+.switch::before {
   transform: translateX(2rem);
-  background-color: #04b2c8;
   background-color: #ffffff;
 }
 
@@ -144,12 +168,21 @@
 }
 
 .btns-container {
+  position: relative;
   display: flex;
   justify-content: space-around;
   padding: 1rem 0;
 }
 
-.error {
-  height: 10px;
-  background-color: red;
+.success-message,
+.success-message-active {
+  position: absolute;
+  top: -1.7rem;
+  color: #b8d344;
+  transition: 0.3s ease;
+  opacity: 0;
+}
+
+.success-message-active {
+  opacity: 1;
 }
