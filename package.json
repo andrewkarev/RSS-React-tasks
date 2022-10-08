@@ -64,8 +64,7 @@
   "lint-staged": {
     "*.(ts|tsx)": [
       "npm run lint:write",
-      "npm run prettier",
-      "npm test"
+      "npm run prettier"
     ]
   }
 }
