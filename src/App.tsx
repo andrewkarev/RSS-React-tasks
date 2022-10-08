@@ -5,7 +5,7 @@ import AboutPage from './pages/about-page/AboutPage';
 import MainPage from 'pages/main-page/MainPage';
 import NotFoundPage from 'pages/not-found-page/NotFoundPage';
 import Layout from 'components/Layout';
-import FormPage from 'pages/form-page/FormPage';
+import FormPage from 'pages/form-page';
 
 class App extends React.Component {
   render() {
