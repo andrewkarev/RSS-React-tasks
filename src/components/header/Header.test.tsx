@@ -14,6 +14,7 @@ describe('Header', () => {
     render(<App />, { wrapper: BrowserRouter });
     expect(screen.getByText(/Home/i)).toBeInTheDocument();
     expect(screen.getByText(/About/i)).toBeInTheDocument();
+    expect(screen.getByText('Create')).toBeInTheDocument();
   });
 
   it('should navigate to the correct page', () => {
@@ -35,5 +36,12 @@ describe('Header', () => {
     );
 
     expect(screen.getByText(/not found/i)).toBeInTheDocument();
+  });
+
+  it('should navigate to the page with form', () => {
+    render(<App />, { wrapper: BrowserRouter });
+
+    userEvent.click(screen.getByText('Create'));
+    expect(screen.getByTestId('form')).toBeInTheDocument();
   });
 });

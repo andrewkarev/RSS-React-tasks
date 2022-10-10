@@ -23,7 +23,7 @@ class FormPage extends React.Component<Record<string, never>, FormPageState> {
 
   render() {
     return (
-      <div className={styles['form-page']} data-testid={'form'}>
+      <div className={styles['form-page']} data-testid={'form-page'}>
         <h2 className={styles['form-page-title']}>Create new character</h2>
         <div className={styles['form-container']}>
           <Form addNewCards={this.addNewCards} />

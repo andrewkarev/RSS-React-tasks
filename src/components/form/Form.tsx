@@ -216,6 +216,7 @@ class Form extends React.Component<FormProps, FormState> {
         ref={this.form}
         onSubmit={this.handleSubmit}
         onInput={this.handleFormChange}
+        data-testid={'form'}
       >
         <div className={styles['character-name']}>
           <label className={styles['character-name-label']} htmlFor="character-name">
@@ -226,8 +227,8 @@ class Form extends React.Component<FormProps, FormState> {
               styles[this.state.formOptionsValidation.isNameInputValid ? 'input' : 'input-invalid']
             }`}
             type="text"
-            name="character-name"
             ref={this.nameInput}
+            data-testid={'character-name'}
           />
           <ValidationMessage
             isValid={this.state.formOptionsValidation.isNameInputValid}
@@ -240,8 +241,8 @@ class Form extends React.Component<FormProps, FormState> {
           </label>
           <select
             className={`${styles['character-status-select']} ${styles['input']}`}
-            name="character-status"
             ref={this.statusSelect}
+            data-testid={'character-status'}
           >
             <option value="Alive">Alive</option>
             <option value="Dead">Dead</option>
@@ -254,8 +255,8 @@ class Form extends React.Component<FormProps, FormState> {
           </label>
           <select
             className={`${styles['character-species-select']} ${styles['input']}`}
-            name="character-species"
             ref={this.speciesSelect}
+            data-testid={'character-species'}
           >
             <option value="Human">Human</option>
             <option value="Alien">Alien</option>
@@ -272,8 +273,8 @@ class Form extends React.Component<FormProps, FormState> {
               ]
             }`}
             type="text"
-            name="character-gender"
             ref={this.genderInput}
+            data-testid={'character-gender'}
           />
           <ValidationMessage
             isValid={this.state.formOptionsValidation.isGenderInputValid}
@@ -291,8 +292,8 @@ class Form extends React.Component<FormProps, FormState> {
               ]
             }`}
             type="text"
-            name="character-origin"
             ref={this.originInput}
+            data-testid={'character-origin'}
           />
           <ValidationMessage
             isValid={this.state.formOptionsValidation.isOriginInputValid}
@@ -310,8 +311,8 @@ class Form extends React.Component<FormProps, FormState> {
               ]
             }`}
             type="text"
-            name="character-location"
             ref={this.locationInput}
+            data-testid={'character-location'}
           />
           <ValidationMessage
             isValid={this.state.formOptionsValidation.isLocationInputValid}
@@ -334,8 +335,8 @@ class Form extends React.Component<FormProps, FormState> {
               ]
             }`}
             type="date"
-            name="character-date-of-creation"
             ref={this.dateOfCreationInput}
+            data-testid={'character-date'}
           />
           <ValidationMessage
             isValid={this.state.formOptionsValidation.isDateOfCreationInputValid}
@@ -355,10 +356,10 @@ class Form extends React.Component<FormProps, FormState> {
               ]
             }`}
             type="file"
-            name="character-avatar"
             multiple={false}
             accept="image/*"
             ref={this.avatarInput}
+            data-testid={'character-avatar'}
           />
           <ValidationMessage
             isValid={this.state.formOptionsValidation.isAvatarInputValid}
@@ -372,6 +373,7 @@ class Form extends React.Component<FormProps, FormState> {
               className={styles['agreement-input']}
               type="checkbox"
               ref={this.agreementCheckbox}
+              data-testid={'agreement'}
             />
             <span className={styles['switch']} />
           </label>
@@ -381,10 +383,21 @@ class Form extends React.Component<FormProps, FormState> {
           />
         </div>
         <div className={styles['btns-container']}>
-          <button className={styles['submit-btn']} disabled type="submit" ref={this.submitButton}>
+          <button
+            className={styles['submit-btn']}
+            disabled
+            type="submit"
+            ref={this.submitButton}
+            data-testid={'submit-btn'}
+          >
             Create
           </button>
-          <button className={styles['reset-btn']} type="reset" onClick={this.handleResetBtnClick}>
+          <button
+            className={styles['reset-btn']}
+            type="reset"
+            onClick={this.handleResetBtnClick}
+            data-testid={'reset-btn'}
+          >
             Clear
           </button>
           <div

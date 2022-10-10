@@ -29,7 +29,7 @@ class Header extends React.Component {
               <div className={styles['link-container']}>
                 <NavLink
                   to="form"
-                  className={({ isActive }) => (isActive ? styles['link-active'] : styles.link)}
+                  className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
                 >
                   Create
                 </NavLink>
