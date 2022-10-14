@@ -1,11 +1,14 @@
 import Card from 'components/card/Card';
 import ValidationMessage from 'components/validation-message';
+import ICard from 'interfaces/ICard';
 import IDataValidation from 'interfaces/iDataValidation';
 import React from 'react';
 import styles from './form.module.css';
 
 interface FormProps {
   addNewCards: (newCard: JSX.Element) => void;
+  setSelectedCardValue: (card: ICard) => void;
+  toggleModalWindow: () => void;
 }
 
 interface FormState {
@@ -88,16 +91,22 @@ class Form extends React.Component<FormProps, FormState> {
       currentAvatarValue,
     } = validationResponse;
 
+    const card = {
+      name: currentNameValue,
+      status: currentStatusValue,
+      species: currentSpeciesValue,
+      gender: currentGenderValue,
+      origin: { name: currentOriginValue },
+      location: { name: currentLocationValue },
+      image: window.URL.createObjectURL(currentAvatarValue[0]),
+      created: currentDateOfCreationValue,
+    };
+
     const newCard = (
       <Card
-        name={currentNameValue}
-        status={currentStatusValue}
-        species={currentSpeciesValue}
-        gender={currentGenderValue}
-        origin={{ name: currentOriginValue }}
-        location={{ name: currentLocationValue }}
-        image={window.URL.createObjectURL(currentAvatarValue[0])}
-        created={currentDateOfCreationValue}
+        card={card}
+        toggleModalWindow={this.props.toggleModalWindow}
+        setSelectedCardValue={this.props.setSelectedCardValue}
         key={currentNameValue}
       />
     );

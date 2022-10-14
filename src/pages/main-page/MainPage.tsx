@@ -7,56 +7,35 @@ import ICard from 'interfaces/ICard';
 import getCharacters from 'services/get-characters-api';
 import { AxiosError } from 'axios';
 
+interface MainPageProps {
+  selectedCard: ICard | null;
+  isModalOpened: boolean;
+  setSelectedCardValue: (card: ICard) => void;
+  toggleModalWindow: () => void;
+}
+
 interface MainPageState {
   searchQuery: string;
   searchFieldValue: string;
   cards: JSX.Element[] | null;
-  isModalOpened: boolean;
-  selectedCard: ICard | null;
   isErrorOccured: boolean;
   isPending: boolean;
 }
 
-class MainPage extends React.Component<Record<string, never>, MainPageState> {
-  constructor(props: Record<string, never>) {
+class MainPage extends React.Component<MainPageProps, MainPageState> {
+  constructor(props: MainPageProps) {
     super(props);
     this.state = {
       searchQuery: localStorage.getItem('searchQuery') || '',
       searchFieldValue: localStorage.getItem('searchQuery') || '',
       cards: null,
-      isModalOpened: false,
-      selectedCard: null,
       isErrorOccured: false,
       isPending: true,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderCards = this.renderCards.bind(this);
-    this.toggleModalWindow = this.toggleModalWindow.bind(this);
-    this.setSelectedCardValue = this.setSelectedCardValue.bind(this);
     this.updateCards = this.updateCards.bind(this);
-  }
-
-  toggleModalWindow() {
-    const body = document.querySelector('body');
-
-    if (!body) return;
-
-    if (!this.state.isModalOpened) {
-      body.style.overflow = 'hidden';
-    } else {
-      body.style.overflow = 'auto';
-    }
-
-    this.setState(({ isModalOpened }) => {
-      return { isModalOpened: !isModalOpened };
-    });
-  }
-
-  setSelectedCardValue(card: ICard) {
-    this.setState({
-      selectedCard: card,
-    });
   }
 
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -93,8 +72,8 @@ class MainPage extends React.Component<Record<string, never>, MainPageState> {
       return (
         <Card
           card={card}
-          toggleModalWindow={this.toggleModalWindow}
-          setSelectedCardValue={this.setSelectedCardValue}
+          toggleModalWindow={this.props.toggleModalWindow}
+          setSelectedCardValue={this.props.setSelectedCardValue}
           key={item.id}
         />
       );
@@ -127,10 +106,7 @@ class MainPage extends React.Component<Record<string, never>, MainPageState> {
     await this.updateCards();
   }
 
-  async componentDidUpdate(
-    _: Readonly<Record<string, never>>,
-    prevState: Readonly<{ searchQuery: string; cards: JSX.Element[] | null }>
-  ) {
+  async componentDidUpdate(_: Readonly<MainPageProps>, prevState: Readonly<MainPageState>) {
     if (this.state.searchQuery !== prevState.searchQuery) {
       await this.updateCards();
     }
@@ -138,7 +114,7 @@ class MainPage extends React.Component<Record<string, never>, MainPageState> {
 
   render() {
     const popUp = (
-      <PopUp card={this.state.selectedCard} toggleModalWindow={this.toggleModalWindow} />
+      <PopUp card={this.props.selectedCard} toggleModalWindow={this.props.toggleModalWindow} />
     );
     const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
     const cardContainer = <div className={styles['cards-container']}>{this.state.cards}</div>;
@@ -154,7 +130,7 @@ class MainPage extends React.Component<Record<string, never>, MainPageState> {
         {this.state.isPending && loader}
         {!this.state.isErrorOccured && cardContainer}
         {this.state.isErrorOccured && error}
-        {this.state.isModalOpened && popUp}
+        {this.props.isModalOpened && popUp}
       </div>
     );
   }
