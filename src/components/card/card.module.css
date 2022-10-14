@@ -1,15 +1,16 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  gap: 2rem;
   width: 22rem;
-  /* height: 497px; */
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   font-size: 1.2rem;
   border: 4px solid #b8d344;
   border-radius: 1.1rem;
   background-color: #15153a;
   transition: all 0.3s ease-in;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -17,6 +18,14 @@
   -webkit-transform: scale3d(1.01, 1.01, 1.01);
   transform: scale3d(1.01, 1.01, 1.01);
 }
+
+.card:hover .card-btn {
+  color: #fff;
+  border-color: #b8d344;
+  background-color: #212246;
+  cursor: pointer;
+}
+
 
 .img-wrapper {
   width: 12rem;
@@ -38,27 +47,21 @@
   color: #04b2c8;
 }
 
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.card-btn {
+  width: 16rem;
+  height: 2.5rem;
+  padding: 0 1rem 0;
+  font-size: 1.2rem;
+  color: #04b2c8;
+  outline: none;
+  border: 2px solid #04b2c8;
+  border-radius: 1.25rem;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
 }
 
-.list-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #faf074;
-
-}
-
-.list-item-annotation {
-  font-weight: 600;
-  text-transform: capitalize;
-  font-size: 1.1rem;
-}
-
-.list-item-info {
-  font-style: italic;
-  font-size: 0.9rem;
+@media (max-width: 421px) {
+  .card {
+    width: auto;
+  }
 }
