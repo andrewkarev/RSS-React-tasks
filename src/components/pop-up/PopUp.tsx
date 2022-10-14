@@ -1,5 +1,5 @@
 import ICard from 'interfaces/ICard';
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import styles from './pop-up.module.css';
 
 interface CardProps {
@@ -11,6 +11,7 @@ class PopUp extends React.Component<CardProps> {
   constructor(props: CardProps) {
     super(props);
     this.getDateOfCreation = this.getDateOfCreation.bind(this);
+    this.closeModalWindow = this.closeModalWindow.bind(this);
   }
 
   getDateOfCreation() {
@@ -39,9 +40,15 @@ class PopUp extends React.Component<CardProps> {
     return `${monthes[month]} ${date}, ${year}`;
   }
 
+  closeModalWindow(e: SyntheticEvent) {
+    if (e.target === e.currentTarget) {
+      this.props.toggleModalWindow();
+    }
+  }
+
   render() {
     return (
-      <div className={styles['pop-up-overlay']}>
+      <div className={styles['pop-up-overlay']} onClick={this.closeModalWindow}>
         <div className={styles['pop-up']} data-testid={'pop-up'}>
           <div className={styles['pop-up-left-side']}>
             <div className={styles['img-wrapper']}>
@@ -75,6 +82,16 @@ class PopUp extends React.Component<CardProps> {
               <p className={styles['list-item-info']}>{this.getDateOfCreation()}</p>
             </li>
           </ul>
+          <button className={styles['close-btn']} type="button" onClick={this.closeModalWindow}>
+            <div
+              className={`${styles['close-btn-line']} ${styles['close-btn-line-1']}`}
+              onClick={this.closeModalWindow}
+            ></div>
+            <div
+              className={`${styles['close-btn-line']} ${styles['close-btn-line-2']}`}
+              onClick={this.closeModalWindow}
+            ></div>
+          </button>
         </div>
       </div>
     );
