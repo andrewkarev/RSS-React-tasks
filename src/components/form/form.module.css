@@ -186,3 +186,11 @@
 .success-message-active {
   opacity: 1;
 }
+
+@media (max-width: 671px) {
+  .btns-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
