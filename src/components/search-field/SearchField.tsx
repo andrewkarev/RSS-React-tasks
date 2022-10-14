@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import styles from './search-field.module.css';
 
-interface SearchQuery {
+interface SearchFieldProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: SyntheticEvent) => void;
   currentValue: string;
 }
 
-class SearchField extends React.Component<SearchQuery> {
-  constructor(props: SearchQuery) {
+class SearchField extends React.Component<SearchFieldProps> {
+  constructor(props: SearchFieldProps) {
     super(props);
-  }
-
-  componentWillUnmount() {
-    localStorage.setItem('searchQuery', this.props.currentValue);
   }
 
   render() {
     return (
-      <input
-        className={styles['input']}
-        type="text"
-        name="search"
-        placeholder="Search"
-        autoComplete="off"
-        autoFocus={true}
-        value={this.props.currentValue}
-        onChange={this.props.handleChange}
-      />
+      <form onSubmit={this.props.handleSubmit}>
+        <input
+          className={styles['input']}
+          type="text"
+          name="search"
+          placeholder="Search"
+          autoComplete="off"
+          autoFocus={true}
+          value={this.props.currentValue}
+          onChange={this.props.handleChange}
+        />
+      </form>
     );
   }
 }
