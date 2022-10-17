@@ -5,7 +5,6 @@ import SearchField from 'components/search-field';
 import PopUp from 'components/pop-up/PopUp';
 import ICard from 'interfaces/ICard';
 import getCharacters from 'services/get-characters-api';
-import { AxiosError } from 'axios';
 
 interface MainPageProps {
   selectedCard: ICard | null;
@@ -92,13 +91,9 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
 
       this.renderCards(data);
     } catch (error) {
-      if (!(error instanceof AxiosError)) throw new Error();
-
-      if (error.response?.status === 404) {
-        this.setState(() => {
-          return { cards: [], isErrorOccured: true, isPending: false };
-        });
-      }
+      this.setState(() => {
+        return { cards: [], isErrorOccured: true, isPending: false };
+      });
     }
   }
 

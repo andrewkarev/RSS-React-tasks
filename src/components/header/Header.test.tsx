@@ -27,10 +27,10 @@ describe('Header', () => {
 
   it('should navigate to the page with form', () => {
     render(<Header />, { wrapper: BrowserRouter });
-    const aboutLink = screen.getByText('Create');
+    const formLink = screen.getByText('Create');
 
-    userEvent.click(aboutLink);
-    expect(aboutLink).toHaveClass('link-active');
+    userEvent.click(formLink);
+    expect(formLink).toHaveClass('link-active');
   });
 
   it('should navigate to the 404 page for bad address', () => {
