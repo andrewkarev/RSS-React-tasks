@@ -11,8 +11,18 @@ class URLMock {
 }
 
 describe('FormPage', () => {
+  const setSelectedCardValueMock = jest.fn(() => {});
+  const toggleModalWindowMock = jest.fn(() => {});
+
   beforeEach(() => {
-    render(<FormPage />);
+    render(
+      <FormPage
+        selectedCard={null}
+        isModalOpened={false}
+        setSelectedCardValue={setSelectedCardValueMock}
+        toggleModalWindow={toggleModalWindowMock}
+      />
+    );
   });
 
   it('should render FormPage component', () => {
@@ -68,5 +78,18 @@ describe('FormPage', () => {
     userEvent.click(screen.getByTestId('agreement'));
 
     expect(submitButton).not.toBeDisabled();
+  });
+
+  it('should contain PopUp component', () => {
+    render(
+      <FormPage
+        selectedCard={null}
+        isModalOpened={true}
+        setSelectedCardValue={setSelectedCardValueMock}
+        toggleModalWindow={toggleModalWindowMock}
+      />
+    );
+
+    expect(screen.queryByTestId('pop-up')).toBeInTheDocument();
   });
 });

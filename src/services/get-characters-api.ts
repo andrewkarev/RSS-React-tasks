@@ -6,6 +6,11 @@ const getCharacters = async (searchQuery: string) => {
   try {
     const url = CHARACTER_URL + searchQuery;
     const response = await axios.get(url);
+
+    if (response.status !== 200) {
+      throw new Error('Something went wrong');
+    }
+
     const data: ICard[] = response.data.results;
 
     return data;

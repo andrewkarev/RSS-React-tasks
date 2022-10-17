@@ -2,28 +2,35 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import App from 'App';
+import Header from '.';
 
 describe('Header', () => {
   it('should render Header component', () => {
-    render(<App />, { wrapper: BrowserRouter });
+    render(<Header />, { wrapper: BrowserRouter });
     expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 
   it('should contain navigation links', () => {
-    render(<App />, { wrapper: BrowserRouter });
+    render(<Header />, { wrapper: BrowserRouter });
     expect(screen.getByText(/Home/i)).toBeInTheDocument();
     expect(screen.getByText(/About/i)).toBeInTheDocument();
     expect(screen.getByText('Create')).toBeInTheDocument();
   });
 
   it('should navigate to the correct page', () => {
-    render(<App />, { wrapper: BrowserRouter });
+    render(<Header />, { wrapper: BrowserRouter });
+    const aboutLink = screen.getByText(/about/i);
 
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    userEvent.click(aboutLink);
+    expect(aboutLink).toHaveClass('link-active');
+  });
 
-    userEvent.click(screen.getByText(/about/i));
-    expect(screen.getByText(/Hello/i)).toBeInTheDocument();
+  it('should navigate to the page with form', () => {
+    render(<Header />, { wrapper: BrowserRouter });
+    const aboutLink = screen.getByText('Create');
+
+    userEvent.click(aboutLink);
+    expect(aboutLink).toHaveClass('link-active');
   });
 
   it('should navigate to the 404 page for bad address', () => {
@@ -31,17 +38,12 @@ describe('Header', () => {
 
     render(
       <MemoryRouter initialEntries={[badRoute]}>
-        <App />
+        <Header />
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/not found/i)).toBeInTheDocument();
-  });
-
-  it('should navigate to the page with form', () => {
-    render(<App />, { wrapper: BrowserRouter });
-
-    userEvent.click(screen.getByText('Create'));
-    expect(screen.getByTestId('form')).toBeInTheDocument();
+    expect(screen.getByText(/Home/i)).not.toHaveClass('link-active');
+    expect(screen.getByText(/About/i)).not.toHaveClass('link-active');
+    expect(screen.getByText('Create')).not.toHaveClass('link-active');
   });
 });

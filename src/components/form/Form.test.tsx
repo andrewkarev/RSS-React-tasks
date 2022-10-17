@@ -6,9 +6,17 @@ import user from '@testing-library/user-event';
 
 describe('Form', () => {
   const addNewCards = jest.fn(() => {});
+  const setSelectedCardValueMock = jest.fn(() => {});
+  const toggleModalWindowMock = jest.fn(() => {});
 
   beforeEach(() => {
-    render(<Form addNewCards={addNewCards} />);
+    render(
+      <Form
+        addNewCards={addNewCards}
+        setSelectedCardValue={setSelectedCardValueMock}
+        toggleModalWindow={toggleModalWindowMock}
+      />
+    );
   });
 
   it('should render Form component', () => {

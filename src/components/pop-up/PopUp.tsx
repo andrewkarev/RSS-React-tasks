@@ -48,7 +48,11 @@ class PopUp extends React.Component<CardProps> {
 
   render() {
     return (
-      <div className={styles['pop-up-overlay']} onClick={this.closeModalWindow}>
+      <div
+        className={styles['pop-up-overlay']}
+        onClick={this.closeModalWindow}
+        data-testid={'pop-up-overlay'}
+      >
         <div className={styles['pop-up']} data-testid={'pop-up'}>
           <div className={styles['pop-up-left-side']}>
             <div className={styles['img-wrapper']}>
