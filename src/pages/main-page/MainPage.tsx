@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import styles from './main-page.module.css';
 import Card from 'components/card';
 import SearchField from 'components/search-field';
@@ -13,122 +13,95 @@ interface MainPageProps {
   toggleModalWindow: () => void;
 }
 
-interface MainPageState {
-  searchQuery: string;
-  searchFieldValue: string;
-  cards: JSX.Element[] | null;
-  isErrorOccured: boolean;
-  isPending: boolean;
-}
+const MainPage: React.FC<MainPageProps> = (props) => {
+  const initialValue = () => {
+    return localStorage.getItem('searchQuery') || '';
+  };
 
-class MainPage extends React.Component<MainPageProps, MainPageState> {
-  constructor(props: MainPageProps) {
-    super(props);
-    this.state = {
-      searchQuery: localStorage.getItem('searchQuery') || '',
-      searchFieldValue: localStorage.getItem('searchQuery') || '',
-      cards: null,
-      isErrorOccured: false,
-      isPending: true,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.renderCards = this.renderCards.bind(this);
-    this.updateCards = this.updateCards.bind(this);
-  }
+  const [searchQuery, setSearchQuery] = useState(() => initialValue());
+  const [searchFieldValue, setSearchFieldValue] = useState(() => initialValue());
+  const [cards, setCards] = useState<ICard[]>([]);
+  const [isErrorOccured, setIsErrorOccured] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
-  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchFieldValue = e.target.value;
 
-    this.setState({ searchFieldValue });
+    setSearchFieldValue(() => searchFieldValue);
     localStorage.setItem('searchQuery', searchFieldValue);
-  }
+  };
 
-  handleSubmit(e: SyntheticEvent) {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    setSearchQuery(() => searchFieldValue);
+  };
 
-    const searchQuery = this.state.searchFieldValue;
-    this.setState({ searchQuery });
-  }
+  useEffect(() => {
+    const updateCards = async () => {
+      try {
+        setCards(() => []);
+        setIsPending(() => true);
 
-  renderCards(data: ICard[]) {
-    const cards = data.map((item) => {
-      const card = {
-        id: item.id,
-        name: item.name,
-        status: item.status,
-        species: item.species,
-        type: item.type,
-        gender: item.gender,
-        origin: item.origin,
-        location: item.location,
-        image: item.image,
-        episode: item.episode,
-        url: item.url,
-        created: item.created,
-      };
+        const data = await getCharacters(searchQuery);
 
-      return (
-        <Card
-          card={card}
-          toggleModalWindow={this.props.toggleModalWindow}
-          setSelectedCardValue={this.props.setSelectedCardValue}
-          key={item.id}
-        />
-      );
-    });
+        setCards(() => data);
+        setIsErrorOccured(() => false);
+        setIsPending(() => false);
+      } catch (error) {
+        setCards(() => []);
+        setIsErrorOccured(() => true);
+        setIsPending(() => false);
+      }
+    };
 
-    this.setState(() => {
-      return { cards, isErrorOccured: false, isPending: false };
-    });
-  }
+    updateCards();
+  }, [searchQuery]);
 
-  async updateCards() {
-    try {
-      this.setState({ cards: [], isPending: true });
+  const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
+  const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
+  const cardContainer = (
+    <div className={styles['cards-container']}>
+      {cards.map((item) => {
+        const card = {
+          id: item.id,
+          name: item.name,
+          status: item.status,
+          species: item.species,
+          type: item.type,
+          gender: item.gender,
+          origin: item.origin,
+          location: item.location,
+          image: item.image,
+          episode: item.episode,
+          url: item.url,
+          created: item.created,
+        };
 
-      const data = await getCharacters(this.state.searchQuery);
-
-      this.renderCards(data);
-    } catch (error) {
-      this.setState(() => {
-        return { cards: [], isErrorOccured: true, isPending: false };
-      });
-    }
-  }
-
-  async componentDidMount() {
-    await this.updateCards();
-  }
-
-  async componentDidUpdate(_: Readonly<MainPageProps>, prevState: Readonly<MainPageState>) {
-    if (this.state.searchQuery !== prevState.searchQuery) {
-      await this.updateCards();
-    }
-  }
-
-  render() {
-    const popUp = (
-      <PopUp card={this.props.selectedCard} toggleModalWindow={this.props.toggleModalWindow} />
-    );
-    const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
-    const cardContainer = <div className={styles['cards-container']}>{this.state.cards}</div>;
-    const loader = <div className={styles['loader']}></div>;
-
-    return (
-      <div className={styles['main-page']} data-testid={'main'}>
-        <SearchField
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          currentValue={this.state.searchFieldValue}
-        />
-        {this.state.isPending && loader}
-        {!this.state.isErrorOccured && cardContainer}
-        {this.state.isErrorOccured && error}
-        {this.props.isModalOpened && popUp}
-      </div>
-    );
-  }
-}
+        return (
+          <Card
+            card={card}
+            toggleModalWindow={props.toggleModalWindow}
+            setSelectedCardValue={props.setSelectedCardValue}
+            key={item.id}
+          />
+        );
+      })}
+    </div>
+  );
+  const loader = <div className={styles['loader']}></div>;
+  return (
+    <div className={styles['main-page']} data-testid={'main'}>
+      <SearchField
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        currentValue={searchFieldValue}
+      />
+      {isPending && loader}
+      {!isErrorOccured && cardContainer}
+      {isErrorOccured && error}
+      {props.isModalOpened && popUp}
+    </div>
+  );
+};
 
 export default MainPage;

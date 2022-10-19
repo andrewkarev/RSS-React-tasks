@@ -4,20 +4,18 @@ import Footer from './footer';
 import Header from './header';
 import styles from './layout.module.css';
 
-class Layout extends React.Component {
-  render() {
-    return (
-      <div className={styles['wwrapper']}>
-        <Header />
-        <main className={styles['main']}>
-          <div className="container">
-            <Outlet />
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-}
+const Layout: React.FC = () => {
+  return (
+    <div className={styles['wwrapper']}>
+      <Header />
+      <main className={styles['main']}>
+        <div className="container">
+          <Outlet />
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
 export default Layout;

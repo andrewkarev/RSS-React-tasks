@@ -6,25 +6,17 @@ interface ValidationMessageProps {
   message: string;
 }
 
-class ValidationMessage extends React.Component<ValidationMessageProps> {
-  constructor(props: ValidationMessageProps) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div
-        className={
-          styles[
-            `${this.props.isValid ? 'validation-error-message' : 'validation-error-message-active'}`
-          ]
-        }
-        data-testid={'validation-message'}
-      >
-        {this.props.message}
-      </div>
-    );
-  }
-}
+const ValidationMessage: React.FC<ValidationMessageProps> = ({ isValid, message }) => {
+  return (
+    <div
+      className={
+        styles[`${isValid ? 'validation-error-message' : 'validation-error-message-active'}`]
+      }
+      data-testid={'validation-message'}
+    >
+      {message}
+    </div>
+  );
+};
 
 export default ValidationMessage;

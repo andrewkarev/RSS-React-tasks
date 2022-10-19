@@ -8,45 +8,38 @@ interface CardProps {
   setSelectedCardValue: (card: ICard) => void;
 }
 
-class Card extends React.Component<CardProps> {
-  constructor(props: CardProps) {
-    super(props);
-    this.handleCardClick = this.handleCardClick.bind(this);
-  }
-
-  handleCardClick() {
-    const card = {
-      id: this.props.card?.id,
-      name: this.props.card?.name,
-      status: this.props.card?.status,
-      species: this.props.card?.species,
-      type: this.props.card?.type,
-      gender: this.props.card?.gender,
-      origin: this.props.card?.origin,
-      location: this.props.card?.location,
-      image: this.props.card?.image,
-      episode: this.props.card?.episode,
-      url: this.props.card?.url,
-      created: this.props.card?.created,
+const Card: React.FC<CardProps> = ({ card, toggleModalWindow, setSelectedCardValue }) => {
+  const handleCardClick = () => {
+    const currentCard = {
+      id: card?.id,
+      name: card?.name,
+      status: card?.status,
+      species: card?.species,
+      type: card?.type,
+      gender: card?.gender,
+      origin: card?.origin,
+      location: card?.location,
+      image: card?.image,
+      episode: card?.episode,
+      url: card?.url,
+      created: card?.created,
     };
 
-    this.props.toggleModalWindow();
-    this.props.setSelectedCardValue(card);
-  }
+    toggleModalWindow();
+    setSelectedCardValue(currentCard);
+  };
 
-  render() {
-    return (
-      <div className={styles['card']} onClick={this.handleCardClick} data-testid={'card'}>
-        <div className={styles['img-wrapper']}>
-          <img className={styles['img']} src={this.props.card?.image} alt="Character avatar" />
-        </div>
-        <h3 className={styles['name']}>{this.props.card?.name}</h3>
-        <button className={styles['card-btn']} type="button" data-testid={'card-btn'}>
-          Show details
-        </button>
+  return (
+    <div className={styles['card']} onClick={handleCardClick} data-testid={'card'}>
+      <div className={styles['img-wrapper']}>
+        <img className={styles['img']} src={card?.image} alt="Character avatar" />
       </div>
-    );
-  }
-}
+      <h3 className={styles['name']}>{card?.name}</h3>
+      <button className={styles['card-btn']} type="button" data-testid={'card-btn'}>
+        Show details
+      </button>
+    </div>
+  );
+};
 
 export default Card;

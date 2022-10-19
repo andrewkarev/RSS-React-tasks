@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import AboutPage from './pages/about-page';
@@ -8,77 +8,59 @@ import Layout from 'components';
 import FormPage from 'pages/form-page';
 import ICard from 'interfaces/ICard';
 
-interface AppState {
-  selectedCard: ICard | null;
-  isModalOpened: boolean;
-}
+const App: React.FC = () => {
+  const [selectedCard, setSelectedCard] = useState<ICard | null>(null);
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
 
-class App extends React.Component<Record<string, never>, AppState> {
-  constructor(props: Record<string, never>) {
-    super(props);
-    this.state = {
-      selectedCard: null,
-      isModalOpened: false,
-    };
-    this.setSelectedCardValue = this.setSelectedCardValue.bind(this);
-    this.toggleModalWindow = this.toggleModalWindow.bind(this);
-  }
+  const setSelectedCardValue = (card: ICard) => {
+    setSelectedCard(() => card);
+  };
 
-  setSelectedCardValue(card: ICard) {
-    this.setState({
-      selectedCard: card,
-    });
-  }
-
-  toggleModalWindow() {
+  const toggleModalWindow = () => {
     const body = document.querySelector('body');
 
     if (!body) return;
 
-    if (!this.state.isModalOpened) {
+    if (!isModalOpened) {
       body.style.overflow = 'hidden';
     } else {
       body.style.overflow = 'auto';
     }
 
-    this.setState(({ isModalOpened }) => {
-      return { isModalOpened: !isModalOpened };
-    });
-  }
+    setIsModalOpened((prevModalState) => !prevModalState);
+  };
 
-  render() {
-    return (
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route
-            index
-            element={
-              <MainPage
-                selectedCard={this.state.selectedCard}
-                isModalOpened={this.state.isModalOpened}
-                setSelectedCardValue={this.setSelectedCardValue}
-                toggleModalWindow={this.toggleModalWindow}
-              />
-            }
-          />
-          <Route path="about" element={<AboutPage />} />
-          <Route
-            path="form"
-            element={
-              <FormPage
-                selectedCard={this.state.selectedCard}
-                isModalOpened={this.state.isModalOpened}
-                setSelectedCardValue={this.setSelectedCardValue}
-                toggleModalWindow={this.toggleModalWindow}
-              />
-            }
-          />
-          <Route path="404" element={<NotFoundPage />} />
-          <Route path="*" element={<Navigate to="404" replace />} />
-        </Route>
-      </Routes>
-    );
-  }
-}
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route
+          index
+          element={
+            <MainPage
+              selectedCard={selectedCard}
+              isModalOpened={isModalOpened}
+              setSelectedCardValue={setSelectedCardValue}
+              toggleModalWindow={toggleModalWindow}
+            />
+          }
+        />
+        <Route path="about" element={<AboutPage />} />
+        <Route
+          path="form"
+          element={
+            <FormPage
+              selectedCard={selectedCard}
+              isModalOpened={isModalOpened}
+              setSelectedCardValue={setSelectedCardValue}
+              toggleModalWindow={toggleModalWindow}
+            />
+          }
+        />
+        <Route path="404" element={<NotFoundPage />} />
+        <Route path="*" element={<Navigate to="404" replace />} />
+      </Route>
+    </Routes>
+  );
+};
 
 export default App;

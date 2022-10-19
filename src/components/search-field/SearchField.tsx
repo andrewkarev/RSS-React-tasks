@@ -6,28 +6,21 @@ interface SearchFieldProps {
   handleSubmit: (e: SyntheticEvent) => void;
   currentValue: string;
 }
-
-class SearchField extends React.Component<SearchFieldProps> {
-  constructor(props: SearchFieldProps) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.props.handleSubmit}>
-        <input
-          className={styles['input']}
-          type="text"
-          name="search"
-          placeholder="Search"
-          autoComplete="off"
-          autoFocus={true}
-          value={this.props.currentValue}
-          onChange={this.props.handleChange}
-        />
-      </form>
-    );
-  }
-}
+const SearchField: React.FC<SearchFieldProps> = ({ handleChange, handleSubmit, currentValue }) => {
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        className={styles['input']}
+        type="text"
+        name="search"
+        placeholder="Search"
+        autoComplete="off"
+        autoFocus={true}
+        value={currentValue}
+        onChange={handleChange}
+      />
+    </form>
+  );
+};
 
 export default SearchField;
