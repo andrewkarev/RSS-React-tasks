@@ -4,6 +4,7 @@ import IFormValues from 'interfaces/IFormValues';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './form.module.css';
+import pngUrl from '../../assets/images/John_Doe.jpeg';
 
 interface FormProps {
   addNewCards: (newCard: ICard) => void;
@@ -36,7 +37,9 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
   const [hasErrors, setHasErrors] = useState(false);
 
   const onSubmit = (data: IFormValues) => {
-    if (!data.characterAvatar) return;
+    const file = data.characterAvatar
+      ? window.URL.createObjectURL(data.characterAvatar[0])
+      : pngUrl;
 
     const card = {
       name: data.characterName,
@@ -45,7 +48,7 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
       gender: data.characterGender,
       origin: { name: data.characterOrigin },
       location: { name: data.characterLocation },
-      image: window.URL.createObjectURL(data.characterAvatar[0]),
+      image: file,
       created: data.characterDateOfCreation,
     };
 
@@ -234,9 +237,7 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
           type="file"
           multiple={false}
           accept="image/*"
-          {...register('characterAvatar', {
-            required: true,
-          })}
+          {...register('characterAvatar')}
           data-testid={'character-avatar'}
         />
         <ValidationMessage isValid={!errors.characterAvatar} message={'Upload photo, please'} />
