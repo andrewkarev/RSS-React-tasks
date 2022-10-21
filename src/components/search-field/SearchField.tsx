@@ -7,10 +7,6 @@ interface SearchQuery {
 }
 
 class SearchField extends React.Component<SearchQuery> {
-  constructor(props: SearchQuery) {
-    super(props);
-  }
-
   componentWillUnmount() {
     localStorage.setItem('searchQuery', this.props.currentValue);
   }
