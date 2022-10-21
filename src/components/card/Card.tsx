@@ -1,3 +1,4 @@
+import ListItem from 'components/list-item/ListItem';
 import React from 'react';
 import getDateOfCreation from 'utils/get-date-of-creation';
 import styles from './card.module.css';
@@ -24,10 +25,6 @@ interface CardProps {
 }
 
 class Card extends React.Component<CardProps> {
-  constructor(props: CardProps) {
-    super(props);
-  }
-
   render() {
     return (
       <div className={styles['card']} data-testid={'card'}>
@@ -36,30 +33,12 @@ class Card extends React.Component<CardProps> {
         </div>
         <h3 className={styles['name']}>{this.props.name}</h3>
         <ul className={styles['list']}>
-          <li className={styles['list-item']}>
-            <p className={styles['list-item-annotation']}>status</p>
-            <p className={styles['list-item-info']}>{this.props.status}</p>
-          </li>
-          <li className={styles['list-item']}>
-            <p className={styles['list-item-annotation']}>species</p>
-            <p className={styles['list-item-info']}>{this.props.species}</p>
-          </li>
-          <li className={styles['list-item']}>
-            <p className={styles['list-item-annotation']}>gender</p>
-            <p className={styles['list-item-info']}>{this.props.gender}</p>
-          </li>
-          <li className={styles['list-item']}>
-            <p className={styles['list-item-annotation']}>origin</p>
-            <p className={styles['list-item-info']}>{this.props.origin.name}</p>
-          </li>
-          <li className={styles['list-item']}>
-            <p className={styles['list-item-annotation']}>location</p>
-            <p className={styles['list-item-info']}>{this.props.location.name}</p>
-          </li>
-          <li className={styles['list-item']}>
-            <p className={styles['list-item-annotation']}>created</p>
-            <p className={styles['list-item-info']}>{getDateOfCreation(this.props.created)}</p>
-          </li>
+          <ListItem annotation={'status'} info={this.props.status} />
+          <ListItem annotation={'species'} info={this.props.species} />
+          <ListItem annotation={'gender'} info={this.props.gender} />
+          <ListItem annotation={'origin'} info={this.props.origin.name} />
+          <ListItem annotation={'location'} info={this.props.location.name} />
+          <ListItem annotation={'created'} info={getDateOfCreation(this.props.created)} />
         </ul>
       </div>
     );
