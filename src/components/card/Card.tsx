@@ -1,4 +1,5 @@
 import React from 'react';
+import getDateOfCreation from 'utils/get-date-of-creation';
 import styles from './card.module.css';
 
 interface CardProps {
@@ -25,31 +26,6 @@ interface CardProps {
 class Card extends React.Component<CardProps> {
   constructor(props: CardProps) {
     super(props);
-    this.getDateOfCreation = this.getDateOfCreation.bind(this);
-  }
-
-  getDateOfCreation() {
-    const monthes = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-
-    const dateOfCreation = new Date(this.props.created);
-    const month = dateOfCreation.getMonth();
-    const date = dateOfCreation.getDate();
-    const year = dateOfCreation.getFullYear();
-
-    return `${monthes[month]} ${date}, ${year}`;
   }
 
   render() {
@@ -82,7 +58,7 @@ class Card extends React.Component<CardProps> {
           </li>
           <li className={styles['list-item']}>
             <p className={styles['list-item-annotation']}>created</p>
-            <p className={styles['list-item-info']}>{this.getDateOfCreation()}</p>
+            <p className={styles['list-item-info']}>{getDateOfCreation(this.props.created)}</p>
           </li>
         </ul>
       </div>
