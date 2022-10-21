@@ -1,22 +1,13 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Form from '.';
 import userEvent from '@testing-library/user-event';
-import user from '@testing-library/user-event';
 
 describe('Form', () => {
   const addNewCards = jest.fn(() => {});
-  const setSelectedCardValueMock = jest.fn(() => {});
-  const toggleModalWindowMock = jest.fn(() => {});
 
-  beforeEach(() => {
-    render(
-      <Form
-        addNewCards={addNewCards}
-        setSelectedCardValue={setSelectedCardValueMock}
-        toggleModalWindow={toggleModalWindowMock}
-      />
-    );
+  beforeEach(async () => {
+    render(<Form addNewCards={addNewCards} />);
   });
 
   it('should render Form component', () => {
@@ -116,14 +107,6 @@ describe('Form', () => {
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
-  it('should change a submit button state after the user first interaction with character-avatar field', () => {
-    const file = new File(['avatar'], 'avatar.png', { type: 'image/png' });
-
-    expect(screen.getByTestId('submit-btn')).toBeDisabled();
-    user.upload(screen.getByTestId('character-avatar'), file);
-    expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
-  });
-
   it('should change a submit button state after the user first interaction with form', () => {
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.click(screen.getByTestId('agreement'));
@@ -148,7 +131,7 @@ describe('Form', () => {
     expect(nameInput).not.toHaveValue();
   });
 
-  it('should disable submit button, show that field contains incorrect information and disable card creation in case of failed validation', () => {
+  it('should disable submit button, show that field contains incorrect information and disable card creation in case of failed validation', async () => {
     const agreementCheckbox = screen.getByTestId('agreement');
     const submitButton = screen.getByTestId('submit-btn');
 
@@ -157,33 +140,18 @@ describe('Form', () => {
     expect(submitButton).not.toBeDisabled();
 
     userEvent.click(submitButton);
-    expect(submitButton).toBeDisabled();
-    expect(addNewCards).not.toBeCalled();
-    expect(screen.getByTestId('character-name')).toHaveClass('input-invalid');
-    expect(screen.getByTestId('character-status')).toHaveClass('input');
-    expect(screen.getByTestId('character-species')).toHaveClass('input');
-    expect(screen.getByTestId('character-gender')).toHaveClass('input-invalid');
-    expect(screen.getByTestId('character-origin')).toHaveClass('input-invalid');
-    expect(screen.getByTestId('character-location')).toHaveClass('input-invalid');
-    expect(screen.getByTestId('character-avatar')).toHaveClass('character-avatar-input-invalid');
-    expect(screen.getByTestId('character-date')).toHaveClass(
-      'character-date-of-creation-input-invalid'
-    );
-  });
-
-  it('should show and hide validation error message on input after attempt of submit non valid form', () => {
-    const agreementCheckbox = screen.getByTestId('agreement');
-    const submitButton = screen.getByTestId('submit-btn');
-    const nameInput = screen.getByTestId('character-name');
-
-    userEvent.click(agreementCheckbox);
-    userEvent.click(submitButton);
-
-    expect(submitButton).toBeDisabled();
-    expect(addNewCards).not.toBeCalled();
-
-    expect(nameInput).toHaveClass('input-invalid');
-    userEvent.type(nameInput, 'name');
-    expect(nameInput).toHaveClass('input');
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+      expect(addNewCards).not.toBeCalled();
+      expect(screen.getByTestId('character-name')).toHaveClass('input-invalid');
+      expect(screen.getByTestId('character-status')).toHaveClass('input');
+      expect(screen.getByTestId('character-species')).toHaveClass('input');
+      expect(screen.getByTestId('character-gender')).toHaveClass('input-invalid');
+      expect(screen.getByTestId('character-origin')).toHaveClass('input-invalid');
+      expect(screen.getByTestId('character-location')).toHaveClass('input-invalid');
+      expect(screen.getByTestId('character-date')).toHaveClass(
+        'character-date-of-creation-input-invalid'
+      );
+    });
   });
 });

@@ -91,7 +91,7 @@ describe('MainPage', () => {
     expect(screen.getByRole('textbox')).toHaveValue('Search query');
   });
 
-  it('should save input value into the localStorage on SearchField unmount', () => {
+  it('should save input value into the localStorage', () => {
     const mockedLocalStorage = new LocalStorageMock();
     Object.defineProperty(window, 'localStorage', {
       value: mockedLocalStorage,
