@@ -1,5 +1,7 @@
+import ListItem from 'components/list-item/ListItem';
 import ICard from 'interfaces/ICard';
 import React, { SyntheticEvent } from 'react';
+import getDateOfCreation from 'utils/get-date-of-creation';
 import styles from './pop-up.module.css';
 
 interface CardProps {
@@ -10,34 +12,7 @@ interface CardProps {
 class PopUp extends React.Component<CardProps> {
   constructor(props: CardProps) {
     super(props);
-    this.getDateOfCreation = this.getDateOfCreation.bind(this);
     this.closeModalWindow = this.closeModalWindow.bind(this);
-  }
-
-  getDateOfCreation() {
-    const monthes = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-
-    if (!this.props.card?.created) return;
-
-    const dateOfCreation = new Date(this.props.card.created);
-    const month = dateOfCreation.getMonth();
-    const date = dateOfCreation.getDate();
-    const year = dateOfCreation.getFullYear();
-
-    return `${monthes[month]} ${date}, ${year}`;
   }
 
   closeModalWindow(e: SyntheticEvent) {
@@ -61,30 +36,12 @@ class PopUp extends React.Component<CardProps> {
             <h3 className={styles['name']}>{this.props.card?.name}</h3>
           </div>
           <ul className={styles['list']}>
-            <li className={styles['list-item']}>
-              <p className={styles['list-item-annotation']}>status</p>
-              <p className={styles['list-item-info']}>{this.props.card?.status}</p>
-            </li>
-            <li className={styles['list-item']}>
-              <p className={styles['list-item-annotation']}>species</p>
-              <p className={styles['list-item-info']}>{this.props.card?.species}</p>
-            </li>
-            <li className={styles['list-item']}>
-              <p className={styles['list-item-annotation']}>gender</p>
-              <p className={styles['list-item-info']}>{this.props.card?.gender}</p>
-            </li>
-            <li className={styles['list-item']}>
-              <p className={styles['list-item-annotation']}>origin</p>
-              <p className={styles['list-item-info']}>{this.props.card?.origin?.name}</p>
-            </li>
-            <li className={styles['list-item']}>
-              <p className={styles['list-item-annotation']}>location</p>
-              <p className={styles['list-item-info']}>{this.props.card?.location?.name}</p>
-            </li>
-            <li className={styles['list-item']}>
-              <p className={styles['list-item-annotation']}>created</p>
-              <p className={styles['list-item-info']}>{this.getDateOfCreation()}</p>
-            </li>
+            <ListItem annotation={'status'} info={this.props.card?.status} />
+            <ListItem annotation={'species'} info={this.props.card?.species} />
+            <ListItem annotation={'gender'} info={this.props.card?.gender} />
+            <ListItem annotation={'origin'} info={this.props.card?.origin?.name} />
+            <ListItem annotation={'location'} info={this.props.card?.location?.name} />
+            <ListItem annotation={'created'} info={getDateOfCreation(this.props.card?.created)} />
           </ul>
           <button className={styles['close-btn']} type="button" onClick={this.closeModalWindow}>
             <div
