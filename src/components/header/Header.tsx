@@ -1,3 +1,4 @@
+import AppPathesEnum from 'common/enums/app-pathes';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './header.module.css';
@@ -10,7 +11,7 @@ const Header: React.FC = () => {
           <nav className={styles['header-links']}>
             <div className={styles['link-container']}>
               <NavLink
-                to="/"
+                to={AppPathesEnum.home}
                 className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
                 end
               >
@@ -19,7 +20,7 @@ const Header: React.FC = () => {
             </div>
             <div className={styles['link-container']}>
               <NavLink
-                to="about"
+                to={AppPathesEnum.about}
                 className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
               >
                 About
@@ -27,7 +28,7 @@ const Header: React.FC = () => {
             </div>
             <div className={styles['link-container']}>
               <NavLink
-                to="form"
+                to={AppPathesEnum.form}
                 className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
               >
                 Create

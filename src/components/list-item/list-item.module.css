@@ -1,0 +1,33 @@
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  color: #faf074;
+}
+
+.list-item-annotation {
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
+
+.list-item-info {
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 466px) {
+  .list-item {
+    gap: 1rem;
+  }
+
+  .list-item-annotation {
+    font-size: 1rem;
+  }
+
+  .list-item-info {
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+}
