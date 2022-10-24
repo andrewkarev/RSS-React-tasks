@@ -1,4 +1,4 @@
-import ListItem from 'components/list-item/ListItem';
+import ListItem from 'components/list-item/';
 import ICard from 'interfaces/ICard';
 import React, { SyntheticEvent } from 'react';
 import getDateOfCreation from 'utils/get-date-of-creation';

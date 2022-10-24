@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import PopUp from './PopUp';
+import PopUp from './';
 import cardsData from 'data/cards-data';
 import userEvent from '@testing-library/user-event';
 
