@@ -1,8 +1,10 @@
+import AppActionKind from 'common/enums/app-action-kind';
 import Card from 'components/card';
 import Form from 'components/form';
 import PopUp from 'components/pop-up/';
+import { useAppDispatch, useAppState } from 'context/AppContext';
 import ICard from 'interfaces/ICard';
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './form-page.module.css';
 
 interface FormPageProps {
@@ -13,14 +15,18 @@ interface FormPageProps {
 }
 
 const FormPage: React.FC<FormPageProps> = (props) => {
-  const [cards, setCards] = useState<ICard[]>([]);
+  const appState = useAppState();
+  const appDispatch = useAppDispatch();
 
   const addNewCards = (newCard: ICard) => {
-    setCards((prevCards) => [...prevCards, newCard]);
+    appDispatch({
+      type: AppActionKind.SET_FORM_PAGE_CARDS,
+      payload: { formPageCards: [newCard] },
+    });
   };
 
   const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
-  const cardsElement = cards.map((card, i) => {
+  const cardsElement = appState.formPageCards.map((card, i) => {
     return (
       <Card
         card={card}

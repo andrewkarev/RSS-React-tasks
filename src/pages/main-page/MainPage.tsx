@@ -5,6 +5,10 @@ import SearchField from 'components/search-field';
 import PopUp from 'components/pop-up/';
 import ICard from 'interfaces/ICard';
 import getCharacters from 'services/get-characters-api';
+import { useAppDispatch, useAppState } from 'context/AppContext';
+import AppActionKind from 'common/enums/app-action-kind';
+import AppPathesEnum from 'common/enums/app-pathes';
+import { NavLink } from 'react-router-dom';
 
 interface MainPageProps {
   selectedCard: ICard | null;
@@ -14,12 +18,9 @@ interface MainPageProps {
 }
 
 const MainPage: React.FC<MainPageProps> = (props) => {
-  const initialValue = () => {
-    return localStorage.getItem('searchQuery') || '';
-  };
+  const appState = useAppState();
+  const appDispatch = useAppDispatch();
 
-  const [searchQuery, setSearchQuery] = useState(() => initialValue());
-  const [searchFieldValue, setSearchFieldValue] = useState(() => initialValue());
   const [cards, setCards] = useState<ICard[]>([]);
   const [isErrorOccured, setIsErrorOccured] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(true);
@@ -27,13 +28,19 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchFieldValue = e.target.value;
 
-    setSearchFieldValue(() => searchFieldValue);
-    localStorage.setItem('searchQuery', searchFieldValue);
+    appDispatch({
+      type: AppActionKind.SET_SEARCH_FIELD_VALUE,
+      payload: { searchFieldValue: searchFieldValue },
+    });
   };
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    setSearchQuery(() => searchFieldValue);
+
+    appDispatch({
+      type: AppActionKind.SET_SEARCH_QUERY,
+      payload: { searchQuery: appState.searchFieldValue },
+    });
   };
 
   useEffect(() => {
@@ -42,7 +49,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
         setCards(() => []);
         setIsPending(() => true);
 
-        const data = await getCharacters(searchQuery);
+        const data = await getCharacters(appState.searchQuery);
 
         setCards(() => data);
         setIsErrorOccured(() => false);
@@ -55,10 +62,11 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     };
 
     updateCards();
-  }, [searchQuery]);
+  }, [appState.searchQuery]);
 
   const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
+  const loader = <div className={styles['loader']}></div>;
   const cardContainer = (
     <div className={styles['cards-container']}>
       {cards.map((item) => {
@@ -78,23 +86,24 @@ const MainPage: React.FC<MainPageProps> = (props) => {
         };
 
         return (
-          <Card
-            card={card}
-            toggleModalWindow={props.toggleModalWindow}
-            setSelectedCardValue={props.setSelectedCardValue}
-            key={item.id}
-          />
+          <NavLink to={AppPathesEnum.cardinfo} key={item.id}>
+            <Card
+              card={card}
+              toggleModalWindow={props.toggleModalWindow}
+              setSelectedCardValue={props.setSelectedCardValue}
+            />
+          </NavLink>
         );
       })}
     </div>
   );
-  const loader = <div className={styles['loader']}></div>;
+
   return (
     <div className={styles['main-page']} data-testid={'main'}>
       <SearchField
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        currentValue={searchFieldValue}
+        currentValue={appState.searchFieldValue}
       />
       {isPending && loader}
       {!isErrorOccured && cardContainer}
