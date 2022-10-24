@@ -1,5 +1,5 @@
 import Form from 'components/form';
-import PopUp from 'components/pop-up/PopUp';
+import PopUp from 'components/pop-up/';
 import ICard from 'interfaces/ICard';
 import React from 'react';
 import styles from './form-page.module.css';

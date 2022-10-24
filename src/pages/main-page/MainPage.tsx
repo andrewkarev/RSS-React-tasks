@@ -2,7 +2,7 @@ import React, { SyntheticEvent } from 'react';
 import styles from './main-page.module.css';
 import Card from 'components/card';
 import SearchField from 'components/search-field';
-import PopUp from 'components/pop-up/PopUp';
+import PopUp from 'components/pop-up/';
 import ICard from 'interfaces/ICard';
 import getCharacters from 'services/get-characters-api';
 
