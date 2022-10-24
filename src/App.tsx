@@ -7,6 +7,7 @@ import NotFoundPage from 'pages/not-found-page';
 import Layout from 'components';
 import FormPage from 'pages/form-page';
 import ICard from 'interfaces/ICard';
+import AppPathesEnum from 'common/enums/app-pathes';
 
 const App: React.FC = () => {
   const [selectedCard, setSelectedCard] = useState<ICard | null>(null);
@@ -32,7 +33,7 @@ const App: React.FC = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path={AppPathesEnum.home} element={<Layout />}>
         <Route
           index
           element={
@@ -44,9 +45,9 @@ const App: React.FC = () => {
             />
           }
         />
-        <Route path="about" element={<AboutPage />} />
+        <Route path={AppPathesEnum.about} element={<AboutPage />} />
         <Route
-          path="form"
+          path={AppPathesEnum.form}
           element={
             <FormPage
               selectedCard={selectedCard}
@@ -56,8 +57,11 @@ const App: React.FC = () => {
             />
           }
         />
-        <Route path="404" element={<NotFoundPage />} />
-        <Route path="*" element={<Navigate to="404" replace />} />
+        <Route path={AppPathesEnum.notFound} element={<NotFoundPage />} />
+        <Route
+          path={AppPathesEnum.redirect}
+          element={<Navigate to={AppPathesEnum.notFound} replace />}
+        />
       </Route>
     </Routes>
   );
