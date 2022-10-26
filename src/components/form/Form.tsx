@@ -1,40 +1,53 @@
 import ValidationMessage from 'components/validation-message';
 import ICard from 'interfaces/ICard';
 import IFormValues from 'interfaces/IFormValues';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './form.module.css';
 import pngUrl from '../../assets/images/John_Doe.jpeg';
+import { useAppDispatch, useAppState } from 'context/AppContext';
+import AppActionKind from 'common/enums/app-action-kind';
+import { INITIAL_STATE } from 'common/constants';
 
 interface FormProps {
   addNewCards: (newCard: ICard) => void;
 }
 
 const Form: React.FC<FormProps> = ({ addNewCards }) => {
+  const appState = useAppState();
+  const appDispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
     reset,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      characterName: '',
-      characterStatus: 'Alive',
-      characterSpecies: 'Human',
-      characterGender: '',
-      characterOrigin: '',
-      characterLocation: '',
-      characterDateOfCreation: '',
-      characterAvatar: null,
-      agreement: false,
+      characterName: appState.formFieldsValues.characterName,
+      characterStatus: appState.formFieldsValues.characterStatus,
+      characterSpecies: appState.formFieldsValues.characterSpecies,
+      characterGender: appState.formFieldsValues.characterGender,
+      characterOrigin: appState.formFieldsValues.characterOrigin,
+      characterLocation: appState.formFieldsValues.characterLocation,
+      characterDateOfCreation: appState.formFieldsValues.characterDateOfCreation,
+      characterAvatar: appState.formFieldsValues.characterAvatar,
+      agreement: appState.formFieldsValues.agreement,
     },
   });
 
   const [isCardCreationSuccessful, setIsCardCreationSuccessful] = useState(() => false);
-  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 
-  const [hasErrors, setHasErrors] = useState(false);
+  const getformfieldsValues = useCallback(() => {
+    const formValues = getValues();
+
+    appDispatch({
+      type: AppActionKind.GET_FORM_FIELDS_VALUES,
+      payload: { formFieldsValues: formValues },
+    });
+  }, [appDispatch, getValues]);
 
   const onSubmit = (data: IFormValues) => {
     const file = data.characterAvatar
@@ -53,37 +66,80 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
     };
 
     addNewCards(card);
-    reset();
+    reset(INITIAL_STATE.formFieldsValues);
     setIsCardCreationSuccessful(() => true);
+    getformfieldsValues();
 
     setTimeout(() => {
       setIsCardCreationSuccessful(() => false);
     }, 2000);
 
-    setIsSubmitButtonDisabled(() => true);
-    setHasErrors(() => false);
+    appDispatch({
+      type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
+      payload: { isFormSubmitButtonDisabled: true },
+    });
+
+    appDispatch({
+      type: AppActionKind.SET_FORM_HAS_ERRORS,
+      payload: { formHasErrors: false },
+    });
   };
 
   const onError = () => {
-    setIsSubmitButtonDisabled(() => true);
-    setHasErrors(() => true);
+    appDispatch({
+      type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
+      payload: { isFormSubmitButtonDisabled: true },
+    });
+
+    appDispatch({
+      type: AppActionKind.SET_FORM_HAS_ERRORS,
+      payload: { formHasErrors: true },
+    });
   };
 
   const onReset = () => {
-    reset();
+    reset(INITIAL_STATE.formFieldsValues);
     setIsCardCreationSuccessful(() => false);
-    setIsSubmitButtonDisabled(() => true);
+    getformfieldsValues();
+
+    appDispatch({
+      type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
+      payload: { isFormSubmitButtonDisabled: true },
+    });
+
+    appDispatch({
+      type: AppActionKind.SET_FORM_HAS_ERRORS,
+      payload: { formHasErrors: false },
+    });
   };
 
-  const onChange = async () => {
-    if (hasErrors) {
+  const checkErrors = useCallback(async () => {
+    if (appState.formHasErrors) {
       const result = await trigger();
 
-      setIsSubmitButtonDisabled(() => !result);
-    } else {
-      setIsSubmitButtonDisabled(() => false);
+      appDispatch({
+        type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
+        payload: { isFormSubmitButtonDisabled: !result },
+      });
     }
+
+    getformfieldsValues();
+  }, [appDispatch, appState.formHasErrors, getformfieldsValues, trigger]);
+
+  const onChange = async () => {
+    if (!appState.formHasErrors) {
+      appDispatch({
+        type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
+        payload: { isFormSubmitButtonDisabled: false },
+      });
+    }
+
+    await checkErrors();
   };
+
+  useEffect(() => {
+    checkErrors();
+  }, [checkErrors]);
 
   return (
     <form
@@ -266,7 +322,7 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
         <button
           className={styles['submit-btn']}
           type="submit"
-          disabled={isSubmitButtonDisabled}
+          disabled={appState.isFormSubmitButtonDisabled}
           data-testid={'submit-btn'}
         >
           Create

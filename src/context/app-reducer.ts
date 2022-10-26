@@ -1,30 +1,17 @@
+import { INITIAL_STATE } from 'common/constants';
 import AppActionKind from 'common/enums/app-action-kind';
 import AppAction from 'interfaces/AppAction';
 import AppState from 'interfaces/AppState';
-
-const INITIAL_STATE: AppState = {
-  searchFieldValue: '',
-  searchQuery: '',
-  formPageCards: [],
-  formFieldsValues: {
-    characterName: '',
-    characterStatus: 'Alive',
-    characterSpecies: 'Human',
-    characterGender: '',
-    characterOrigin: '',
-    characterLocation: '',
-    characterDateOfCreation: '',
-    characterAvatar: null,
-    agreement: false,
-  },
-};
 
 const appReducer = (state: AppState, action: AppAction): AppState => {
   const { type, payload } = action;
 
   switch (type) {
-    case AppActionKind.SET_FORM_FIELDS_VALUES: {
-      return { ...state };
+    case AppActionKind.GET_FORM_FIELDS_VALUES: {
+      return {
+        ...state,
+        formFieldsValues: payload.formFieldsValues || INITIAL_STATE.formFieldsValues,
+      };
     }
     case AppActionKind.SET_FORM_PAGE_CARDS: {
       const newCard = payload.formPageCards ? [...payload.formPageCards] : [];
@@ -36,10 +23,16 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
     case AppActionKind.SET_SEARCH_QUERY: {
       return { ...state, searchQuery: payload.searchQuery || '' };
     }
+    case AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED: {
+      return { ...state, isFormSubmitButtonDisabled: !!payload.isFormSubmitButtonDisabled };
+    }
+    case AppActionKind.SET_FORM_HAS_ERRORS: {
+      return { ...state, formHasErrors: !!payload.formHasErrors };
+    }
     default: {
       throw new Error(`Unhandled action type: ${type}`);
     }
   }
 };
 
-export { appReducer, INITIAL_STATE };
+export { appReducer };
