@@ -1,7 +1,8 @@
+import { INITIAL_STATE } from 'common/constants';
 import AppAction from 'interfaces/AppAction';
 import AppState from 'interfaces/AppState';
 import React from 'react';
-import { appReducer, INITIAL_STATE } from './app-reducer';
+import { appReducer } from './app-reducer';
 
 type Dispatch = ({ type, payload }: AppAction) => void;
 type AppProviderProps = { children: React.ReactNode };
