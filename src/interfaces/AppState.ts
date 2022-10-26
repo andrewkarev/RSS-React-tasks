@@ -1,20 +1,13 @@
 import ICard from './ICard';
+import IFormValues from './IFormValues';
 
 interface AppState {
   formPageCards: ICard[];
   searchFieldValue: string;
   searchQuery: string;
-  formFieldsValues: {
-    characterName: string;
-    characterStatus: string;
-    characterSpecies: string;
-    characterGender: string;
-    characterOrigin: string;
-    characterLocation: string;
-    characterDateOfCreation: string;
-    characterAvatar: null | string;
-    agreement: boolean;
-  };
+  isFormSubmitButtonDisabled: boolean;
+  formHasErrors: boolean;
+  formFieldsValues: IFormValues;
 }
 
 export default AppState;
