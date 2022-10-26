@@ -28,8 +28,8 @@ describe('Card', () => {
     render(
       <Card
         card={card}
-        toggleModalWindow={toggleModalWindowMock}
         setSelectedCardValue={setSelectedCardValueMock}
+        handleCardClick={toggleModalWindowMock}
       />
     );
   });

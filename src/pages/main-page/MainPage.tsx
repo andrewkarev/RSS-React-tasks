@@ -8,7 +8,8 @@ import getCharacters from 'services/get-characters-api';
 import { useAppDispatch, useAppState } from 'context/AppContext';
 import AppActionKind from 'common/enums/app-action-kind';
 import AppPathesEnum from 'common/enums/app-pathes';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Loader from 'components/loader/';
 
 interface MainPageProps {
   selectedCard: ICard | null;
@@ -20,6 +21,8 @@ interface MainPageProps {
 const MainPage: React.FC<MainPageProps> = (props) => {
   const appState = useAppState();
   const appDispatch = useAppDispatch();
+
+  const navigate = useNavigate();
 
   const [cards, setCards] = useState<ICard[]>([]);
   const [isErrorOccured, setIsErrorOccured] = useState<boolean>(false);
@@ -66,7 +69,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
 
   const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
-  const loader = <div className={styles['loader']}></div>;
   const cardContainer = (
     <div className={styles['cards-container']}>
       {cards.map((item) => {
@@ -86,13 +88,12 @@ const MainPage: React.FC<MainPageProps> = (props) => {
         };
 
         return (
-          <NavLink to={AppPathesEnum.cardinfo} key={item.id}>
-            <Card
-              card={card}
-              toggleModalWindow={props.toggleModalWindow}
-              setSelectedCardValue={props.setSelectedCardValue}
-            />
-          </NavLink>
+          <Card
+            card={card}
+            key={item.id}
+            setSelectedCardValue={props.setSelectedCardValue}
+            handleCardClick={() => navigate(AppPathesEnum.character)}
+          />
         );
       })}
     </div>
@@ -105,7 +106,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
         handleSubmit={handleSubmit}
         currentValue={appState.searchFieldValue}
       />
-      {isPending && loader}
+      {isPending && <Loader />}
       {!isErrorOccured && cardContainer}
       {isErrorOccured && error}
       {props.isModalOpened && popUp}

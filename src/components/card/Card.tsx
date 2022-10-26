@@ -4,12 +4,12 @@ import styles from './card.module.css';
 
 interface CardProps {
   card: ICard | null;
-  toggleModalWindow: () => void;
   setSelectedCardValue: (card: ICard) => void;
+  handleCardClick?: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ card, toggleModalWindow, setSelectedCardValue }) => {
-  const handleCardClick = () => {
+const Card: React.FC<CardProps> = ({ card, setSelectedCardValue, handleCardClick }) => {
+  const handleClick = () => {
     const currentCard = {
       id: card?.id,
       name: card?.name,
@@ -25,12 +25,15 @@ const Card: React.FC<CardProps> = ({ card, toggleModalWindow, setSelectedCardVal
       created: card?.created,
     };
 
-    toggleModalWindow();
+    if (handleCardClick) {
+      handleCardClick();
+    }
+
     setSelectedCardValue(currentCard);
   };
 
   return (
-    <div className={styles['card']} onClick={handleCardClick} data-testid={'card'}>
+    <div className={styles['card']} onClick={handleClick} data-testid={'card'}>
       <div className={styles['img-wrapper']}>
         <img className={styles['img']} src={card?.image} alt="Character avatar" />
       </div>

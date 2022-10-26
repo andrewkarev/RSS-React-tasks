@@ -30,7 +30,7 @@ const FormPage: React.FC<FormPageProps> = (props) => {
     return (
       <Card
         card={card}
-        toggleModalWindow={props.toggleModalWindow}
+        handleCardClick={props.toggleModalWindow}
         setSelectedCardValue={props.setSelectedCardValue}
         key={i}
       />
