@@ -1,0 +1,54 @@
+/* Loader was inspired by https://codepen.io/derekmorash */
+.loader {
+  position: relative;
+  width: 8vmax;
+  height: 8vmax;
+  margin: 0 auto;
+  border-right: 4px solid #b8d344;
+  border-radius: 100%;
+  animation: spinRight 800ms linear infinite;
+}
+
+.loader::after,
+.loader::before {
+  content: '';
+  width: 6vmax;
+  height: 6vmax;
+  display: block;
+  position: absolute;
+  top: calc(50% - 3vmax);
+  left: calc(50% - 3vmax);
+  border-left: 3px solid #b8d344;
+  border-radius: 100%;
+  animation: spinLeft 800ms linear infinite;
+}
+
+.loader::after {
+  width: 4vmax;
+  height: 4vmax;
+  top: calc(50% - 2vmax);
+  left: calc(50% - 2vmax);
+  border: 0;
+  border-right: 2px solid #b8d344;
+  animation: none;
+}
+
+@keyframes spinLeft {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes spinRight {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
