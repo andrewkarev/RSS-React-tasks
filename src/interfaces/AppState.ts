@@ -3,6 +3,7 @@ import IFormValues from './IFormValues';
 
 interface AppState {
   formPageCards: ICard[];
+  mainPageCards: ICard[];
   searchFieldValue: string;
   searchQuery: string;
   isFormSubmitButtonDisabled: boolean;

@@ -7,6 +7,7 @@ export const INITIAL_STATE: AppState = {
   searchFieldValue: '',
   searchQuery: '',
   formPageCards: [],
+  mainPageCards: [],
   isFormSubmitButtonDisabled: true,
   formHasErrors: false,
   formFieldsValues: {

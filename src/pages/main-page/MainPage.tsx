@@ -24,7 +24,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
 
   const navigate = useNavigate();
 
-  const [cards, setCards] = useState<ICard[]>([]);
   const [isErrorOccured, setIsErrorOccured] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(true);
 
@@ -49,29 +48,40 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   useEffect(() => {
     const updateCards = async () => {
       try {
-        setCards(() => []);
+        appDispatch({
+          type: AppActionKind.SET_MAIN_PAGE_CARDS,
+          payload: { mainPageCards: [] },
+        });
         setIsPending(() => true);
 
         const data = await getCharacters(appState.searchQuery);
 
-        setCards(() => data);
+        appDispatch({
+          type: AppActionKind.SET_MAIN_PAGE_CARDS,
+          payload: { mainPageCards: data },
+        });
+
         setIsErrorOccured(() => false);
         setIsPending(() => false);
       } catch (error) {
-        setCards(() => []);
+        appDispatch({
+          type: AppActionKind.SET_MAIN_PAGE_CARDS,
+          payload: { mainPageCards: [] },
+        });
+
         setIsErrorOccured(() => true);
         setIsPending(() => false);
       }
     };
 
     updateCards();
-  }, [appState.searchQuery]);
+  }, [appDispatch, appState.searchQuery]);
 
   const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
   const cardContainer = (
     <div className={styles['cards-container']}>
-      {cards.map((item) => {
+      {appState.mainPageCards.map((item) => {
         const card = {
           id: item.id,
           name: item.name,
