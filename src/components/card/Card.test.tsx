@@ -5,7 +5,6 @@ import Card from './Card';
 import userEvent from '@testing-library/user-event';
 
 describe('Card', () => {
-  const setSelectedCardValueMock = jest.fn(() => {});
   const toggleModalWindowMock = jest.fn(() => {});
   const cardData = cardsData[0];
 
@@ -25,13 +24,7 @@ describe('Card', () => {
       created: cardData.created,
       key: cardData.name,
     };
-    render(
-      <Card
-        card={card}
-        setSelectedCardValue={setSelectedCardValueMock}
-        handleCardClick={toggleModalWindowMock}
-      />
-    );
+    render(<Card card={card} handleCardClick={toggleModalWindowMock} />);
   });
 
   it('should render Card component', () => {
@@ -45,6 +38,5 @@ describe('Card', () => {
   it('should open modal window on card click', () => {
     userEvent.click(screen.getByTestId('card'));
     expect(toggleModalWindowMock).toBeCalled();
-    expect(setSelectedCardValueMock).toBeCalled();
   });
 });

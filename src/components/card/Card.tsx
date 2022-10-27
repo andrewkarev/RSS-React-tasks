@@ -1,14 +1,18 @@
+import AppActionKind from 'common/enums/app-action-kind';
+import { useAppDispatch } from 'context/AppContext';
 import ICard from 'interfaces/ICard';
 import React from 'react';
 import styles from './card.module.css';
 
 interface CardProps {
   card: ICard | null;
-  setSelectedCardValue: (card: ICard) => void;
+  setSelectedCardValue?: (card: ICard) => void;
   handleCardClick?: () => void;
 }
 
 const Card: React.FC<CardProps> = ({ card, setSelectedCardValue, handleCardClick }) => {
+  const appDispatch = useAppDispatch();
+
   const handleClick = () => {
     const currentCard = {
       id: card?.id,
@@ -29,7 +33,14 @@ const Card: React.FC<CardProps> = ({ card, setSelectedCardValue, handleCardClick
       handleCardClick();
     }
 
-    setSelectedCardValue(currentCard);
+    if (setSelectedCardValue) {
+      setSelectedCardValue(currentCard);
+    }
+
+    appDispatch({
+      type: AppActionKind.SET_SELECTED_CARD,
+      payload: { selectedCard: currentCard },
+    });
   };
 
   return (

@@ -20,6 +20,9 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
     case AppActionKind.SET_MAIN_PAGE_CARDS: {
       return { ...state, mainPageCards: [...(payload.mainPageCards || [])] };
     }
+    case AppActionKind.SET_SELECTED_CARD: {
+      return { ...state, selectedCard: { ...(payload.selectedCard || {}) } };
+    }
     case AppActionKind.SET_SEARCH_FIELD_VALUE: {
       return { ...state, searchFieldValue: payload.searchFieldValue || '' };
     }

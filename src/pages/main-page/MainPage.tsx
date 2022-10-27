@@ -2,8 +2,6 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import styles from './main-page.module.css';
 import Card from 'components/card';
 import SearchField from 'components/search-field';
-import PopUp from 'components/pop-up/';
-import ICard from 'interfaces/ICard';
 import getCharacters from 'services/get-characters-api';
 import { useAppDispatch, useAppState } from 'context/AppContext';
 import AppActionKind from 'common/enums/app-action-kind';
@@ -11,14 +9,7 @@ import AppPathesEnum from 'common/enums/app-pathes';
 import { useNavigate } from 'react-router-dom';
 import Loader from 'components/loader/';
 
-interface MainPageProps {
-  selectedCard: ICard | null;
-  isModalOpened: boolean;
-  setSelectedCardValue: (card: ICard) => void;
-  toggleModalWindow: () => void;
-}
-
-const MainPage: React.FC<MainPageProps> = (props) => {
+const MainPage: React.FC = () => {
   const appState = useAppState();
   const appDispatch = useAppDispatch();
 
@@ -77,7 +68,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     updateCards();
   }, [appDispatch, appState.searchQuery]);
 
-  const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
   const cardContainer = (
     <div className={styles['cards-container']}>
@@ -101,8 +91,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           <Card
             card={card}
             key={item.id}
-            setSelectedCardValue={props.setSelectedCardValue}
-            handleCardClick={() => navigate(AppPathesEnum.character)}
+            handleCardClick={() => navigate(`/${AppPathesEnum.character}/${item.id}`)}
           />
         );
       })}
@@ -119,7 +108,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       {isPending && <Loader />}
       {!isErrorOccured && cardContainer}
       {isErrorOccured && error}
-      {props.isModalOpened && popUp}
     </div>
   );
 };
