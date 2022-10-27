@@ -1,9 +1,12 @@
 import AppPathesEnum from 'common/enums/app-pathes';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
 import styles from './header.module.css';
 
 const Header: React.FC = () => {
+  const location = useLocation();
+  const { id } = useParams();
+
   return (
     <header className={styles['header']} data-testid={'header'}>
       <div className="container">
@@ -35,6 +38,9 @@ const Header: React.FC = () => {
               </NavLink>
             </div>
           </nav>
+          {location.pathname.includes(AppPathesEnum.character) && (
+            <div className={styles['position']}>{id}</div>
+          )}
         </div>
       </div>
     </header>
