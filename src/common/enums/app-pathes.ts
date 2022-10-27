@@ -4,7 +4,7 @@ enum AppPathesEnum {
   'form' = 'form',
   'notFound' = '404',
   'redirect' = '*',
-  'cardinfo' = 'card',
+  'character' = 'character',
 }
 
 export default AppPathesEnum;
