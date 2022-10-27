@@ -1,5 +1,12 @@
 .list-item {
   display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+.list-item-modal {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
@@ -10,23 +17,35 @@
   font-weight: 600;
   text-transform: capitalize;
   font-size: 1.2rem;
+  color: #fefefe;
+}
+
+.list-item-annotation-modal {
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 1.2rem;
 }
 
 .list-item-info {
+  font-size: 1.1rem;
+  color: #faf074;
+}
+
+.list-item-info-modal {
   font-style: italic;
   font-size: 1.1rem;
 }
 
 @media (max-width: 466px) {
-  .list-item {
+  .list-item-modal {
     gap: 1rem;
   }
 
-  .list-item-annotation {
+  .list-item-annotation-modal {
     font-size: 1rem;
   }
 
-  .list-item-info {
+  .list-item-info-modal {
     font-style: italic;
     font-size: 0.8rem;
   }
