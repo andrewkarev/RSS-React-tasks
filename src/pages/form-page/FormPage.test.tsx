@@ -10,18 +10,8 @@ class URLMock {
 }
 
 describe('FormPage', () => {
-  const setSelectedCardValueMock = jest.fn(() => {});
-  const toggleModalWindowMock = jest.fn(() => {});
-
   beforeEach(async () => {
-    render(
-      <FormPage
-        selectedCard={null}
-        isModalOpened={false}
-        setSelectedCardValue={setSelectedCardValueMock}
-        toggleModalWindow={toggleModalWindowMock}
-      />
-    );
+    render(<FormPage />);
   });
 
   it('should render FormPage component', () => {
@@ -33,14 +23,7 @@ describe('FormPage', () => {
   });
 
   it('should contain PopUp component', () => {
-    render(
-      <FormPage
-        selectedCard={null}
-        isModalOpened={true}
-        setSelectedCardValue={setSelectedCardValueMock}
-        toggleModalWindow={toggleModalWindowMock}
-      />
-    );
+    render(<FormPage />);
 
     expect(screen.queryByTestId('pop-up')).toBeInTheDocument();
   });

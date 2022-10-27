@@ -4,19 +4,33 @@ import Form from 'components/form';
 import PopUp from 'components/pop-up/';
 import { useAppDispatch, useAppState } from 'context/AppContext';
 import ICard from 'interfaces/ICard';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './form-page.module.css';
 
-interface FormPageProps {
-  selectedCard: ICard | null;
-  isModalOpened: boolean;
-  setSelectedCardValue: (card: ICard) => void;
-  toggleModalWindow: () => void;
-}
-
-const FormPage: React.FC<FormPageProps> = (props) => {
+const FormPage: React.FC = () => {
   const appState = useAppState();
   const appDispatch = useAppDispatch();
+
+  const [selectedCard, setSelectedCard] = useState<ICard | null>(null);
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+
+  const setSelectedCardValue = (card: ICard) => {
+    setSelectedCard(() => card);
+  };
+
+  const toggleModalWindow = () => {
+    const body = document.querySelector('body');
+
+    if (!body) return;
+
+    if (!isModalOpened) {
+      body.style.overflow = 'hidden';
+    } else {
+      body.style.overflow = 'auto';
+    }
+
+    setIsModalOpened((prevModalState) => !prevModalState);
+  };
 
   const addNewCards = (newCard: ICard) => {
     appDispatch({
@@ -25,13 +39,13 @@ const FormPage: React.FC<FormPageProps> = (props) => {
     });
   };
 
-  const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
+  const popUp = <PopUp card={selectedCard} toggleModalWindow={toggleModalWindow} />;
   const cardsElement = appState.formPageCards.map((card, i) => {
     return (
       <Card
         card={card}
-        handleCardClick={props.toggleModalWindow}
-        setSelectedCardValue={props.setSelectedCardValue}
+        handleCardClick={toggleModalWindow}
+        setSelectedCardValue={setSelectedCardValue}
         key={i}
       />
     );
@@ -44,7 +58,7 @@ const FormPage: React.FC<FormPageProps> = (props) => {
         <Form addNewCards={addNewCards} />
       </div>
       <div className={styles['cards-container']}>{cardsElement}</div>
-      {props.isModalOpened && popUp}
+      {isModalOpened && popUp}
     </div>
   );
 };
