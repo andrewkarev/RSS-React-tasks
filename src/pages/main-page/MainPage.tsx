@@ -45,7 +45,8 @@ const MainPage: React.FC = () => {
         });
         setIsPending(() => true);
 
-        const data = await getCharacters(appState.searchQuery);
+        const response = await getCharacters(appState.searchQuery);
+        const data = response.results;
 
         appDispatch({
           type: AppActionKind.SET_MAIN_PAGE_CARDS,

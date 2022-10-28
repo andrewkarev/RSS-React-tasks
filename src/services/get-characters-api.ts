@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { CHARACTER_URL } from 'common/constants';
-import ICard from 'interfaces/ICard';
+import ICharacterResponse from 'interfaces/ICharactersResponse';
 
-const getCharacters = async (searchQuery: string) => {
+const getCharacters = async (searchQuery: string, page = 1) => {
   try {
-    const url = CHARACTER_URL + searchQuery;
+    const url = `${CHARACTER_URL}?page=${page}&name=${searchQuery}`;
     const response = await axios.get(url);
 
     if (response.status !== 200) {
       throw new Error('Something went wrong');
     }
 
-    const data: ICard[] = response.data.results;
+    const data: ICharacterResponse = response.data;
 
     return data;
   } catch (error) {
