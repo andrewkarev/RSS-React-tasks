@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from './main-page.module.css';
 import Card from 'components/card';
 import getCharacters from 'services/get-characters-api';
@@ -7,7 +7,8 @@ import AppActionKind from 'common/enums/app-action-kind';
 import AppPathesEnum from 'common/enums/app-pathes';
 import { useNavigate } from 'react-router-dom';
 import Loader from 'components/loader/';
-import Controls from 'components/controls/Controls';
+import Controls from 'components/controls/';
+import ICard from 'interfaces/ICard';
 
 const MainPage: React.FC = () => {
   const appState = useAppState();
@@ -18,38 +19,38 @@ const MainPage: React.FC = () => {
   const [isErrorOccured, setIsErrorOccured] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(true);
 
+  const setCards = useCallback(
+    (data: ICard[]) => {
+      appDispatch({
+        type: AppActionKind.SET_MAIN_PAGE_CARDS,
+        payload: { mainPageCards: data },
+      });
+    },
+    [appDispatch]
+  );
+
   useEffect(() => {
     const updateCards = async () => {
       try {
-        appDispatch({
-          type: AppActionKind.SET_MAIN_PAGE_CARDS,
-          payload: { mainPageCards: [] },
-        });
+        setCards([]);
         setIsPending(() => true);
 
-        const response = await getCharacters(appState.searchQuery);
+        const searchQuery = appState.searchQuery;
+        const response = await getCharacters(searchQuery);
         const data = response.results;
 
-        appDispatch({
-          type: AppActionKind.SET_MAIN_PAGE_CARDS,
-          payload: { mainPageCards: data },
-        });
-
+        setCards(data);
         setIsErrorOccured(() => false);
         setIsPending(() => false);
       } catch (error) {
-        appDispatch({
-          type: AppActionKind.SET_MAIN_PAGE_CARDS,
-          payload: { mainPageCards: [] },
-        });
-
+        setCards([]);
         setIsErrorOccured(() => true);
         setIsPending(() => false);
       }
     };
 
     updateCards();
-  }, [appDispatch, appState.searchQuery]);
+  }, [appState.searchQuery, setCards]);
 
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
   const cardContainer = (
