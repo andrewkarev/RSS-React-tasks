@@ -6,6 +6,7 @@ import AppActionKind from 'common/enums/app-action-kind';
 import { useForm } from 'react-hook-form';
 import IControlsInputs from 'interfaces/IControlsInpust';
 import SearchField from 'components/search-field';
+import SortingOptions from 'common/enums/sorting-options';
 
 export const Controls: React.FC = () => {
   const appState = useAppState();
@@ -69,9 +70,9 @@ export const Controls: React.FC = () => {
               id="sorting-options"
               className={`${styles['sorting-options']}`}
             >
-              <option value="Name ascending">Name A-Z</option>
-              <option value="Name descending">Name Z-A</option>
-              <option value="default">Default</option>
+              <option value={SortingOptions.NAME_ASCENDING}>Name A-Z</option>
+              <option value={SortingOptions.NAME_DESCENDING}>Name Z-A</option>
+              <option value={SortingOptions.DEFAULT}>Default</option>
             </select>
           </div>
         </div>

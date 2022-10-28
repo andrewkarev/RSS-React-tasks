@@ -1,7 +1,9 @@
+import SortingOptions from 'common/enums/sorting-options';
+
 interface IControlsInputs {
   pageNumber: string;
   itemsOnPage: string;
-  sortingOrder: string;
+  sortingOrder: SortingOptions;
 }
 
 export default IControlsInputs;
