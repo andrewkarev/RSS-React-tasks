@@ -12,6 +12,7 @@
 
 .header-links {
   display: flex;
+  height: 2.8rem;
   gap: 1.5rem;
 }
 
