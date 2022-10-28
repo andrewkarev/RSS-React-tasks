@@ -1,4 +1,5 @@
-.input {
+.input,
+.submit-btn {
   width: 16rem;
   height: 2.5rem;
   padding: 0 1rem 0;
@@ -18,4 +19,11 @@
 
 .input::placeholder {
   color: #ffffff;
+}
+
+.submit-btn:hover {
+  color: #fff;
+  border-color: #b8d344;
+  background-color: #212246;
+  cursor: pointer;
 }

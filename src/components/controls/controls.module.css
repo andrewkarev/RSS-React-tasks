@@ -78,23 +78,3 @@
   cursor: pointer;
   transition: all 0.3s ease-in;
 }
-
-.submit-btn {
-  width: 16rem;
-  height: 2.5rem;
-  padding: 0 1rem 0;
-  font-size: 1.2rem;
-  color: #04b2c8;
-  outline: none;
-  border: 2px solid #04b2c8;
-  border-radius: 1.25rem;
-  background-color: transparent;
-  transition: all 0.3s ease-in;
-}
-
-.submit-btn:hover {
-  color: #fff;
-  border-color: #b8d344;
-  background-color: #212246;
-  cursor: pointer;
-}
