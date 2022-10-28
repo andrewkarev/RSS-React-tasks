@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from 'components/loader/';
 import Controls from 'components/controls/';
 import ICard from 'interfaces/ICard';
+import sort from 'utils/sort';
 
 const MainPage: React.FC = () => {
   const appState = useAppState();
@@ -37,7 +38,7 @@ const MainPage: React.FC = () => {
 
         const searchQuery = appState.searchQuery;
         const response = await getCharacters(searchQuery);
-        const data = response.results;
+        const data = sort(response.results, appState.mainPageControlsValues.sortingOrder);
 
         setCards(data);
         setIsErrorOccured(() => false);
@@ -50,7 +51,7 @@ const MainPage: React.FC = () => {
     };
 
     updateCards();
-  }, [appState.searchQuery, setCards]);
+  }, [appState.mainPageControlsValues.sortingOrder, appState.searchQuery, setCards]);
 
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
   const cardContainer = (
