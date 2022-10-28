@@ -8,20 +8,18 @@ describe('SearchField', () => {
     if (!(e.target instanceof HTMLInputElement)) return;
   });
 
-  const onSubmit = jest.fn();
-
   it('should render SearchField component', () => {
-    render(<SearchField currentValue="" handleChange={onChange} handleSubmit={onSubmit} />);
+    render(<SearchField handleChange={onChange} />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
   it('should be in focus after render', () => {
-    render(<SearchField currentValue="" handleChange={onChange} handleSubmit={onSubmit} />);
+    render(<SearchField handleChange={onChange} />);
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('calls the onChange callback handler', () => {
-    render(<SearchField currentValue="" handleChange={onChange} handleSubmit={onSubmit} />);
+    render(<SearchField handleChange={onChange} />);
 
     const query = 'Morty';
 

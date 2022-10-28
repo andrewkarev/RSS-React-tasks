@@ -1,13 +1,13 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import styles from './main-page.module.css';
 import Card from 'components/card';
-import SearchField from 'components/search-field';
 import getCharacters from 'services/get-characters-api';
 import { useAppDispatch, useAppState } from 'context/AppContext';
 import AppActionKind from 'common/enums/app-action-kind';
 import AppPathesEnum from 'common/enums/app-pathes';
 import { useNavigate } from 'react-router-dom';
 import Loader from 'components/loader/';
+import Controls from 'components/controls/Controls';
 
 const MainPage: React.FC = () => {
   const appState = useAppState();
@@ -101,11 +101,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div className={styles['main-page']} data-testid={'main'}>
-      <SearchField
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        currentValue={appState.searchFieldValue}
-      />
+      <Controls handleChange={handleChange} handleSubmit={handleSubmit} />
       {isPending && <Loader />}
       {!isErrorOccured && cardContainer}
       {isErrorOccured && error}
