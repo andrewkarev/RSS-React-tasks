@@ -1,1 +1,100 @@
-.controls {}
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  font-size: 1.2rem;
+}
+
+.controls-element {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.pages {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.page-label,
+.page-preposition,
+.pages-at-all {
+  display: flex;
+  align-items: center;
+}
+
+.pages-at-all {
+  font-weight: 700;
+  color: #b8d344;
+}
+
+.input-page {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 4rem;
+  height: 2.5rem;
+  padding: 0 0.3rem;
+  font-size: 1.2rem;
+  color: #ffffff;
+  outline: none;
+  border: 2px solid #04b2c8;
+  border-radius: 1.25rem;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+}
+
+.input-page:focus {
+  background-color: #0e0f36;
+  border-color: #b8d344;
+  color: #04b2c8;
+}
+
+.cards-on-page {
+  display: flex;
+}
+
+.cards-on-page-title {
+  display: flex;
+  align-items: center;
+  padding-right: 0.4rem;
+}
+
+.sorting-label {
+  padding-right: 0.7rem;
+}
+
+.sorting-options {
+  height: 2.5rem;
+  padding: 0 1rem 0;
+  font-size: 1.2rem;
+  color: #04b2c8;
+  outline: none;
+  border: 2px solid #04b2c8;
+  border-radius: 1.25rem;
+  background-color: transparent;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+.submit-btn {
+  width: 16rem;
+  height: 2.5rem;
+  padding: 0 1rem 0;
+  font-size: 1.2rem;
+  color: #04b2c8;
+  outline: none;
+  border: 2px solid #04b2c8;
+  border-radius: 1.25rem;
+  background-color: transparent;
+  transition: all 0.3s ease-in;
+}
+
+.submit-btn:hover {
+  color: #fff;
+  border-color: #b8d344;
+  background-color: #212246;
+  cursor: pointer;
+}

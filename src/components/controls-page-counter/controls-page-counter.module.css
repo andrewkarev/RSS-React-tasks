@@ -1,0 +1,22 @@
+.input-cards-on-page-20,
+.input-cards-on-page-15,
+.input-cards-on-page-10,
+.input-cards-on-page-5 {
+  display: none;
+}
+
+.input-cards-on-page-20-label,
+.input-cards-on-page-15-label,
+.input-cards-on-page-10-label,
+.input-cards-on-page-5-label {
+  padding: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.input-cards-on-page-20:checked+.input-cards-on-page-20-label,
+.input-cards-on-page-15:checked+.input-cards-on-page-15-label,
+.input-cards-on-page-10:checked+.input-cards-on-page-10-label,
+.input-cards-on-page-5:checked+.input-cards-on-page-5-label {
+  color: #04b2c8;
+}

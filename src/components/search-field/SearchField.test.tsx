@@ -9,17 +9,17 @@ describe('SearchField', () => {
   });
 
   it('should render SearchField component', () => {
-    render(<SearchField handleChange={onChange} />);
+    render(<SearchField />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
   it('should be in focus after render', () => {
-    render(<SearchField handleChange={onChange} />);
+    render(<SearchField />);
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('calls the onChange callback handler', () => {
-    render(<SearchField handleChange={onChange} />);
+    render(<SearchField />);
 
     const query = 'Morty';
 

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './main-page.module.css';
 import Card from 'components/card';
 import getCharacters from 'services/get-characters-api';
@@ -17,24 +17,6 @@ const MainPage: React.FC = () => {
 
   const [isErrorOccured, setIsErrorOccured] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(true);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchFieldValue = e.target.value;
-
-    appDispatch({
-      type: AppActionKind.SET_SEARCH_FIELD_VALUE,
-      payload: { searchFieldValue: searchFieldValue },
-    });
-  };
-
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    appDispatch({
-      type: AppActionKind.SET_SEARCH_QUERY,
-      payload: { searchQuery: appState.searchFieldValue },
-    });
-  };
 
   useEffect(() => {
     const updateCards = async () => {
@@ -101,7 +83,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div className={styles['main-page']} data-testid={'main'}>
-      <Controls handleChange={handleChange} handleSubmit={handleSubmit} />
+      <Controls />
       {isPending && <Loader />}
       {!isErrorOccured && cardContainer}
       {isErrorOccured && error}
