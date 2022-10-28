@@ -19,10 +19,10 @@ export const CardInfoPage: React.FC = () => {
 
   useEffect(() => {
     const updateCards = async () => {
-      const firstEpisodeLink = appState.selectedCard?.episode?.at(0);
-      const lastEpisodeLink = appState.selectedCard?.episode?.at(-1);
+      const firstEpisodeLink = appState.selectedCard?.episode?.at(0) || '';
+      const lastEpisodeLink = appState.selectedCard?.episode?.at(-1) || '';
 
-      if (!firstEpisodeLink || !lastEpisodeLink) {
+      if (!appState.selectedCard) {
         navigate(AppPathesEnum.home);
         return;
       }
@@ -38,13 +38,12 @@ export const CardInfoPage: React.FC = () => {
 
         setIsPending(() => false);
       } catch (error) {
-        console.log('error');
         setIsPending(() => false);
       }
     };
 
     updateCards();
-  }, [navigate, appState.selectedCard?.episode]);
+  }, [navigate, appState.selectedCard]);
 
   const characterInfo = (
     <div className={styles['card-info-page']}>
