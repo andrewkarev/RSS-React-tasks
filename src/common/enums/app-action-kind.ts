@@ -4,6 +4,7 @@ enum AppActionKind {
   'SET_SELECTED_CARD' = 'setSelectedCard',
   'SET_SEARCH_FIELD_VALUE' = 'setSearchFieldValue',
   'SET_SEARCH_QUERY' = 'setSearchQuery',
+  'GET_CONTROLS_VALUES' = 'getControlsValues',
   'GET_FORM_FIELDS_VALUES' = 'getFormFieldsValues',
   'SET_IS_SUBMIT_BUTTON_DISABLED' = 'setIsSubmitButtonDisabled',
   'SET_FORM_HAS_ERRORS' = 'setHasErrors',

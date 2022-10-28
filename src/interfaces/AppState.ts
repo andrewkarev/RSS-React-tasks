@@ -1,4 +1,5 @@
 import ICard from './ICard';
+import IControlsInputs from './IControlsInpust';
 import IFormValues from './IFormValues';
 
 interface AppState {
@@ -10,6 +11,8 @@ interface AppState {
   isFormSubmitButtonDisabled: boolean;
   formHasErrors: boolean;
   formFieldsValues: IFormValues;
+  mainPageControlsValues: IControlsInputs;
+  pagesQuantity: string;
 }
 
 export default AppState;

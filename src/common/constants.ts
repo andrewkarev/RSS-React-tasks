@@ -11,6 +11,7 @@ export const INITIAL_STATE: AppState = {
   selectedCard: null,
   isFormSubmitButtonDisabled: true,
   formHasErrors: false,
+  pagesQuantity: '1',
   formFieldsValues: {
     characterName: '',
     characterStatus: 'Alive',
@@ -21,5 +22,10 @@ export const INITIAL_STATE: AppState = {
     characterDateOfCreation: '',
     characterAvatar: null,
     agreement: false,
+  },
+  mainPageControlsValues: {
+    pageNumber: '1',
+    itemsOnPage: '20',
+    sortingOrder: 'default',
   },
 };

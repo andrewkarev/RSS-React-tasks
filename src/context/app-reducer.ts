@@ -29,6 +29,14 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
     case AppActionKind.SET_SEARCH_QUERY: {
       return { ...state, searchQuery: payload.searchQuery || '' };
     }
+    case AppActionKind.GET_CONTROLS_VALUES: {
+      const newMainPageControlsValues =
+        payload.mainPageControlsValues || INITIAL_STATE.mainPageControlsValues;
+      return {
+        ...state,
+        mainPageControlsValues: newMainPageControlsValues,
+      };
+    }
     case AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED: {
       return { ...state, isFormSubmitButtonDisabled: !!payload.isFormSubmitButtonDisabled };
     }
