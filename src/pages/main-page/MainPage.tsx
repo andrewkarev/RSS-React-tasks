@@ -10,6 +10,8 @@ import Loader from 'components/loader/';
 import Controls from 'components/controls/';
 import ICard from 'interfaces/ICard';
 import sort from 'utils/sort';
+import getQueryPageNumber from 'utils/get-query-page-number';
+import getDataChunk from 'utils/get-data-chunk';
 
 const MainPage: React.FC = () => {
   const appState = useAppState();
@@ -37,8 +39,19 @@ const MainPage: React.FC = () => {
         setIsPending(() => true);
 
         const searchQuery = appState.searchQuery;
-        const response = await getCharacters(searchQuery);
-        const data = sort(response.results, appState.mainPageControlsValues.sortingOrder);
+        const controls = appState.mainPageControlsValues;
+        const page = getQueryPageNumber(controls.pageNumber, controls.itemsOnPage);
+        const response = await getCharacters(searchQuery, page);
+        const { results, info } = response;
+        const pagesAtAll = Math.ceil(info.count / Number(controls.itemsOnPage)).toString();
+
+        appDispatch({
+          type: AppActionKind.SET_PAGE_QUANTITY,
+          payload: { pagesQuantity: pagesAtAll },
+        });
+
+        const sortedData = sort(results, controls.sortingOrder);
+        const data = getDataChunk(sortedData, controls.pageNumber, controls.itemsOnPage);
 
         setCards(data);
         setIsErrorOccured(() => false);
@@ -51,7 +64,7 @@ const MainPage: React.FC = () => {
     };
 
     updateCards();
-  }, [appState.mainPageControlsValues.sortingOrder, appState.searchQuery, setCards]);
+  }, [appDispatch, appState.mainPageControlsValues, appState.searchQuery, setCards]);
 
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
   const cardContainer = (
