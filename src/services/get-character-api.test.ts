@@ -25,7 +25,7 @@ describe('getCharacters', () => {
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
 
     expect(axios.get).not.toHaveBeenCalled();
-    const data = await getCharacters(defaultSearchQuery);
+    const data = await getCharacters(defaultSearchQuery, '');
     expect(axios.get).toHaveBeenCalled();
     expect(data).toEqual(characters);
   });
@@ -47,7 +47,7 @@ describe('getCharacters', () => {
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
 
     expect(axios.get).not.toHaveBeenCalled();
-    await getCharacters(defaultSearchQuery);
+    await getCharacters(defaultSearchQuery, '');
     expect(axios.get).toHaveBeenCalledWith(CHARACTER_URL + defaultSearchQuery);
   });
 
@@ -66,6 +66,6 @@ describe('getCharacters', () => {
     };
 
     mockedAxios.get.mockResolvedValueOnce(mockedResponse);
-    await expect(getCharacters(defaultSearchQuery)).rejects.toThrow('Something went wrong');
+    await expect(getCharacters(defaultSearchQuery, '')).rejects.toThrow('Something went wrong');
   });
 });
