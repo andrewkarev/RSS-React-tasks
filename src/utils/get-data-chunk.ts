@@ -4,16 +4,9 @@ import ICard from 'interfaces/ICard';
 const getDataChunk = (data: ICard[], selectedPage: string, itemsOnPage: string) => {
   const itemsQuantity = Number(itemsOnPage);
   const chunksQuantity = INITIAL_RESPONSE_LENGTH / itemsQuantity;
-  let finishIndexMultiplier = 1;
+  const remainder = Number(selectedPage) % chunksQuantity;
 
-  for (let i = chunksQuantity; i > 0; i--) {
-    if (Number(selectedPage) % i === 0) {
-      finishIndexMultiplier = i;
-      break;
-    }
-  }
-
-  const end = finishIndexMultiplier * itemsQuantity;
+  const end = remainder === 0 ? INITIAL_RESPONSE_LENGTH : remainder * itemsQuantity;
   const start = end - itemsQuantity;
 
   return data.slice(start, end);
