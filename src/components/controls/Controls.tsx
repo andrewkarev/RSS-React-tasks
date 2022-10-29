@@ -57,7 +57,6 @@ export const Controls: React.FC = () => {
           <div className={styles['cards-on-page']}>
             <div className={styles['cards-on-page-title']}>Cards on page:</div>
             <ControlsPageCounter register={register} quantity={'20'} />
-            <ControlsPageCounter register={register} quantity={'15'} />
             <ControlsPageCounter register={register} quantity={'10'} />
             <ControlsPageCounter register={register} quantity={'5'} />
           </div>
