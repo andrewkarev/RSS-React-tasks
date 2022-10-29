@@ -54,12 +54,14 @@ export const Controls: React.FC = () => {
             <p className={styles['page-preposition']}>of</p>
             <div className={styles['pages-at-all']}>{appState.pagesQuantity}</div>
           </div>
+          <div className={styles['vertical-line']}></div>
           <div className={styles['cards-on-page']}>
             <div className={styles['cards-on-page-title']}>Cards on page:</div>
             <ControlsPageCounter register={register} quantity={'20'} />
             <ControlsPageCounter register={register} quantity={'10'} />
             <ControlsPageCounter register={register} quantity={'5'} />
           </div>
+          <div className={styles['vertical-line']}></div>
           <div className={styles['sorting']}>
             <label className={styles['sorting-label']} htmlFor="sorting-options">
               Sort by:
