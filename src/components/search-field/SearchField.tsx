@@ -1,6 +1,6 @@
 import AppActionKind from 'common/enums/app-action-kind';
 import { useAppDispatch, useAppState } from 'context/AppContext';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styles from './search-field.module.css';
 
 const SearchField: React.FC = () => {
@@ -16,12 +16,24 @@ const SearchField: React.FC = () => {
     });
   };
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     appDispatch({
       type: AppActionKind.SET_SEARCH_QUERY,
       payload: { searchQuery: appState.searchFieldValue },
     });
-  };
+  }, [appDispatch, appState.searchFieldValue]);
+
+  useEffect(() => {
+    const listener = (e: KeyboardEvent) => {
+      if (e.code.match(/Enter/)) {
+        e.preventDefault();
+        handleClick();
+      }
+    };
+
+    document.addEventListener('keyup', listener);
+    return () => document.removeEventListener('keyup', listener);
+  }, [handleClick]);
 
   return (
     <>
