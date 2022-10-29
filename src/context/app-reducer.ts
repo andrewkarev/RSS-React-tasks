@@ -43,6 +43,9 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
     case AppActionKind.SET_FORM_HAS_ERRORS: {
       return { ...state, formHasErrors: !!payload.formHasErrors };
     }
+    case AppActionKind.SET_PAGE_QUANTITY: {
+      return { ...state, pagesQuantity: payload.pagesQuantity || INITIAL_STATE.pagesQuantity };
+    }
     default: {
       throw new Error(`Unhandled action type: ${type}`);
     }
