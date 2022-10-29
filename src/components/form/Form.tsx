@@ -141,6 +141,8 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
     checkErrors();
   }, [checkErrors]);
 
+  const inputFileName = appState.formFieldsValues.characterAvatar?.item(0)?.name;
+
   return (
     <form
       className={styles['form']}
@@ -280,16 +282,28 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
       </div>
 
       <div className={styles['character-avatar']}>
-        <label className={styles['character-avatar-label']} htmlFor="character-avatar">
-          Upload your character avatar
-        </label>
+        <p className={styles['character-avatar-label']}>Upload your character avatar</p>
+        <div className={styles['character-avatar-element-container']}>
+          <label className={styles['character-avatar-element']} htmlFor="character-avatar">
+            Выберите файл
+          </label>
+          <p
+            className={
+              styles[
+                `${
+                  appState.formFieldsValues.characterAvatar
+                    ? 'character-avatar-element-name-selected'
+                    : 'character-avatar-element-name'
+                }`
+              ]
+            }
+          >
+            {appState.formFieldsValues.characterAvatar ? inputFileName : 'Файл не выбран'}
+          </p>
+        </div>
         <input
           id="character-avatar"
-          className={`${
-            styles[
-              !errors.characterAvatar ? 'character-avatar-input' : 'character-avatar-input-invalid'
-            ]
-          }`}
+          className={styles['character-avatar-input']}
           type="file"
           multiple={false}
           accept="image/*"

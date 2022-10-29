@@ -68,18 +68,31 @@
   cursor: pointer;
 }
 
-.character-avatar-input,
-.character-avatar-input-invalid {
-  font-size: 1.2rem;
-  color: #04b2c8;
+.character-avatar-input {
+  display: none;
 }
 
-.character-avatar-input-invalid {
-  color: #ef6e6c;
+.character-avatar-element-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
-.character-avatar-input::-webkit-file-upload-button,
-.character-avatar-input-invalid::-webkit-file-upload-button,
+.character-avatar-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.character-avatar-element-name {
+  color: #aaa;
+}
+
+.character-avatar-element-name-selected {
+  color: #55cc44;
+}
+
+.character-avatar-element,
 .character-date-of-creation-input,
 .character-date-of-creation-input-invalid,
 .submit-btn,
@@ -101,13 +114,7 @@
   border-color: #ef6e6c;
 }
 
-.character-avatar-input::-webkit-file-upload-button,
-.character-avatar-input-invalid::-webkit-file-upload-button {
-  margin-right: 1rem;
-}
-
-.character-avatar-input::-webkit-file-upload-button:hover,
-.character-avatar-input-invalid::-webkit-file-upload-button:hover,
+.character-avatar-element:hover,
 .submit-btn:hover,
 .reset-btn:hover {
   color: #fff;
