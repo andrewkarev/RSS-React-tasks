@@ -16,38 +16,26 @@
   gap: 1.5rem;
 }
 
-.link-container {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.link,
-.link-active {
-  display: block;
-  font-size: 1.4rem;
-  transition: all 0.3s ease-in;
-}
-
-
-.link:hover,
-.link-active:hover {
-  color: #b8d344;
-}
-
-.link-active {
-  color: #b8d344;
-}
-
-.position {
+.position-info {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2.8rem;
+  gap: 1rem;
   height: 2.8rem;
   margin-left: auto;
+  padding: 0 1rem;
   border: 2px solid #04b2c8;
-  border-radius: 50%;
+  border-radius: 1.4rem;
   font-size: 1.2rem;
   color: #faf074;
+}
+
+.info-title {
+  color: #ffffff;
+}
+
+.vertical-line {
+  width: 3px;
+  height: 1.3rem;
+  background-color: #04b2c8;
 }
