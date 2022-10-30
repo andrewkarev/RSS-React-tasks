@@ -57,7 +57,6 @@ const MainPage: React.FC = () => {
         setIsErrorOccured(() => false);
         setIsPending(() => false);
       } catch (error) {
-        setCards([]);
         setIsErrorOccured(() => true);
         setIsPending(() => false);
       }
@@ -95,13 +94,14 @@ const MainPage: React.FC = () => {
       })}
     </div>
   );
+  const cardsLength = appState.mainPageCards.length;
 
   return (
     <div className={styles['main-page']} data-testid={'main'}>
       <Controls />
       {isPending && <Loader />}
-      {!isErrorOccured && cardContainer}
-      {isErrorOccured && error}
+      {!!cardsLength && cardContainer}
+      {isErrorOccured && !cardsLength && error}
     </div>
   );
 };

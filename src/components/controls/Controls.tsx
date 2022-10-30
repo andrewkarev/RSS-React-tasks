@@ -34,6 +34,18 @@ export const Controls: React.FC = () => {
     setValue,
   ]);
 
+  useEffect(() => {
+    const data = getValues();
+    data.pageNumber = '1';
+
+    appDispatch({
+      type: AppActionKind.GET_CONTROLS_VALUES,
+      payload: { mainPageControlsValues: data },
+    });
+
+    setValue('pageNumber', '1');
+  }, [appDispatch, getValues, setValue, appState.mainPageControlsValues.itemsOnPage]);
+
   return (
     <>
       <form className={styles['controls']} onChange={onChange}>
