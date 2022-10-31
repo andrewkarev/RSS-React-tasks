@@ -15,20 +15,7 @@ class Card extends React.Component<CardProps> {
   }
 
   handleCardClick() {
-    const card = {
-      id: this.props.card?.id,
-      name: this.props.card?.name,
-      status: this.props.card?.status,
-      species: this.props.card?.species,
-      type: this.props.card?.type,
-      gender: this.props.card?.gender,
-      origin: this.props.card?.origin,
-      location: this.props.card?.location,
-      image: this.props.card?.image,
-      episode: this.props.card?.episode,
-      url: this.props.card?.url,
-      created: this.props.card?.created,
-    };
+    const card = { ...this.props.card };
 
     this.props.toggleModalWindow();
     this.props.setSelectedCardValue(card);
