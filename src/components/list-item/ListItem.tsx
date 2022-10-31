@@ -6,15 +6,13 @@ interface ListItemProps {
   info?: string;
 }
 
-class ListItem extends React.Component<ListItemProps> {
-  render() {
-    return (
-      <li className={styles['list-item']}>
-        <p className={styles['list-item-annotation']}>{this.props.annotation}</p>
-        <p className={styles['list-item-info']}>{this.props.info}</p>
-      </li>
-    );
-  }
-}
+export const ListItem: React.FC<ListItemProps> = ({ annotation, info }) => {
+  return (
+    <li className={styles['list-item']}>
+      <p className={styles['list-item-annotation']}>{annotation}</p>
+      <p className={styles['list-item-info']}>{info}</p>
+    </li>
+  );
+};
 
 export default ListItem;
