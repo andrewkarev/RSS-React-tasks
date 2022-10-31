@@ -9,8 +9,8 @@ interface ListItemProps {
 export const ListItem: React.FC<ListItemProps> = ({ annotation, info }) => {
   return (
     <li className={styles['list-item']}>
-      <p className={styles['list-item-annotation']}>{annotation}</p>
-      <p className={styles['list-item-info']}>{info}</p>
+      <p className={styles['list-item-annotation']}>{annotation || 'not settled'}</p>
+      <p className={styles['list-item-info']}>{info || 'unknown'}</p>
     </li>
   );
 };
