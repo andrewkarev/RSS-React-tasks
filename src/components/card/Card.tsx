@@ -10,20 +10,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ card, toggleModalWindow, setSelectedCardValue }) => {
   const handleCardClick = () => {
-    const currentCard = {
-      id: card?.id,
-      name: card?.name,
-      status: card?.status,
-      species: card?.species,
-      type: card?.type,
-      gender: card?.gender,
-      origin: card?.origin,
-      location: card?.location,
-      image: card?.image,
-      episode: card?.episode,
-      url: card?.url,
-      created: card?.created,
-    };
+    const currentCard = { ...card };
 
     toggleModalWindow();
     setSelectedCardValue(currentCard);
