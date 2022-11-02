@@ -1,7 +1,7 @@
-import AppActionKind from 'common/enums/app-action-kind';
-import { useAppDispatch } from 'context/AppContext';
+import { useAppDispatch } from 'hooks/redux';
 import ICard from 'interfaces/ICard';
 import React from 'react';
+import { setSelectedCard } from 'store/reducers/detailsSlice';
 import styles from './card.module.css';
 
 interface CardProps {
@@ -11,7 +11,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ card, setSelectedCardValue, handleCardClick }) => {
-  const appDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClick = () => {
     const currentCard = { ...card };
@@ -24,10 +24,7 @@ const Card: React.FC<CardProps> = ({ card, setSelectedCardValue, handleCardClick
       setSelectedCardValue(currentCard);
     }
 
-    appDispatch({
-      type: AppActionKind.SET_SELECTED_CARD,
-      payload: { selectedCard: currentCard },
-    });
+    dispatch(setSelectedCard(currentCard));
   };
 
   return (
