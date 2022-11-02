@@ -1,22 +1,24 @@
 import React from 'react';
 import AppPathesEnum from 'common/enums/app-pathes';
 import CustomLink from 'components/custom-link';
-import { useAppState } from 'context/AppContext';
 import { useLocation } from 'react-router-dom';
 import styles from './header.module.css';
+import { useAppSelector } from 'hooks/redux';
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const appState = useAppState();
 
-  const position =
-    appState.mainPageCards.findIndex((card) => card.id === appState.selectedCard?.id) + 1;
+  const selectedCard = useAppSelector((state) => state.details.selectedCard);
+  const pageNumber = useAppSelector((state) => state.main.pageNumber);
+  const cards = useAppSelector((state) => state.main.cards);
+
+  const position = cards.findIndex((card) => card.id === selectedCard?.id) + 1;
 
   const positionElement = (
     <div className={styles['position-info']}>
       <p>
         <span className={styles['info-title']}>Page: </span>
-        {appState.mainPageControlsValues.pageNumber}
+        {pageNumber}
       </p>
       <div className={styles['vertical-line']}></div>
       <p>
