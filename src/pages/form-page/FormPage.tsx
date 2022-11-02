@@ -1,15 +1,15 @@
-import AppActionKind from 'common/enums/app-action-kind';
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { addCards } from 'store/reducers/formSlice';
 import Card from 'components/card';
 import Form from 'components/form';
 import PopUp from 'components/pop-up/';
-import { useAppDispatch, useAppState } from 'context/AppContext';
 import ICard from 'interfaces/ICard';
-import React, { useState } from 'react';
 import styles from './form-page.module.css';
 
 const FormPage: React.FC = () => {
-  const appState = useAppState();
-  const appDispatch = useAppDispatch();
+  const cards = useAppSelector((state) => state.form.cards);
+  const dispatch = useAppDispatch();
 
   const [selectedCard, setSelectedCard] = useState<ICard | null>(null);
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
@@ -33,14 +33,11 @@ const FormPage: React.FC = () => {
   };
 
   const addNewCards = (newCard: ICard) => {
-    appDispatch({
-      type: AppActionKind.SET_FORM_PAGE_CARDS,
-      payload: { formPageCards: [newCard] },
-    });
+    dispatch(addCards(newCard));
   };
 
   const popUp = <PopUp card={selectedCard} toggleModalWindow={toggleModalWindow} />;
-  const cardsElement = appState.formPageCards.map((card, i) => {
+  const cardsElement = cards.map((card, i) => {
     return (
       <Card
         card={card}

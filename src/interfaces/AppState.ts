@@ -1,18 +1,13 @@
 import ICard from './ICard';
 import IControlsInputs from './IControlsInpust';
-import IFormValues from './IFormValues';
 
 interface AppState {
-  formPageCards: ICard[];
   mainPageCards: ICard[];
-  selectedCard: ICard | null;
-  searchFieldValue: string;
   searchQuery: string;
-  isFormSubmitButtonDisabled: boolean;
-  formHasErrors: boolean;
-  formFieldsValues: IFormValues;
+  searchFieldValue: string;
   mainPageControlsValues: IControlsInputs;
   pagesQuantity: string;
+  selectedCard: ICard | null;
 }
 
 export default AppState;

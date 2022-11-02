@@ -5,17 +5,23 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './form.module.css';
 import pngUrl from '../../assets/images/John_Doe.jpeg';
-import { useAppDispatch, useAppState } from 'context/AppContext';
-import AppActionKind from 'common/enums/app-action-kind';
-import { INITIAL_STATE } from 'common/constants';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import {
+  getFormFieldsValues,
+  setErrors,
+  setIsSubmitButtonDisabled,
+  initialState,
+} from 'store/reducers/formSlice';
 
 interface FormProps {
   addNewCards: (newCard: ICard) => void;
 }
 
 const Form: React.FC<FormProps> = ({ addNewCards }) => {
-  const appState = useAppState();
-  const appDispatch = useAppDispatch();
+  const values = useAppSelector((state) => state.form.fieldsValues);
+  const hasError = useAppSelector((state) => state.form.errors);
+  const isDisabled = useAppSelector((state) => state.form.isSubmitButtonDisabled);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -25,29 +31,15 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
     getValues,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      characterName: appState.formFieldsValues.characterName,
-      characterStatus: appState.formFieldsValues.characterStatus,
-      characterSpecies: appState.formFieldsValues.characterSpecies,
-      characterGender: appState.formFieldsValues.characterGender,
-      characterOrigin: appState.formFieldsValues.characterOrigin,
-      characterLocation: appState.formFieldsValues.characterLocation,
-      characterDateOfCreation: appState.formFieldsValues.characterDateOfCreation,
-      characterAvatar: appState.formFieldsValues.characterAvatar,
-      agreement: appState.formFieldsValues.agreement,
-    },
+    defaultValues: { ...values },
   });
 
   const [isCardCreationSuccessful, setIsCardCreationSuccessful] = useState(() => false);
 
   const getformfieldsValues = useCallback(() => {
     const formValues = getValues();
-
-    appDispatch({
-      type: AppActionKind.GET_FORM_FIELDS_VALUES,
-      payload: { formFieldsValues: formValues },
-    });
-  }, [appDispatch, getValues]);
+    dispatch(getFormFieldsValues(formValues));
+  }, [dispatch, getValues]);
 
   const onSubmit = (data: IFormValues) => {
     const file = data.characterAvatar
@@ -66,7 +58,7 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
     };
 
     addNewCards(card);
-    reset(INITIAL_STATE.formFieldsValues);
+    reset(initialState.fieldsValues);
     setIsCardCreationSuccessful(() => true);
     getformfieldsValues();
 
@@ -74,64 +66,35 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
       setIsCardCreationSuccessful(() => false);
     }, 2000);
 
-    appDispatch({
-      type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
-      payload: { isFormSubmitButtonDisabled: true },
-    });
-
-    appDispatch({
-      type: AppActionKind.SET_FORM_HAS_ERRORS,
-      payload: { formHasErrors: false },
-    });
+    dispatch(setIsSubmitButtonDisabled(true));
+    dispatch(setErrors(false));
   };
 
   const onError = () => {
-    appDispatch({
-      type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
-      payload: { isFormSubmitButtonDisabled: true },
-    });
-
-    appDispatch({
-      type: AppActionKind.SET_FORM_HAS_ERRORS,
-      payload: { formHasErrors: true },
-    });
+    dispatch(setIsSubmitButtonDisabled(true));
+    dispatch(setErrors(true));
   };
 
   const onReset = () => {
-    reset(INITIAL_STATE.formFieldsValues);
+    reset(initialState.fieldsValues);
     setIsCardCreationSuccessful(() => false);
     getformfieldsValues();
-
-    appDispatch({
-      type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
-      payload: { isFormSubmitButtonDisabled: true },
-    });
-
-    appDispatch({
-      type: AppActionKind.SET_FORM_HAS_ERRORS,
-      payload: { formHasErrors: false },
-    });
+    dispatch(setIsSubmitButtonDisabled(true));
+    dispatch(setErrors(false));
   };
 
   const checkErrors = useCallback(async () => {
-    if (appState.formHasErrors) {
+    if (hasError) {
       const result = await trigger();
-
-      appDispatch({
-        type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
-        payload: { isFormSubmitButtonDisabled: !result },
-      });
+      dispatch(setIsSubmitButtonDisabled(!result));
     }
 
     getformfieldsValues();
-  }, [appDispatch, appState.formHasErrors, getformfieldsValues, trigger]);
+  }, [dispatch, getformfieldsValues, hasError, trigger]);
 
   const onChange = async () => {
-    if (!appState.formHasErrors) {
-      appDispatch({
-        type: AppActionKind.SET_IS_SUBMIT_BUTTON_DISABLED,
-        payload: { isFormSubmitButtonDisabled: false },
-      });
+    if (!hasError) {
+      dispatch(setIsSubmitButtonDisabled(false));
     }
 
     await checkErrors();
@@ -141,7 +104,7 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
     checkErrors();
   }, [checkErrors]);
 
-  const inputFileName = appState.formFieldsValues.characterAvatar?.item(0)?.name;
+  const inputFileName = values.characterAvatar?.item(0)?.name;
 
   return (
     <form
@@ -291,14 +254,14 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
             className={
               styles[
                 `${
-                  appState.formFieldsValues.characterAvatar
+                  values.characterAvatar
                     ? 'character-avatar-element-name-selected'
                     : 'character-avatar-element-name'
                 }`
               ]
             }
           >
-            {appState.formFieldsValues.characterAvatar ? inputFileName : 'Файл не выбран'}
+            {values.characterAvatar ? inputFileName : 'Файл не выбран'}
           </p>
         </div>
         <input
@@ -336,7 +299,7 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
         <button
           className={styles['submit-btn']}
           type="submit"
-          disabled={appState.isFormSubmitButtonDisabled}
+          disabled={isDisabled}
           data-testid={'submit-btn'}
         >
           Create
