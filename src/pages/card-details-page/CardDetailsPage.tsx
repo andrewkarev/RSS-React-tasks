@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import getSeries from 'services/get-series-api';
 import styles from './card-info-page.module.css';
 
-export const CardInfoPage: React.FC = () => {
+export const CardDetailsPage: React.FC = () => {
   const selectedCard = useAppSelector((state) => state.details.selectedCard);
 
   const [firstEpisodeName, setFirstEpisodeName] = useState('');
@@ -92,4 +92,4 @@ export const CardInfoPage: React.FC = () => {
   return <>{isPending ? <Loader /> : characterInfo}</>;
 };
 
-export default CardInfoPage;
+export default CardDetailsPage;

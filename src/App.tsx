@@ -7,7 +7,7 @@ import NotFoundPage from 'pages/not-found-page';
 import Layout from 'components';
 import FormPage from 'pages/form-page';
 import AppPathesEnum from 'common/enums/app-pathes';
-import CardInfoPage from 'pages/card-info-page';
+import CardDetailsPage from 'pages/card-details-page';
 
 const App: React.FC = () => (
   <Routes>
@@ -16,7 +16,7 @@ const App: React.FC = () => (
       <Route path={AppPathesEnum.about} element={<AboutPage />} />
       <Route path={AppPathesEnum.form} element={<FormPage />} />
       <Route path={AppPathesEnum.notFound} element={<NotFoundPage />} />
-      <Route path={`${AppPathesEnum.character}/:id`} element={<CardInfoPage />} />
+      <Route path={`${AppPathesEnum.character}/:id`} element={<CardDetailsPage />} />
       <Route
         path={AppPathesEnum.redirect}
         element={<Navigate to={AppPathesEnum.notFound} replace />}
