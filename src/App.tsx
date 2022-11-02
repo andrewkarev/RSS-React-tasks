@@ -9,22 +9,20 @@ import FormPage from 'pages/form-page';
 import AppPathesEnum from 'common/enums/app-pathes';
 import CardInfoPage from 'pages/card-info-page';
 
-const App: React.FC = () => {
-  return (
-    <Routes>
-      <Route path={AppPathesEnum.home} element={<Layout />}>
-        <Route index element={<MainPage />} />
-        <Route path={AppPathesEnum.about} element={<AboutPage />} />
-        <Route path={AppPathesEnum.form} element={<FormPage />} />
-        <Route path={AppPathesEnum.notFound} element={<NotFoundPage />} />
-        <Route path={`${AppPathesEnum.character}/:id`} element={<CardInfoPage />} />
-        <Route
-          path={AppPathesEnum.redirect}
-          element={<Navigate to={AppPathesEnum.notFound} replace />}
-        />
-      </Route>
-    </Routes>
-  );
-};
+const App: React.FC = () => (
+  <Routes>
+    <Route path={AppPathesEnum.home} element={<Layout />}>
+      <Route index element={<MainPage />} />
+      <Route path={AppPathesEnum.about} element={<AboutPage />} />
+      <Route path={AppPathesEnum.form} element={<FormPage />} />
+      <Route path={AppPathesEnum.notFound} element={<NotFoundPage />} />
+      <Route path={`${AppPathesEnum.character}/:id`} element={<CardInfoPage />} />
+      <Route
+        path={AppPathesEnum.redirect}
+        element={<Navigate to={AppPathesEnum.notFound} replace />}
+      />
+    </Route>
+  </Routes>
+);
 
 export default App;

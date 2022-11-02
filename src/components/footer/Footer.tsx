@@ -1,15 +1,13 @@
 import React from 'react';
 import styles from './footer.module.css';
 
-const Footer: React.FC = () => {
-  return (
-    <div className="container">
-      <footer className={styles['footer']} data-testid={'footer'}>
-        <p className={styles['footer-item']}>2022</p>
-        <p className={styles['footer-item']}>“Sometimes science is more art than science.”</p>
-      </footer>
-    </div>
-  );
-};
+const Footer: React.FC = () => (
+  <div className="container">
+    <footer className={styles['footer']} data-testid={'footer'}>
+      <p className={styles['footer-item']}>2022</p>
+      <p className={styles['footer-item']}>“Sometimes science is more art than science.”</p>
+    </footer>
+  </div>
+);
 
 export default Footer;

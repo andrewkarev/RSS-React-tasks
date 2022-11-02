@@ -30,7 +30,7 @@ const ListItem: React.FC<ListItemProps> = ({ annotation, info }) => {
           ]
         }
       >
-        {annotation}
+        {annotation || 'not settled'}
       </p>
       <p
         className={
@@ -43,7 +43,7 @@ const ListItem: React.FC<ListItemProps> = ({ annotation, info }) => {
           ]
         }
       >
-        {info}
+        {info || 'unknown'}
       </p>
     </li>
   );

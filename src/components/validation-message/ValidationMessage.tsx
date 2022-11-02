@@ -6,17 +6,15 @@ interface ValidationMessageProps {
   message: string;
 }
 
-const ValidationMessage: React.FC<ValidationMessageProps> = ({ isValid, message }) => {
-  return (
-    <div
-      className={
-        styles[`${isValid ? 'validation-error-message' : 'validation-error-message-active'}`]
-      }
-      data-testid={'validation-message'}
-    >
-      {message}
-    </div>
-  );
-};
+const ValidationMessage: React.FC<ValidationMessageProps> = ({ isValid, message }) => (
+  <div
+    className={
+      styles[`${isValid ? 'validation-error-message' : 'validation-error-message-active'}`]
+    }
+    data-testid={'validation-message'}
+  >
+    {message}
+  </div>
+);
 
 export default ValidationMessage;

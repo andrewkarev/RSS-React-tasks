@@ -8,18 +8,16 @@ interface CustomLinkProps {
   title: string;
 }
 
-const CustomLink: React.FC<CustomLinkProps> = ({ path, title }) => {
-  return (
-    <div className={styles['link-container']}>
-      <NavLink
-        to={path}
-        className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
-        end
-      >
-        {title}
-      </NavLink>
-    </div>
-  );
-};
+const CustomLink: React.FC<CustomLinkProps> = ({ path, title }) => (
+  <div className={styles['link-container']}>
+    <NavLink
+      to={path}
+      className={({ isActive }) => (isActive ? styles['link-active'] : styles['link'])}
+      end
+    >
+      {title}
+    </NavLink>
+  </div>
+);
 
 export default CustomLink;
