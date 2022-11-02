@@ -1,14 +1,14 @@
 import AppPathesEnum from 'common/enums/app-pathes';
 import ListItem from 'components/list-item';
 import Loader from 'components/loader/';
-import { useAppState } from 'context/AppContext';
+import { useAppSelector } from 'hooks/redux';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import getSeries from 'services/get-series-api';
 import styles from './card-info-page.module.css';
 
 export const CardInfoPage: React.FC = () => {
-  const appState = useAppState();
+  const selectedCard = useAppSelector((state) => state.details.selectedCard);
 
   const [firstEpisodeName, setFirstEpisodeName] = useState('');
   const [lastEpisodeName, setLastEpisodeName] = useState('');
@@ -19,10 +19,10 @@ export const CardInfoPage: React.FC = () => {
 
   useEffect(() => {
     const updateCards = async () => {
-      const firstEpisodeLink = appState.selectedCard?.episode?.at(0) || '';
-      const lastEpisodeLink = appState.selectedCard?.episode?.at(-1) || '';
+      const firstEpisodeLink = selectedCard?.episode?.at(0) || '';
+      const lastEpisodeLink = selectedCard?.episode?.at(-1) || '';
 
-      if (!appState.selectedCard) {
+      if (!selectedCard) {
         navigate(AppPathesEnum.home);
         return;
       }
@@ -43,19 +43,15 @@ export const CardInfoPage: React.FC = () => {
     };
 
     updateCards();
-  }, [navigate, appState.selectedCard]);
+  }, [navigate, selectedCard]);
 
   const characterInfo = (
     <div className={styles['card-info-page']}>
       <div className={styles['card-info-page-left-side']}>
         <div className={styles['img-wrapper']}>
-          <img
-            className={styles['img']}
-            src={appState.selectedCard?.image}
-            alt="Character avatar"
-          />
+          <img className={styles['img']} src={selectedCard?.image} alt="Character avatar" />
         </div>
-        <h3 className={styles['name']}>{appState.selectedCard?.name}</h3>
+        <h3 className={styles['name']}>{selectedCard?.name}</h3>
       </div>
       <div className={styles['card-info-page-right-side']}>
         <ul className={styles['list']}>
@@ -64,9 +60,9 @@ export const CardInfoPage: React.FC = () => {
               className={
                 styles[
                   `${
-                    appState.selectedCard?.status === 'Alive'
+                    selectedCard?.status === 'Alive'
                       ? 'marker-alive'
-                      : appState.selectedCard?.status === 'Dead'
+                      : selectedCard?.status === 'Dead'
                       ? 'marker-dead'
                       : 'marker'
                   }`
@@ -74,16 +70,13 @@ export const CardInfoPage: React.FC = () => {
               }
             ></div>
             <p className={styles['list-item-info']}>
-              {appState.selectedCard?.status} - {appState.selectedCard?.species}
+              {selectedCard?.status} - {selectedCard?.species}
             </p>
           </li>
-          <ListItem annotation={'Place of origin:'} info={appState.selectedCard?.origin?.name} />
+          <ListItem annotation={'Place of origin:'} info={selectedCard?.origin?.name} />
           <ListItem annotation={'First seen in:'} info={firstEpisodeName} />
           <ListItem annotation={'Last seen in:'} info={lastEpisodeName} />
-          <ListItem
-            annotation={'Last known location:'}
-            info={appState.selectedCard?.location?.name}
-          />
+          <ListItem annotation={'Last known location:'} info={selectedCard?.location?.name} />
         </ul>
         <button
           className={styles['back-btn']}
