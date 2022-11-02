@@ -1,50 +1,42 @@
 import React, { useEffect } from 'react';
 import styles from './controls.module.css';
 import ControlsPageCounter from 'components/controls-page-counter/';
-import { useAppDispatch, useAppState } from 'context/AppContext';
-import AppActionKind from 'common/enums/app-action-kind';
 import { useForm } from 'react-hook-form';
 import IControlsInputs from 'interfaces/IControlsInpust';
 import SearchField from 'components/search-field';
 import SortingOptions from 'common/enums/sorting-options';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { setitemsOnPage, setSortingOrder, setPageNumber } from 'store/reducers/mainSlice';
 
 export const Controls: React.FC = () => {
-  const appState = useAppState();
-  const appDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const pageNumber = useAppSelector((state) => state.main.pageNumber);
+  const itemsOnPage = useAppSelector((state) => state.main.itemsOnPage);
+  const sortingOrder = useAppSelector((state) => state.main.sortingOrder);
+  const pagesQuantity = useAppSelector((state) => state.main.pagesQuantity);
 
   const { register, setValue, getValues } = useForm<IControlsInputs>();
 
   const onChange = () => {
     const data = getValues();
-
-    appDispatch({
-      type: AppActionKind.GET_CONTROLS_VALUES,
-      payload: { mainPageControlsValues: data },
-    });
+    dispatch(setitemsOnPage(data.itemsOnPage));
+    dispatch(setSortingOrder(data.sortingOrder));
+    dispatch(setPageNumber(data.pageNumber));
   };
 
   useEffect(() => {
-    setValue('pageNumber', appState.mainPageControlsValues.pageNumber);
-    setValue('itemsOnPage', appState.mainPageControlsValues.itemsOnPage);
-    setValue('sortingOrder', appState.mainPageControlsValues.sortingOrder);
-  }, [
-    appState.mainPageControlsValues.itemsOnPage,
-    appState.mainPageControlsValues.pageNumber,
-    appState.mainPageControlsValues.sortingOrder,
-    setValue,
-  ]);
+    setValue('pageNumber', pageNumber);
+  }, [pageNumber, setValue]);
 
   useEffect(() => {
-    const data = getValues();
-    data.pageNumber = '1';
-
-    appDispatch({
-      type: AppActionKind.GET_CONTROLS_VALUES,
-      payload: { mainPageControlsValues: data },
-    });
-
+    dispatch(setPageNumber('1'));
+    setValue('itemsOnPage', itemsOnPage);
     setValue('pageNumber', '1');
-  }, [appDispatch, getValues, setValue, appState.mainPageControlsValues.itemsOnPage]);
+  }, [dispatch, setValue, itemsOnPage]);
+
+  useEffect(() => {
+    setValue('sortingOrder', sortingOrder);
+  }, [sortingOrder, setValue]);
 
   return (
     <>
@@ -61,10 +53,10 @@ export const Controls: React.FC = () => {
               type="number"
               autoComplete="off"
               min={1}
-              max={appState.pagesQuantity}
+              max={pagesQuantity}
             />
             <p className={styles['page-preposition']}>of</p>
-            <div className={styles['pages-at-all']}>{appState.pagesQuantity}</div>
+            <div className={styles['pages-at-all']}>{pagesQuantity}</div>
           </div>
           <div className={styles['vertical-line']}></div>
           <div className={styles['cards-on-page']}>
