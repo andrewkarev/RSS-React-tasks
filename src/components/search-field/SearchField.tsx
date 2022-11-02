@@ -1,27 +1,21 @@
-import AppActionKind from 'common/enums/app-action-kind';
-import { useAppDispatch, useAppState } from 'context/AppContext';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import React, { useCallback, useEffect } from 'react';
+import { setSearchFieldValue, setSearchQuery } from 'store/reducers/mainSlice';
 import styles from './search-field.module.css';
 
 const SearchField: React.FC = () => {
-  const appState = useAppState();
-  const appDispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const searchFieldValue = useAppSelector((state) => state.main.searchFieldValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchFieldValue = e.target.value;
 
-    appDispatch({
-      type: AppActionKind.SET_SEARCH_FIELD_VALUE,
-      payload: { searchFieldValue: searchFieldValue },
-    });
+    dispatch(setSearchFieldValue(searchFieldValue));
   };
 
   const handleClick = useCallback(() => {
-    appDispatch({
-      type: AppActionKind.SET_SEARCH_QUERY,
-      payload: { searchQuery: appState.searchFieldValue },
-    });
-  }, [appDispatch, appState.searchFieldValue]);
+    dispatch(setSearchQuery(searchFieldValue));
+  }, [dispatch, searchFieldValue]);
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -44,7 +38,7 @@ const SearchField: React.FC = () => {
         placeholder="Search"
         autoComplete="off"
         autoFocus={true}
-        value={appState.searchFieldValue}
+        value={searchFieldValue}
         onChange={handleChange}
       />
       <button className={styles['submit-btn']} type="button" onClick={handleClick}>
