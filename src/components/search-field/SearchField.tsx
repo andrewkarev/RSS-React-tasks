@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import React, { useCallback, useEffect } from 'react';
-import { setSearchFieldValue, setSearchQuery } from 'store/reducers/mainSlice';
+import { fetchCharacters, setPageNumber, setSearchFieldValue } from 'store/reducers/mainSlice';
 import styles from './search-field.module.css';
 
 const SearchField: React.FC = () => {
@@ -14,8 +14,10 @@ const SearchField: React.FC = () => {
   };
 
   const handleClick = useCallback(() => {
-    dispatch(setSearchQuery(searchFieldValue));
-  }, [dispatch, searchFieldValue]);
+    dispatch(setPageNumber('1'));
+
+    dispatch(fetchCharacters());
+  }, [dispatch]);
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {

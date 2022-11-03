@@ -6,7 +6,12 @@ import IControlsInputs from 'interfaces/IControlsInpust';
 import SearchField from 'components/search-field';
 import SortingOptions from 'common/enums/sorting-options';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { setitemsOnPage, setSortingOrder, setPageNumber } from 'store/reducers/mainSlice';
+import {
+  setitemsOnPage,
+  setSortingOrder,
+  setPageNumber,
+  fetchCharacters,
+} from 'store/reducers/mainSlice';
 
 export const Controls: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +24,7 @@ export const Controls: React.FC = () => {
 
   const onChange = () => {
     const data = getValues();
+
     dispatch(setitemsOnPage(data.itemsOnPage));
     dispatch(setSortingOrder(data.sortingOrder));
     dispatch(setPageNumber(data.pageNumber));
@@ -26,17 +32,20 @@ export const Controls: React.FC = () => {
 
   useEffect(() => {
     setValue('pageNumber', pageNumber);
-  }, [pageNumber, setValue]);
+    dispatch(fetchCharacters());
+  }, [dispatch, setValue, pageNumber]);
 
   useEffect(() => {
-    dispatch(setPageNumber('1'));
     setValue('itemsOnPage', itemsOnPage);
     setValue('pageNumber', '1');
+    dispatch(setPageNumber('1'));
+    dispatch(fetchCharacters());
   }, [dispatch, setValue, itemsOnPage]);
 
   useEffect(() => {
     setValue('sortingOrder', sortingOrder);
-  }, [sortingOrder, setValue]);
+    dispatch(fetchCharacters());
+  }, [dispatch, setValue, sortingOrder]);
 
   return (
     <>
