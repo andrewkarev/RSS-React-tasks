@@ -2,7 +2,7 @@ import AppPathesEnum from 'common/enums/app-pathes';
 import ListItem from 'components/list-item';
 import Loader from 'components/loader/';
 import { useAppState } from 'context/AppContext';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import getSeries from 'services/get-series-api';
 import styles from './card-info-page.module.css';
@@ -17,33 +17,33 @@ export const CardInfoPage: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const updateCards = useCallback(async () => {
+    const firstEpisodeLink = appState.selectedCard?.episode?.at(0) || '';
+    const lastEpisodeLink = appState.selectedCard?.episode?.at(-1) || '';
+
+    if (!appState.selectedCard) {
+      navigate(AppPathesEnum.home);
+      return;
+    }
+
+    try {
+      setIsPending(() => true);
+
+      const firstEpisode = await getSeries(firstEpisodeLink);
+      const lastEpisode = await getSeries(lastEpisodeLink);
+
+      setFirstEpisodeName(() => firstEpisode.name || '');
+      setLastEpisodeName(() => lastEpisode.name || '');
+
+      setIsPending(() => false);
+    } catch (error) {
+      setIsPending(() => false);
+    }
+  }, [appState.selectedCard, navigate]);
+
   useEffect(() => {
-    const updateCards = async () => {
-      const firstEpisodeLink = appState.selectedCard?.episode?.at(0) || '';
-      const lastEpisodeLink = appState.selectedCard?.episode?.at(-1) || '';
-
-      if (!appState.selectedCard) {
-        navigate(AppPathesEnum.home);
-        return;
-      }
-
-      try {
-        setIsPending(() => true);
-
-        const firstEpisode = await getSeries(firstEpisodeLink);
-        const lastEpisode = await getSeries(lastEpisodeLink);
-
-        setFirstEpisodeName(() => firstEpisode.name || '');
-        setLastEpisodeName(() => lastEpisode.name || '');
-
-        setIsPending(() => false);
-      } catch (error) {
-        setIsPending(() => false);
-      }
-    };
-
     updateCards();
-  }, [navigate, appState.selectedCard]);
+  }, [updateCards]);
 
   const characterInfo = (
     <div className={styles['card-info-page']}>

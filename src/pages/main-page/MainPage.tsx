@@ -32,38 +32,38 @@ const MainPage: React.FC = () => {
     [appDispatch]
   );
 
-  useEffect(() => {
-    const updateCards = async () => {
-      try {
-        setCards([]);
-        setIsPending(() => true);
+  const updateCards = useCallback(async () => {
+    try {
+      setCards([]);
+      setIsPending(() => true);
 
-        const searchQuery = appState.searchQuery;
-        const controls = appState.mainPageControlsValues;
-        const page = getQueryPageNumber(controls.pageNumber, controls.itemsOnPage);
-        const response = await getCharacters(searchQuery, page);
-        const { results, info } = response;
-        const pagesAtAll = Math.ceil(info.count / Number(controls.itemsOnPage)).toString();
+      const searchQuery = appState.searchQuery;
+      const controls = appState.mainPageControlsValues;
+      const page = getQueryPageNumber(controls.pageNumber, controls.itemsOnPage);
+      const response = await getCharacters(searchQuery, page);
+      const { results, info } = response;
+      const pagesAtAll = Math.ceil(info.count / Number(controls.itemsOnPage)).toString();
 
-        appDispatch({
-          type: AppActionKind.SET_PAGE_QUANTITY,
-          payload: { pagesQuantity: pagesAtAll },
-        });
+      appDispatch({
+        type: AppActionKind.SET_PAGE_QUANTITY,
+        payload: { pagesQuantity: pagesAtAll },
+      });
 
-        const sortedData = sort(results, controls.sortingOrder);
-        const data = getDataChunk(sortedData, controls.pageNumber, controls.itemsOnPage);
+      const sortedData = sort(results, controls.sortingOrder);
+      const data = getDataChunk(sortedData, controls.pageNumber, controls.itemsOnPage);
 
-        setCards(data);
-        setIsErrorOccured(() => false);
-        setIsPending(() => false);
-      } catch (error) {
-        setIsErrorOccured(() => true);
-        setIsPending(() => false);
-      }
-    };
-
-    updateCards();
+      setCards(data);
+      setIsErrorOccured(() => false);
+      setIsPending(() => false);
+    } catch (error) {
+      setIsErrorOccured(() => true);
+      setIsPending(() => false);
+    }
   }, [appDispatch, appState.mainPageControlsValues, appState.searchQuery, setCards]);
+
+  useEffect(() => {
+    updateCards();
+  }, [updateCards]);
 
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
   const cardContainer = (
