@@ -15,7 +15,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ handleChange, handleSubmit, c
         name="search"
         placeholder="Search"
         autoComplete="off"
-        autoFocus={true}
+        autoFocus
         value={currentValue}
         onChange={handleChange}
       />
