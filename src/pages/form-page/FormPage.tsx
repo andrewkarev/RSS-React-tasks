@@ -4,6 +4,7 @@ import PopUp from 'components/pop-up/';
 import ICard from 'interfaces/ICard';
 import React, { useState } from 'react';
 import styles from './form-page.module.css';
+import { v4 } from 'uuid';
 
 interface FormPageProps {
   selectedCard: ICard | null;
@@ -20,13 +21,13 @@ const FormPage: React.FC<FormPageProps> = (props) => {
   };
 
   const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
-  const cardsElement = cards.map((card, i) => {
+  const cardsElement = cards.map((card) => {
     return (
       <Card
         card={card}
         toggleModalWindow={props.toggleModalWindow}
         setSelectedCardValue={props.setSelectedCardValue}
-        key={i}
+        key={v4()}
       />
     );
   });
