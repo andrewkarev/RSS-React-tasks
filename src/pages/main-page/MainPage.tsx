@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import styles from './main-page.module.css';
 import Card from 'components/card';
 import SearchField from 'components/search-field';
@@ -36,26 +36,26 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     setSearchQuery(() => searchFieldValue);
   };
 
-  useEffect(() => {
-    const updateCards = async () => {
-      try {
-        setCards(() => []);
-        setIsPending(() => true);
+  const updateCards = useCallback(async () => {
+    try {
+      setCards(() => []);
+      setIsPending(() => true);
 
-        const data = await getCharacters(searchQuery);
+      const data = await getCharacters(searchQuery);
 
-        setCards(() => data);
-        setIsErrorOccured(() => false);
-        setIsPending(() => false);
-      } catch (error) {
-        setCards(() => []);
-        setIsErrorOccured(() => true);
-        setIsPending(() => false);
-      }
-    };
-
-    updateCards();
+      setCards(() => data);
+      setIsErrorOccured(() => false);
+      setIsPending(() => false);
+    } catch (error) {
+      setCards(() => []);
+      setIsErrorOccured(() => true);
+      setIsPending(() => false);
+    }
   }, [searchQuery]);
+
+  useEffect(() => {
+    updateCards();
+  }, [updateCards]);
 
   const popUp = <PopUp card={props.selectedCard} toggleModalWindow={props.toggleModalWindow} />;
   const error = <h2 className={styles['error-message']}>There is no hero with that name</h2>;
