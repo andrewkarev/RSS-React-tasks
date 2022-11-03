@@ -2,47 +2,23 @@ import AppPathesEnum from 'common/enums/app-pathes';
 import ListItem from 'components/list-item';
 import Loader from 'components/loader/';
 import { useAppSelector } from 'hooks/redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import getSeries from 'services/get-series-api';
 import styles from './card-info-page.module.css';
 
 export const CardDetailsPage: React.FC = () => {
   const selectedCard = useAppSelector((state) => state.card.selectedCard);
-
-  const [firstEpisodeName, setFirstEpisodeName] = useState('');
-  const [lastEpisodeName, setLastEpisodeName] = useState('');
-
-  const [isPending, setIsPending] = useState<boolean>(true);
+  const firstEpisodeTitle = useAppSelector((state) => state.card.firstEpisodeTitle);
+  const lastEpisodeTitle = useAppSelector((state) => state.card.lastEpisodeTitle);
+  const isPending = useAppSelector((state) => state.card.isPending);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const updateCards = async () => {
-      const firstEpisodeLink = selectedCard?.episode?.at(0) || '';
-      const lastEpisodeLink = selectedCard?.episode?.at(-1) || '';
-
-      if (!selectedCard) {
-        navigate(AppPathesEnum.home);
-        return;
-      }
-
-      try {
-        setIsPending(() => true);
-
-        const firstEpisode = await getSeries(firstEpisodeLink);
-        const lastEpisode = await getSeries(lastEpisodeLink);
-
-        setFirstEpisodeName(() => firstEpisode.name || '');
-        setLastEpisodeName(() => lastEpisode.name || '');
-
-        setIsPending(() => false);
-      } catch (error) {
-        setIsPending(() => false);
-      }
-    };
-
-    updateCards();
+    if (!selectedCard) {
+      navigate(AppPathesEnum.home);
+      return;
+    }
   }, [navigate, selectedCard]);
 
   const characterInfo = (
@@ -74,8 +50,8 @@ export const CardDetailsPage: React.FC = () => {
             </p>
           </li>
           <ListItem annotation={'Place of origin:'} info={selectedCard?.origin?.name} />
-          <ListItem annotation={'First seen in:'} info={firstEpisodeName} />
-          <ListItem annotation={'Last seen in:'} info={lastEpisodeName} />
+          <ListItem annotation={'First seen in:'} info={firstEpisodeTitle} />
+          <ListItem annotation={'Last seen in:'} info={lastEpisodeTitle} />
           <ListItem annotation={'Last known location:'} info={selectedCard?.location?.name} />
         </ul>
         <button

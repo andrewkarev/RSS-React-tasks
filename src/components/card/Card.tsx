@@ -1,30 +1,32 @@
 import { useAppDispatch } from 'hooks/redux';
 import ICard from 'interfaces/ICard';
 import React from 'react';
-import { setSelectedCard } from 'store/reducers/detailsSlice';
+import { fetchFirstEpisode, fetchLastEpisode, setSelectedCard } from 'store/reducers/cardSlice';
 import styles from './card.module.css';
 
 interface CardProps {
   card: ICard | null;
+  handleCardClick: () => void;
   setSelectedCardValue?: (card: ICard) => void;
-  handleCardClick?: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ card, setSelectedCardValue, handleCardClick }) => {
+const Card: React.FC<CardProps> = ({ card, handleCardClick, setSelectedCardValue }) => {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
     const currentCard = { ...card };
 
-    if (handleCardClick) {
-      handleCardClick();
-    }
+    handleCardClick();
 
     if (setSelectedCardValue) {
       setSelectedCardValue(currentCard);
+
+      return;
     }
 
     dispatch(setSelectedCard(currentCard));
+    dispatch(fetchFirstEpisode());
+    dispatch(fetchLastEpisode());
   };
 
   return (
