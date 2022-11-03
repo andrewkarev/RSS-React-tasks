@@ -8,7 +8,7 @@ import getSeries from 'services/get-series-api';
 import styles from './card-info-page.module.css';
 
 export const CardDetailsPage: React.FC = () => {
-  const selectedCard = useAppSelector((state) => state.details.selectedCard);
+  const selectedCard = useAppSelector((state) => state.card.selectedCard);
 
   const [firstEpisodeName, setFirstEpisodeName] = useState('');
   const [lastEpisodeName, setLastEpisodeName] = useState('');

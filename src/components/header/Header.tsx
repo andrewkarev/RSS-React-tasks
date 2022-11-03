@@ -8,7 +8,7 @@ import { useAppSelector } from 'hooks/redux';
 const Header: React.FC = () => {
   const location = useLocation();
 
-  const selectedCard = useAppSelector((state) => state.details.selectedCard);
+  const selectedCard = useAppSelector((state) => state.card.selectedCard);
   const pageNumber = useAppSelector((state) => state.main.pageNumber);
   const cards = useAppSelector((state) => state.main.cards);
 

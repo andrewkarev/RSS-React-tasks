@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import ICard from 'interfaces/ICard';
 
-interface DetailsState {
+interface CardState {
   selectedCard: ICard | null;
 }
 
-const initialState: DetailsState = {
+const initialState: CardState = {
   selectedCard: null,
 };
 
-export const detailsSlice = createSlice({
-  name: 'details',
+export const cardSlice = createSlice({
+  name: 'card',
   initialState,
   reducers: {
     setSelectedCard(state, action: PayloadAction<ICard>) {
@@ -19,5 +19,5 @@ export const detailsSlice = createSlice({
   },
 });
 
-export const { setSelectedCard } = detailsSlice.actions;
-export default detailsSlice.reducer;
+export const { setSelectedCard } = cardSlice.actions;
+export default cardSlice.reducer;

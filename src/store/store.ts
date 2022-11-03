@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import detailsSlice from './reducers/detailsSlice';
+import cardSlice from './reducers/cardSlice';
 import formSlice from './reducers/formSlice';
 import mainSlice from './reducers/mainSlice';
 
@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     form: formSlice,
     main: mainSlice,
-    details: detailsSlice,
+    card: cardSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
