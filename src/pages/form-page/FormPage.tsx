@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { addCards } from 'store/reducers/formSlice';
+import { v4 } from 'uuid';
 import Card from 'components/card';
 import Form from 'components/form';
 import PopUp from 'components/pop-up/';
@@ -37,13 +38,13 @@ const FormPage: React.FC = () => {
   };
 
   const popUp = <PopUp card={selectedCard} toggleModalWindow={toggleModalWindow} />;
-  const cardsElement = cards.map((card, i) => {
+  const cardsElement = cards.map((card) => {
     return (
       <Card
         card={card}
         handleCardClick={toggleModalWindow}
         setSelectedCardValue={setSelectedCardValue}
-        key={i}
+        key={v4()}
       />
     );
   });
