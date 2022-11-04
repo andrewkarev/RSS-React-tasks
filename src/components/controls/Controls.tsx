@@ -30,6 +30,11 @@ export const Controls: React.FC = () => {
     dispatch(setPageNumber(data.pageNumber));
   };
 
+  const clickHandler = () => {
+    setValue('pageNumber', '1');
+    dispatch(setPageNumber('1'));
+  };
+
   useEffect(() => {
     setValue('pageNumber', pageNumber);
     dispatch(fetchCharacters());
@@ -37,8 +42,6 @@ export const Controls: React.FC = () => {
 
   useEffect(() => {
     setValue('itemsOnPage', itemsOnPage);
-    setValue('pageNumber', '1');
-    dispatch(setPageNumber('1'));
     dispatch(fetchCharacters());
   }, [dispatch, setValue, itemsOnPage]);
 
@@ -70,9 +73,9 @@ export const Controls: React.FC = () => {
           <div className={styles['vertical-line']}></div>
           <div className={styles['cards-on-page']}>
             <div className={styles['cards-on-page-title']}>Cards on page:</div>
-            <ControlsPageCounter register={register} quantity={'20'} />
-            <ControlsPageCounter register={register} quantity={'10'} />
-            <ControlsPageCounter register={register} quantity={'5'} />
+            <ControlsPageCounter register={register} clickHandler={clickHandler} quantity={'20'} />
+            <ControlsPageCounter register={register} clickHandler={clickHandler} quantity={'10'} />
+            <ControlsPageCounter register={register} clickHandler={clickHandler} quantity={'5'} />
           </div>
           <div className={styles['vertical-line']}></div>
           <div className={styles['sorting']}>

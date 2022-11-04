@@ -6,9 +6,14 @@ import styles from './controls-page-counter.module.css';
 interface ControlsPageCounterProps {
   quantity: string;
   register: UseFormRegister<IControlsInputs>;
+  clickHandler: () => void;
 }
 
-export const ControlsPageCounter: React.FC<ControlsPageCounterProps> = ({ quantity, register }) => (
+export const ControlsPageCounter: React.FC<ControlsPageCounterProps> = ({
+  quantity,
+  register,
+  clickHandler,
+}) => (
   <>
     <input
       {...register('itemsOnPage')}
@@ -20,6 +25,7 @@ export const ControlsPageCounter: React.FC<ControlsPageCounterProps> = ({ quanti
     <label
       className={styles[`input-cards-on-page-${quantity}-label`]}
       htmlFor={`input-cards-on-page-${quantity}`}
+      onClick={clickHandler}
     >
       {quantity}
     </label>
