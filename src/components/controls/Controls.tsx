@@ -34,7 +34,7 @@ export const Controls: React.FC = () => {
     setValue,
   ]);
 
-  useEffect(() => {
+  const pageCounterclickHandler = () => {
     const data = getValues();
     data.pageNumber = '1';
 
@@ -44,7 +44,7 @@ export const Controls: React.FC = () => {
     });
 
     setValue('pageNumber', '1');
-  }, [appDispatch, getValues, setValue, appState.mainPageControlsValues.itemsOnPage]);
+  };
 
   return (
     <>
@@ -69,9 +69,21 @@ export const Controls: React.FC = () => {
           <div className={styles['vertical-line']}></div>
           <div className={styles['cards-on-page']}>
             <div className={styles['cards-on-page-title']}>Cards on page:</div>
-            <ControlsPageCounter register={register} quantity={'20'} />
-            <ControlsPageCounter register={register} quantity={'10'} />
-            <ControlsPageCounter register={register} quantity={'5'} />
+            <ControlsPageCounter
+              register={register}
+              quantity={'20'}
+              clickHandler={pageCounterclickHandler}
+            />
+            <ControlsPageCounter
+              register={register}
+              quantity={'10'}
+              clickHandler={pageCounterclickHandler}
+            />
+            <ControlsPageCounter
+              register={register}
+              quantity={'5'}
+              clickHandler={pageCounterclickHandler}
+            />
           </div>
           <div className={styles['vertical-line']}></div>
           <div className={styles['sorting']}>

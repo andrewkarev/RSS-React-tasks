@@ -94,14 +94,13 @@ const MainPage: React.FC = () => {
       })}
     </div>
   );
-  const cardsLength = appState.mainPageCards.length;
 
   return (
     <div className={styles['main-page']} data-testid={'main'}>
       <Controls />
       {isPending && <Loader />}
-      {!!cardsLength && cardContainer}
-      {isErrorOccured && !cardsLength && error}
+      {!isErrorOccured && cardContainer}
+      {isErrorOccured && error}
     </div>
   );
 };
