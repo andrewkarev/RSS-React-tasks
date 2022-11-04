@@ -39,7 +39,7 @@ const SearchField: React.FC = () => {
         name="search"
         placeholder="Search"
         autoComplete="off"
-        autoFocus={true}
+        autoFocus
         value={searchFieldValue}
         onChange={handleChange}
       />
