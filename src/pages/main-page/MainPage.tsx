@@ -54,8 +54,7 @@ const MainPage: React.FC = () => {
     <div className={styles['main-page']} data-testid={'main'}>
       <Controls />
       {isPending && <Loader />}
-      {!isErrorOccured && cardContainer}
-      {isErrorOccured && error}
+      {isErrorOccured ? error : cardContainer}
     </div>
   );
 };
