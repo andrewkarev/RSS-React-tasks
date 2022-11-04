@@ -6,99 +6,115 @@ import userEvent from '@testing-library/user-event';
 describe('Form', () => {
   const addNewCards = jest.fn(() => {});
 
-  beforeEach(async () => {
-    render(<Form addNewCards={addNewCards} />);
-  });
-
   it('should render Form component', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('form')).toBeInTheDocument();
   });
 
   it('should contain character-name element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Enter your character name/i)).toBeInTheDocument();
   });
 
   it('should contain character-status element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Choose your character status/i)).toBeInTheDocument();
   });
 
   it('should contain character-species element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Choose your character species/i)).toBeInTheDocument();
   });
 
   it('should contain character-gender element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Enter your character gender/i)).toBeInTheDocument();
   });
 
   it('should contain character-origin element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Enter where are your character from/i)).toBeInTheDocument();
   });
 
   it('should contain character-location element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Enter your character current location/i)).toBeInTheDocument();
   });
 
   it('should contain date element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Choose when your character was created/i)).toBeInTheDocument();
   });
 
   it('should contain character-avatar element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Upload your character avatar/i)).toBeInTheDocument();
   });
 
   it('should contain agreement element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByText(/Agree to data processing/i)).toBeInTheDocument();
   });
 
   it('should contain submit button element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeInTheDocument();
   });
 
   it('should contain reset button element', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('reset-btn')).toBeInTheDocument();
   });
 
   it('should have a disabled submit button at initialization', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
   });
 
   it('should change a submit button state after the user first interaction with character-name field', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.type(screen.getByTestId('character-name'), 'name');
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
   it('should change a submit button state after the user first interaction with character-status drop down list', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.selectOptions(screen.getByTestId('character-status'), 'Alive');
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
   it('should change a submit button state after the user first interaction with character-species drop down list', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.selectOptions(screen.getByTestId('character-species'), 'Human');
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
   it('should change a submit button state after the user first interaction with character-gender field', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.type(screen.getByTestId('character-gender'), 'gender');
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
   it('should change a submit button state after the user first interaction with character-origin field', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.type(screen.getByTestId('character-origin'), 'origin');
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
   it('should change a submit button state after the user first interaction with character-location field', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.type(screen.getByTestId('character-location'), 'location');
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
   it('should change a submit button state after the user first interaction with character-date-of-creation field', () => {
+    render(<Form addNewCards={addNewCards} />);
     const input = screen.getByTestId('character-date');
 
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
@@ -108,12 +124,14 @@ describe('Form', () => {
   });
 
   it('should change a submit button state after the user first interaction with form', () => {
+    render(<Form addNewCards={addNewCards} />);
     expect(screen.getByTestId('submit-btn')).toBeDisabled();
     userEvent.click(screen.getByTestId('agreement'));
     expect(screen.getByTestId('submit-btn')).not.toBeDisabled();
   });
 
   it('should disable submit button and reset form fields on reset button click', () => {
+    render(<Form addNewCards={addNewCards} />);
     const agreementCheckbox = screen.getByTestId('agreement');
     const nameInput = screen.getByTestId('character-name');
     const submitButton = screen.getByTestId('submit-btn');
@@ -132,6 +150,7 @@ describe('Form', () => {
   });
 
   it('should disable submit button, show that field contains incorrect information and disable card creation in case of failed validation', async () => {
+    render(<Form addNewCards={addNewCards} />);
     const agreementCheckbox = screen.getByTestId('agreement');
     const submitButton = screen.getByTestId('submit-btn');
 

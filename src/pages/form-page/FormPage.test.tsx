@@ -13,7 +13,7 @@ describe('FormPage', () => {
   const setSelectedCardValueMock = jest.fn(() => {});
   const toggleModalWindowMock = jest.fn(() => {});
 
-  beforeEach(async () => {
+  it('should render FormPage component', () => {
     render(
       <FormPage
         selectedCard={null}
@@ -22,13 +22,18 @@ describe('FormPage', () => {
         toggleModalWindow={toggleModalWindowMock}
       />
     );
-  });
-
-  it('should render FormPage component', () => {
     expect(screen.getByTestId('form-page')).toBeInTheDocument();
   });
 
   it('should contain title element', () => {
+    render(
+      <FormPage
+        selectedCard={null}
+        isModalOpened={false}
+        setSelectedCardValue={setSelectedCardValueMock}
+        toggleModalWindow={toggleModalWindowMock}
+      />
+    );
     expect(screen.getByText(/Create new character/i)).toBeInTheDocument();
   });
 
@@ -46,6 +51,14 @@ describe('FormPage', () => {
   });
 
   it('should create a card in case of successful form validation', async () => {
+    render(
+      <FormPage
+        selectedCard={null}
+        isModalOpened={false}
+        setSelectedCardValue={setSelectedCardValueMock}
+        toggleModalWindow={toggleModalWindowMock}
+      />
+    );
     const MOCKED_URL_OBJECT = new URLMock();
 
     Object.defineProperty(window, 'URL', {
