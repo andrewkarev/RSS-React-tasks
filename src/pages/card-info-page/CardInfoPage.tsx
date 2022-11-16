@@ -28,9 +28,9 @@ export const CardInfoPage: React.FC = () => {
 
     try {
       setIsPending(() => true);
-
       const firstEpisode = await getSeries(firstEpisodeLink);
-      const lastEpisode = await getSeries(lastEpisodeLink);
+      const lastEpisode =
+        firstEpisodeLink === lastEpisodeLink ? firstEpisode : await getSeries(lastEpisodeLink);
 
       setFirstEpisodeName(() => firstEpisode.name || '');
       setLastEpisodeName(() => lastEpisode.name || '');
