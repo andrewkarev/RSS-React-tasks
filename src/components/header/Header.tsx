@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppPathesEnum from 'common/enums/app-pathes';
 import CustomLink from 'components/custom-link';
 import { useAppState } from 'context/AppContext';
@@ -8,9 +8,18 @@ import styles from './header.module.css';
 const Header: React.FC = () => {
   const location = useLocation();
   const appState = useAppState();
+  const [position, setPosition] = useState(0);
 
-  const position =
-    appState.mainPageCards.findIndex((card) => card.id === appState.selectedCard?.id) + 1;
+  useEffect(() => {
+    const currentPosition = Number(
+      appState.mainPageCards.findIndex((card) => card.id === appState.selectedCard?.id) + 1 ||
+        localStorage.getItem('position')
+    );
+
+    localStorage.setItem('position', `${currentPosition}`);
+
+    setPosition(currentPosition);
+  }, [appState.mainPageCards, appState.selectedCard?.id]);
 
   const positionElement = (
     <div className={styles['position-info']}>

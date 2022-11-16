@@ -11,7 +11,7 @@ export const INITIAL_STATE: AppState = {
   searchQuery: '',
   formPageCards: [],
   mainPageCards: [],
-  selectedCard: null,
+  selectedCard: JSON.parse(localStorage.getItem('selectedCard') || ''),
   isFormSubmitButtonDisabled: true,
   formHasErrors: false,
   pagesQuantity: '1',

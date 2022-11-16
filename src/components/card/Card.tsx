@@ -28,6 +28,8 @@ const Card: React.FC<CardProps> = ({ card, setSelectedCardValue, handleCardClick
       type: AppActionKind.SET_SELECTED_CARD,
       payload: { selectedCard: currentCard },
     });
+
+    localStorage.setItem('selectedCard', JSON.stringify(currentCard));
   };
 
   return (
