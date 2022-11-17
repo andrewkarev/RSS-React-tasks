@@ -30,7 +30,7 @@ interface CardState {
 }
 
 const initialState: CardState = {
-  selectedCard: JSON.parse(localStorage.getItem('selectedCard') || ''),
+  selectedCard: JSON.parse(localStorage.getItem('selectedCard') || 'null'),
   isPending: false,
   firstEpisodeTitle: localStorage.getItem('firstEpisodeTitle') || '',
   lastEpisodeTitle: localStorage.getItem('lastEpisodeTitle') || '',
