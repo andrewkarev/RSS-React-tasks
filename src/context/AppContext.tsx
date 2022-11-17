@@ -23,7 +23,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
 const useAppState = () => {
   const context = React.useContext(AppStateContext);
 
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAppState must be used within a AppProvider');
   }
   return context;
@@ -32,7 +32,7 @@ const useAppState = () => {
 const useAppDispatch = () => {
   const context = React.useContext(AppDispatchContext);
 
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAppDispatch must be used within a AppProvider');
   }
   return context;
