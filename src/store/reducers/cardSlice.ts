@@ -3,28 +3,19 @@ import ICard from 'interfaces/ICard';
 import getEpisode from 'services/get-episode-api';
 import { RootState } from 'store/store';
 
-export const fetchFirstEpisode = createAsyncThunk(
+export const fetchFirstAndLastEpisodes = createAsyncThunk(
   'card/fetchFirstEpisode',
   async (_, { rejectWithValue, getState }) => {
     const state = getState() as RootState;
     const firstEpisodeLink = state.card.selectedCard?.episode?.at(0) || '';
-
-    try {
-      return await getEpisode(firstEpisodeLink);
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
-
-export const fetchLastEpisode = createAsyncThunk(
-  'card/fetchLastEpisode',
-  async (_, { rejectWithValue, getState }) => {
-    const state = getState() as RootState;
     const lastEpisodeLink = state.card.selectedCard?.episode?.at(-1) || '';
 
     try {
-      return await getEpisode(lastEpisodeLink);
+      const firstEpisode = await getEpisode(firstEpisodeLink);
+      const lastEpisode =
+        firstEpisodeLink === lastEpisodeLink ? firstEpisode : await getEpisode(lastEpisodeLink);
+
+      return { firstEpisode, lastEpisode };
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -39,10 +30,10 @@ interface CardState {
 }
 
 const initialState: CardState = {
-  selectedCard: null,
+  selectedCard: JSON.parse(localStorage.getItem('selectedCard') || ''),
   isPending: false,
-  firstEpisodeTitle: '',
-  lastEpisodeTitle: '',
+  firstEpisodeTitle: localStorage.getItem('firstEpisodeTitle') || '',
+  lastEpisodeTitle: localStorage.getItem('lastEpisodeTitle') || '',
 };
 
 export const cardSlice = createSlice({
@@ -54,19 +45,19 @@ export const cardSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchFirstEpisode.pending, (state) => {
+    builder.addCase(fetchFirstAndLastEpisodes.pending, (state) => {
       state.isPending = true;
     });
-    builder.addCase(fetchFirstEpisode.fulfilled, (state, action) => {
+    builder.addCase(fetchFirstAndLastEpisodes.fulfilled, (state, action) => {
+      const firstEpisode = action.payload.firstEpisode.name || '';
+      const lastEpisode = action.payload.lastEpisode.name || '';
+
       state.isPending = false;
-      state.firstEpisodeTitle = action.payload.name || '';
-    });
-    builder.addCase(fetchLastEpisode.pending, (state) => {
-      state.isPending = true;
-    });
-    builder.addCase(fetchLastEpisode.fulfilled, (state, action) => {
-      state.isPending = false;
-      state.lastEpisodeTitle = action.payload.name || '';
+      state.firstEpisodeTitle = firstEpisode;
+      state.lastEpisodeTitle = lastEpisode;
+
+      localStorage.setItem('firstEpisodeTitle', firstEpisode);
+      localStorage.setItem('lastEpisodeTitle', lastEpisode);
     });
   },
 });

@@ -41,7 +41,7 @@ const initialState: MainState = {
   searchFieldValue: '',
   cards: [],
   pagesQuantity: '1',
-  pageNumber: '1',
+  pageNumber: localStorage.getItem('pageNumber') || '1',
   itemsOnPage: '20',
   sortingOrder: SortingOptions.DEFAULT,
 

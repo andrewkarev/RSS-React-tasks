@@ -15,8 +15,9 @@ const SearchField: React.FC = () => {
 
   const handleClick = useCallback(() => {
     dispatch(setPageNumber('1'));
-
     dispatch(fetchCharacters());
+
+    localStorage.removeItem('pageNumber');
   }, [dispatch]);
 
   useEffect(() => {

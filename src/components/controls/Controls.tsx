@@ -28,11 +28,15 @@ export const Controls: React.FC = () => {
     dispatch(setitemsOnPage(data.itemsOnPage));
     dispatch(setSortingOrder(data.sortingOrder));
     dispatch(setPageNumber(data.pageNumber));
+
+    localStorage.setItem('pageNumber', data.pageNumber);
   };
 
   const clickHandler = () => {
     setValue('pageNumber', '1');
     dispatch(setPageNumber('1'));
+
+    localStorage.removeItem('pageNumber');
   };
 
   useEffect(() => {

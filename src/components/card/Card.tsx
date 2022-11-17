@@ -1,7 +1,7 @@
 import { useAppDispatch } from 'hooks/redux';
 import ICard from 'interfaces/ICard';
 import React from 'react';
-import { fetchFirstEpisode, fetchLastEpisode, setSelectedCard } from 'store/reducers/cardSlice';
+import { fetchFirstAndLastEpisodes, setSelectedCard } from 'store/reducers/cardSlice';
 import styles from './card.module.css';
 
 interface CardProps {
@@ -25,8 +25,9 @@ const Card: React.FC<CardProps> = ({ card, handleCardClick, setSelectedCardValue
     }
 
     dispatch(setSelectedCard(currentCard));
-    dispatch(fetchFirstEpisode());
-    dispatch(fetchLastEpisode());
+    dispatch(fetchFirstAndLastEpisodes());
+
+    localStorage.setItem('selectedCard', JSON.stringify(currentCard));
   };
 
   return (
