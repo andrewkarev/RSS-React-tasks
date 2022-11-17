@@ -24,19 +24,7 @@ const Form: React.FC<FormProps> = ({ addNewCards }) => {
     trigger,
     getValues,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      characterName: appState.formFieldsValues.characterName,
-      characterStatus: appState.formFieldsValues.characterStatus,
-      characterSpecies: appState.formFieldsValues.characterSpecies,
-      characterGender: appState.formFieldsValues.characterGender,
-      characterOrigin: appState.formFieldsValues.characterOrigin,
-      characterLocation: appState.formFieldsValues.characterLocation,
-      characterDateOfCreation: appState.formFieldsValues.characterDateOfCreation,
-      characterAvatar: appState.formFieldsValues.characterAvatar,
-      agreement: appState.formFieldsValues.agreement,
-    },
-  });
+  } = useForm({ defaultValues: { ...appState.formFieldsValues } });
 
   const [isCardCreationSuccessful, setIsCardCreationSuccessful] = useState(() => false);
 
