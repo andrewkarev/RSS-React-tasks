@@ -12,7 +12,7 @@ const SearchField: React.FC = () => {
 
     appDispatch({
       type: AppActionKind.SET_SEARCH_FIELD_VALUE,
-      payload: { searchFieldValue: searchFieldValue },
+      payload: { searchFieldValue },
     });
   };
 
