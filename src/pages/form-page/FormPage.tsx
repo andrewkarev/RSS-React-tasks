@@ -6,7 +6,6 @@ import { useAppDispatch, useAppState } from 'context/AppContext';
 import ICard from 'interfaces/ICard';
 import React, { useState } from 'react';
 import styles from './form-page.module.css';
-import { v4 } from 'uuid';
 
 const FormPage: React.FC = () => {
   const appState = useAppState();
@@ -41,13 +40,13 @@ const FormPage: React.FC = () => {
   };
 
   const popUp = <PopUp card={selectedCard} toggleModalWindow={toggleModalWindow} />;
-  const cardsElement = appState.formPageCards.map((card) => {
+  const cardsElement = appState.formPageCards.map((card, i) => {
     return (
       <Card
         card={card}
         handleCardClick={toggleModalWindow}
         setSelectedCardValue={setSelectedCardValue}
-        key={v4()}
+        key={`${card.name}-${i}`}
       />
     );
   });
