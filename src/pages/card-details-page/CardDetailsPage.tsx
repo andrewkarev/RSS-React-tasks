@@ -4,6 +4,7 @@ import Loader from 'components/loader/';
 import { useAppSelector } from 'hooks/redux';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import getClassName from 'utils/get-class-name';
 import styles from './card-info-page.module.css';
 
 export const CardDetailsPage: React.FC = () => {
@@ -32,19 +33,7 @@ export const CardDetailsPage: React.FC = () => {
       <div className={styles['card-info-page-right-side']}>
         <ul className={styles['list']}>
           <li className={styles['list-item']}>
-            <div
-              className={
-                styles[
-                  `${
-                    selectedCard?.status === 'Alive'
-                      ? 'marker-alive'
-                      : selectedCard?.status === 'Dead'
-                      ? 'marker-dead'
-                      : 'marker'
-                  }`
-                ]
-              }
-            ></div>
+            <div className={styles[getClassName(selectedCard?.status)]}></div>
             <p className={styles['list-item-info']}>
               {selectedCard?.status} - {selectedCard?.species}
             </p>
